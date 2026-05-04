@@ -516,7 +516,7 @@ activity AS (
     DATE(TIMESTAMP_MICROS(event_timestamp)) AS activity_date
   FROM `automatica-v2.analytics_517999677.events_combined_mat`
   WHERE DATE(TIMESTAMP_MICROS(event_timestamp)) BETWEEN PARSE_DATE('%Y%m%d', @DS_START_DATE) AND PARSE_DATE('%Y%m%d', @DS_END_DATE)
-    AND event_name NOT IN ('first_open', 'session_start', 'app_remove')
+    AND event_name = 'app_open'  -- solo apertura real del usuario (excluye pedometer_sync y otros background events)
 )
 SELECT
   i.install_date,
