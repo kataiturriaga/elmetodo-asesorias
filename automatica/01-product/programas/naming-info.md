@@ -73,3 +73,38 @@
   - Línea A: Híbrido Total 4 Semanas (género)
   - Línea B: Fuerza + Carrera (4 semanas) (género)
   - Línea C: Modo Híbrido (4 semanas) (género)
+
+---
+
+## Update — Mayo 2026
+
+### Sistema de naming aprobado
+
+**Principios:**
+- Nombres aspiracionales (identidad, no solo resultado)
+- Progresión: **Starter → Pro → Elite**
+- No usar "Fase" (cada programa tiene fases internas)
+- No usar "Nv.I / Nv.II" (poco intuitivo para el usuario)
+
+### Tabla de cambios
+
+| Nombre actual | Nombre nuevo |
+|---|---|
+| Quema grasa | Cuerpo definido Starter |
+| Quema grasa Nv.I | Cuerpo definido Pro |
+| Quema grasa Nv.II | Cuerpo definido Elite |
+| Masa magra | Cuerpo construido Starter |
+| Masa magra Nv.I | Cuerpo construido Pro |
+| Atleta híbrido | Atleta híbrido Starter |
+| Atleta híbrido Nv.I | Atleta híbrido Pro |
+| Tu primera Hyrox | Tu primera Hyrox Starter |
+| Tu primera Hyrox Nv.I | Tu primera Hyrox Pro |
+| Mejora tu marca en Hyrox | Hyrox Pro Plata |
+| Mejora tu marca en Hyrox Nv.I | Hyrox Pro Oro |
+| HYROX PRO | Hyrox Elite |
+| Running 10km Nv.I | Runner 10K Pro |
+| Running 21km Nv.I | Runner 21K Pro |
+
+### Pendiente
+- Crear programa **Runner 10K Elite** y **Runner 21K Elite**
+- Aplicar cambios en la API (títulos en producción tienen trailing spaces y capitalización inconsistente — limpiar al mismo tiempo)

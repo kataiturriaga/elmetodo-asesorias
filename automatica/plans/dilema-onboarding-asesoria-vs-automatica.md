@@ -80,13 +80,31 @@ Los usuarios de automática nunca reciben ese link, nunca ven la pantalla de nú
 
 ---
 
-### C. Coach asigna manualmente después del signup *(más simple, peor UX)*
+### C. Pantalla "¿has comprado una asesoría?" *(propuesta de Carles)*
+
+Una pantalla early en el signup (antes del onboarding) con dos opciones: "Sí, tengo una asesoría" / "No, quiero el programa". Si dice sí → flujo manual. Si dice no → flujo automático.
+
+**Pros:**
+- Técnicamente muy simple: es solo un fork en el flujo basado en input del usuario.
+- No requiere matching de datos ni infraestructura adicional.
+
+**Contras:**
+- **Añade un paso a todos los usuarios**, incluyendo los de automática, que son la mayoría.
+- **Revela a todos los usuarios que existe el servicio de asesorías.** Esto puede ser indeseado si asesorías es un producto premium que no se quiere promocionar dentro de la app (precio, posicionamiento, Apple IAP §11.1).
+- Depende del autoconocimiento del usuario: un cliente que pagó pero no recuerda cómo se llama el servicio puede responder mal y quedar en el flujo equivocado.
+- Un usuario de automática curioso que toca "Sí" entra en un flujo para el que no tiene compra → experiencia rota.
+
+**Conclusión:** Resuelve el problema técnico pero crea un problema de producto: expone asesorías a una audiencia que no tiene por qué conocerla.
+
+---
+
+### D. Coach asigna manualmente después del signup *(más simple, peor UX)*
 
 El usuario de asesorías se registra como automático. El coach lo encuentra en el dashboard por nombre/email y lo asigna manualmente. El usuario recibe una notificación.
 
 **Pros:** Cero complejidad técnica. No requiere ningún flujo nuevo en la app.
 
-**Contras:** El usuario pasó por el onboarding equivocado. Experiencia rota hasta que el coach lo asigna.
+**Contras:** El usuario de asesorías pasó por el onboarding equivocado. Experiencia rota hasta que el coach lo asigna.
 
 ---
 
