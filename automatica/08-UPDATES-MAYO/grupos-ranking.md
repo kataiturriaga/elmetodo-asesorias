@@ -16,8 +16,8 @@ Esto también es el prerequisito para que la **pantalla de bloqueo post-cancelac
 
 ### Propuesta
 
-- Puntuación = **pasos + entrenos completados**
-- Peso exacto de cada componente a definir con el equipo (sugerencia: pasos 40% / entrenos 60%, para incentivar el entrenamiento como comportamiento principal)
+- Puntuación = **pasos + entrenos (puntuacion a definir)**
+- Peso exacto de cada componente a definir con el equipo 
 
 ---
 
@@ -73,7 +73,17 @@ Segmentar por **género y edad**.
 
 ---
 
-## 5. Conexión con la pantalla de bloqueo (post-cancelación)
+## 5. Muro de actividad del grupo
+
+Además del ranking, posibilidad de añadir un **muro social** con la actividad reciente de los miembros del grupo.
+
+Cada vez que alguien del grupo completa una sesión, aparece una entrada en el muro: nombre, tipo de entreno, y opcionalmente una reacción rápida (like / fuego). Crea sensación de comunidad activa y refuerza la presión social positiva — ver que otros están entrenando hoy es un trigger de acción más inmediato que ver una posición en una tabla.
+
+A definir: si el muro es en tiempo real, cada cuánto se actualiza, y qué datos de la sesión se muestran.
+
+---
+
+## 6. Conexión con la pantalla de bloqueo (post-cancelación)
 
 Cuando el usuario cancela la suscripción:
 
