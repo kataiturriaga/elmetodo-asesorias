@@ -2,7 +2,7 @@
 **Programa ID 52** | 3 fases × 4 semanas = 12 semanas
 
 > Los valores de Zona X están en **segundos** (tiempo de carrera).  
-> Día 2 (Fuerza) no tiene ejercicios cargados en la base de datos.
+> Día 2: el circuito se ejecuta como se indica en la columna "Rounds". Las reps son por ronda.
 
 ---
 
@@ -19,6 +19,13 @@
 | Side shuffle *(20m/lado)* | — | — | — | — | — | — | — | — | 2×20 | 2×20 | 2×20 | 2×20 |
 | Ankle pogos | — | — | — | — | — | — | — | — | 2×20 | 2×20 | 2×20 | 2×20 |
 
+**Superset strides** *(al final del calentamiento — alternar los dos ejercicios N veces)*
+
+| Ejercicio | F1·S1 | F1·S2 | F1·S3 | F1·S4 | F2·S1 | F2·S2 | F2·S3 | F2·S4 | F3·S1 | F3·S2 | F3·S3 | F3·S4 |
+|---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| Zona 4 *(aceleración, seg)* | 4×15 | 5×15 | 4×20 | 4×15 | 4×20 | 4×20 | 4×20 | 5×20 | 5×20 | 4×20 | 4×15 | 3×15 |
+| Zona 1 *(recuperación, seg)* | 4×45 | 5×45 | 4×45 | 4×45 | 4×45 | 4×45 | 4×45 | 5×45 | 5×45 | 4×45 | 4×45 | 3×45 |
+
 ## Día 1 — Entrenamiento (carrera)
 
 | Ejercicio | F1·S1 | F1·S2 | F1·S3 | F1·S4 | F2·S1 | F2·S2 | F2·S3 | F2·S4 | F3·S1 | F3·S2 | F3·S3 | F3·S4 |
@@ -27,22 +34,29 @@
 
 ---
 
-## Día 2 — Fuerza (Gimnasio)
+## Día 2 — Fuerza (Gimnasio) · Circuito
 
-| Semana | Nombre del día | Estado |
-|---|---|:---:|
-| F1·S1 | Circuito Fuerza | ⚠️ Sin ejercicios |
-| F1·S2 | Fuerza Global | ⚠️ Sin ejercicios |
-| F1·S3 | Volumen Alto | ⚠️ Sin ejercicios |
-| F1·S4 | Carga Ligera | ⚠️ Sin ejercicios |
-| F2·S1 | Fuerza Global | ⚠️ Sin ejercicios |
-| F2·S2 | Fuerza Global | ⚠️ Sin ejercicios |
-| F2·S3 | Volumen Alto | ⚠️ Sin ejercicios |
-| F2·S4 | Volumen Alto | ⚠️ Sin ejercicios |
-| F3·S1 | Fuerza Global | ⚠️ Sin ejercicios |
-| F3·S2 | Fuerza Global | ⚠️ Sin ejercicios |
-| F3·S3 | Sesión Activación | ⚠️ Sin ejercicios |
-| F3·S4 | Carga Ligera | ⚠️ Sin ejercicios |
+> Nombre del día y número de rounds por semana. Las reps son por ronda.
+
+| Rounds | — | F1·S1 | F1·S2 | F1·S3 | F1·S4 | F2·S1 | F2·S2 | F2·S3 | F2·S4 | F3·S1 | F3·S2 | F3·S3 | F3·S4 |
+|---|---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| **Nombre día** | | Circuito Fuerza | Fuerza Global | Volumen Alto | Carga Ligera | Fuerza Global | Fuerza Global | Volumen Alto | Volumen Alto | Fuerza Global | Fuerza Global | Sesión Activación | Carga Ligera |
+| **Rounds** | | 3 | 3 | 4 | 2 | 3 | 3 | 4 | 4 | 3 | 3 | 2 | 2 |
+
+| Ejercicio | Cat | F1·S1 | F1·S2 | F1·S3 | F1·S4 | F2·S1 | F2·S2 | F2·S3 | F2·S4 | F3·S1 | F3·S2 | F3·S3 | F3·S4 |
+|---|---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| Sentadilla trasera con barra | Pierna | 1×15 | 1×15 | 1×15 | 1×10 | 1×12 | 1×12 | 1×12 | 1×12 | 1×15 | 1×10 *(p/pierna)* | 1×12 | 1×10 |
+| Zancada en movimiento | Pierna | 1×12 *(p/pierna)* | 1×12 *(p/pierna)* | 1×14 *(p/pierna)* | 1×8 *(p/pierna)* | — | — | — | — | 1×16 *(p/pierna)* | 1×12 *(p/pierna)* | — | 1×8 *(p/pierna)* |
+| Zancada hacia atrás | Pierna | — | — | — | — | 1×14 *(p/pierna)* | 1×14 *(p/pierna)* | 1×14 *(p/pierna)* | 1×14 *(p/pierna)* | — | — | 1×12 *(p/pierna)* | — |
+| Hip thrust en máquina | Pierna | 1×12 | 1×12 | 1×14 | 1×15 | 1×12 | 1×12 | 1×12 | 1×12 | 1×12 | 1×16 | 1×12 | 1×12 |
+| Peso muerto con barra | Pierna | 1×12 | 1×12 | 1×12 | 1×8 | 1×12 *(p/pierna)* | 1×12 *(p/pierna)* | 1×12 *(p/pierna)* | 1×12 *(p/pierna)* | 1×14 | — | — | — |
+| Extensión de gemelo en multipower | Pierna | — | — | — | — | — | — | — | — | — | 1×25 | — | — |
+| Remo con barra | Espalda | 1×12 | 1×12 | 1×12 | 1×10 | — | — | — | — | 1×12 | — | 1×12 | — |
+| Contractora *(141)* | Pecho | — | — | — | — | 1×12 | — | — | — | — | — | — | — |
+| Contractora *(240)* | Pecho | — | — | — | — | — | 1×12 | 1×12 | 1×12 | — | 1×12 | — | — |
+| Plancha frontal | Abdomen | 1×40s | 1×45s | 1×45s | 1×40s | — | — | — | — | 1×45s | — | 1×40s | 1×30s |
+| Plancha lateral | Abdomen | — | — | — | — | 1×35s *(p/lado)* | 1×35s *(p/lado)* | 1×40s *(p/lado)* | 1×40s *(p/lado)* | — | 1×40s *(p/lado)* | — | — |
+| Plancha + tocar hombro | Abdomen | — | — | — | — | — | — | — | — | 1×45s | — | — | — |
 
 ---
 
