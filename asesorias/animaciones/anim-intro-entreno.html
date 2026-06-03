@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>D0 — Intro: Entreno · Animación</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;800&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #111318;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      font-family: 'Open Sans', -apple-system, sans-serif;
+      gap: 24px;
+    }
+
+    /* ── Phone frame ── */
+    .phone {
+      width: 393px;
+      height: 852px;
+      background: #0b0f14;
+      border-radius: 50px;
+      overflow: hidden;
+      position: relative;
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,0.07),
+        0 40px 100px rgba(0,0,0,0.8),
+        0 0 60px rgba(0, 238, 0, 0.04);
+    }
+
+    /* ── Decorative elements ── */
+    .glow {
+      position: absolute;
+      width: 320px;
+      height: 320px;
+      left: 50%;
+      top: 111px;
+      transform: translateX(-50%);
+      background: radial-gradient(ellipse at center,
+        rgba(0,238,0,0.15) 0%,
+        rgba(0,238,0,0.04) 65%,
+        transparent 100%);
+      border-radius: 50%;
+      opacity: 0;
+      animation: fadeIn 700ms ease-out 150ms forwards;
+    }
+
+    .ring {
+      position: absolute;
+      border-radius: 50%;
+      left: 50%;
+      opacity: 0;
+      transform: translateX(-50%) scale(0.75);
+    }
+
+    .ring-outer {
+      width: 200px;
+      height: 200px;
+      top: 170px;
+      border: 1px solid rgba(0,238,0,0.18);
+      animation: ringEnter 500ms cubic-bezier(0.34,1.56,0.64,1) 280ms forwards;
+    }
+
+    .ring-inner {
+      width: 130px;
+      height: 130px;
+      top: 205px;
+      border: 1.5px solid rgba(0,238,0,0.28);
+      animation: ringEnter 500ms cubic-bezier(0.34,1.56,0.64,1) 420ms forwards;
+    }
+
+    .dot {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: #00ee00;
+      border-radius: 50%;
+      left: 50%;
+      top: 265px;
+      transform: translateX(-50%) scale(0);
+      opacity: 0.5;
+      box-shadow: 0 0 8px rgba(0,238,0,0.6);
+      animation: dotEnter 250ms cubic-bezier(0.34,1.56,0.64,1) 540ms forwards;
+    }
+
+    /* ── Content ── */
+    .content {
+      position: absolute;
+      bottom: 160px;
+      left: 24px;
+      right: 24px;
+    }
+
+    .title {
+      font-size: 28px;
+      font-weight: 800;
+      color: #f2f2f7;
+      text-align: center;
+      margin-bottom: 8px;
+      opacity: 0;
+      transform: translateY(14px);
+      animation: slideUp 350ms ease-out 480ms forwards;
+    }
+
+    .subtitle {
+      font-size: 14px;
+      font-weight: 400;
+      color: #dbdae0;
+      text-align: center;
+      line-height: 1.55;
+      margin-bottom: 28px;
+      opacity: 0;
+      transform: translateY(14px);
+      animation: slideUp 350ms ease-out 580ms forwards;
+    }
+
+    /* ── Stat cards ── */
+    .stats {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .stat-card {
+      flex: 1;
+      background: #1d1f23;
+      border: 1px solid #3c3e41;
+      border-radius: 8px;
+      padding: 16px 8px 14px;
+      text-align: center;
+      opacity: 0;
+      transform: translateY(10px);
+    }
+
+    .stat-card:nth-child(1) { animation: slideUp 320ms ease-out 680ms forwards; }
+    .stat-card:nth-child(2) { animation: slideUp 320ms ease-out 860ms forwards; }
+    .stat-card:nth-child(3) { animation: slideUp 320ms ease-out 1040ms forwards; }
+
+    .stat-number {
+      display: block;
+      font-size: 26px;
+      font-weight: 800;
+      color: #00ee00;
+      margin-bottom: 6px;
+      letter-spacing: -0.5px;
+    }
+
+    .stat-label {
+      font-size: 11px;
+      font-weight: 400;
+      color: #8f8f97;
+      line-height: 1.3;
+    }
+
+    /* ── Divider ── */
+    .divider {
+      height: 1px;
+      background: #3c3e41;
+      opacity: 0.6;
+      margin-top: 12px;
+    }
+
+    /* ── Navigation buttons ── */
+    .buttons {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 152px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 24px 24px 0;
+      background: linear-gradient(to bottom, transparent 0%, #0b0f14 45%);
+    }
+
+    .btn {
+      flex: 1;
+      height: 48px;
+      border-radius: 8px;
+      border: none;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      transition: opacity 120ms;
+    }
+
+    .btn:hover { opacity: 0.85; }
+    .btn:active { opacity: 0.7; }
+
+    .btn-secondary {
+      background: #15171c;
+      color: #f2f2f7;
+      border: 1px solid #3c3e41;
+    }
+
+    .btn-primary {
+      background: #00ee00;
+      color: #0b0f14;
+    }
+
+    /* ── Replay button ── */
+    .replay-btn {
+      background: transparent;
+      border: 1px solid rgba(0,238,0,0.35);
+      color: rgba(0,238,0,0.8);
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 8px 20px;
+      border-radius: 100px;
+      cursor: pointer;
+      letter-spacing: 0.3px;
+      transition: all 150ms;
+    }
+
+    .replay-btn:hover {
+      background: rgba(0,238,0,0.08);
+      border-color: rgba(0,238,0,0.6);
+    }
+
+    /* ── Keyframes ── */
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+
+    @keyframes slideUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes ringEnter {
+      to { opacity: 1; transform: translateX(-50%) scale(1); }
+    }
+
+    @keyframes dotEnter {
+      to { transform: translateX(-50%) scale(1); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="phone" id="phone">
+    <div class="glow"></div>
+    <div class="ring ring-outer"></div>
+    <div class="ring ring-inner"></div>
+    <div class="dot"></div>
+
+    <div class="content">
+      <h1 class="title">Tu plan de entreno</h1>
+      <p class="subtitle">Cuéntanos cómo entrenas para que tu coach diseñe el plan perfecto para ti.</p>
+
+      <div class="stats">
+        <div class="stat-card">
+          <span class="stat-number" id="stat1">0%</span>
+          <span class="stat-label">A tu medida</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-number" id="stat2">0</span>
+          <span class="stat-label">Días disponibles</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-number" id="stat3">1x</span>
+          <span class="stat-label">Más resultado</span>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+    </div>
+
+    <div class="buttons">
+      <button class="btn btn-secondary">Anterior</button>
+      <button class="btn btn-primary">Siguiente →</button>
+    </div>
+  </div>
+
+  <button class="replay-btn" id="replayBtn">↺ Repetir animación</button>
+
+  <script>
+    function countUp(id, from, to, suffix, duration, startDelay) {
+      const el = document.getElementById(id);
+      setTimeout(() => {
+        const t0 = performance.now();
+        function tick(now) {
+          const p = Math.min((now - t0) / duration, 1);
+          const eased = 1 - Math.pow(1 - p, 3);
+          el.textContent = Math.round(from + (to - from) * eased) + suffix;
+          if (p < 1) requestAnimationFrame(tick);
+        }
+        requestAnimationFrame(tick);
+      }, startDelay);
+    }
+
+    function startAnimations() {
+      countUp('stat1', 0, 100, '%', 800, 680);
+      countUp('stat2', 0,   7,  '', 600, 860);
+      countUp('stat3', 1,   3, 'x', 600, 1040);
+    }
+
+    startAnimations();
+
+    document.getElementById('replayBtn').addEventListener('click', () => {
+      const phone = document.getElementById('phone');
+      const parent = phone.parentNode;
+      const next = phone.nextSibling;
+      parent.removeChild(phone);
+      void parent.offsetWidth;
+      parent.insertBefore(phone, next);
+      startAnimations();
+    });
+  </script>
+</body>
+</html>

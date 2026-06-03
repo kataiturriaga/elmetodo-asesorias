@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Procesando Composición Corporal</title>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #060a0e;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  .screen {
+    width: 393px;
+    height: 852px;
+    background: #0b0f14;
+    border-radius: 40px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+    box-shadow: 0 40px 120px rgba(0,0,0,0.8);
+  }
+
+  /* ── Badge ── */
+  .badge {
+    margin-top: 56px;
+    background: #1d1f23;
+    border-radius: 1000px;
+    padding: 8px 22px;
+    color: #00ee00;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+  }
+
+  /* ── Photo area ── */
+  .photo-wrapper {
+    margin-top: 40px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* Scale wrapper — pulso continuo aislado del spin */
+  .photo-scale-wrapper {
+    animation: scalePulse 2.2s ease-in-out infinite;
+    will-change: transform;
+  }
+
+  @keyframes scalePulse {
+    0%, 100% { transform: scale(0.95); }
+    50%       { transform: scale(1.00); }
+  }
+
+  /* Spinning ring using conic-gradient */
+  @property --ring-angle {
+    syntax: '<angle>';
+    initial-value: 0deg;
+    inherits: false;
+  }
+
+  .photo-ring {
+    width: 297px;
+    height: 410px;
+    border-radius: 20px;
+    padding: 1px;
+    background: conic-gradient(
+      from var(--ring-angle),
+      #4a4c50 0deg,
+      #6a6c70 60deg,
+      #3a3c40 160deg,
+      #111418 200deg,
+      #0d1117 280deg,
+      #111418 340deg,
+      #4a4c50 360deg
+    );
+    animation: spinRing 2.2s linear infinite;
+    will-change: --ring-angle;
+  }
+
+  @keyframes spinRing {
+    from { --ring-angle: 0deg; }
+    to   { --ring-angle: 360deg; }
+  }
+
+  .photo-inner {
+    width: 100%;
+    height: 100%;
+    border-radius: 18px;
+    overflow: hidden;
+    position: relative;
+    background: #1a1c20;
+  }
+
+  /* B&W photo placeholder — swapping por imagen real */
+  .photo-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(100%) contrast(1.05);
+    border-radius: 18px;
+    display: block;
+  }
+
+  /* Fallback si no hay imagen real */
+  .photo-placeholder {
+    width: 100%;
+    height: 100%;
+    background:
+      linear-gradient(180deg,
+        #c8c8c8 0%,
+        #b0b0b0 15%,
+        #989898 30%,
+        #888 50%,
+        #787878 70%,
+        #686868 100%
+      );
+    position: relative;
+  }
+  .photo-placeholder::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      rgba(20,22,26,0) 0%,
+      rgba(20,22,26,0.08) 100%
+    );
+  }
+
+/* ── Progress section ── */
+  .progress-section {
+    position: absolute;
+    bottom: 132px;
+    width: 220px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .progress-bar-track {
+    width: 100%;
+    height: 18px;
+    background: #2a2c30;
+    border-radius: 1000px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #00cc00, #00ee00, #44ff44);
+    border-radius: 1000px;
+    width: 0%;
+    transition: width 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 0 12px rgba(0, 238, 0, 0.6);
+    position: relative;
+  }
+
+  /* Glow pulse en la punta de la barra */
+  .progress-bar-fill::after {
+    content: '';
+    position: absolute;
+    right: -1px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 8px;
+    height: 8px;
+    background: #00ff44;
+    border-radius: 50%;
+    box-shadow: 0 0 8px 3px rgba(0, 238, 0, 0.8);
+    animation: pulseDot 1s ease-in-out infinite;
+  }
+
+  @keyframes pulseDot {
+    0%, 100% { opacity: 1; transform: translateY(-50%) scale(1); }
+    50%       { opacity: 0.6; transform: translateY(-50%) scale(1.4); }
+  }
+
+  .progress-bar-fill.complete::after { display: none; }
+
+  .status-text {
+    color: #dbdae0;
+    font-size: 13px;
+    font-weight: 400;
+    text-align: center;
+    opacity: 1;
+    transition: opacity 0.25s ease;
+    white-space: nowrap;
+  }
+  .status-text.fade { opacity: 0; }
+
+  /* ── Botón ── */
+  .btn-siguiente {
+    position: absolute;
+    bottom: 40px;
+    width: 345px;
+    height: 52px;
+    background: #1d1f23;
+    border: none;
+    border-radius: 1000px;
+    color: #61656c;
+    font-size: 16px;
+    font-weight: 600;
+    font-family: 'Open Sans', sans-serif;
+    cursor: default;
+    transition: background 0.4s ease, color 0.4s ease, box-shadow 0.4s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .btn-siguiente.ready {
+    background: #00ee00;
+    color: #0b0f14;
+    cursor: pointer;
+    box-shadow: 0 0 24px rgba(0, 238, 0, 0.35);
+  }
+
+  /* ── Overlay listo ── */
+  .listo-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 238, 0, 0.04);
+    border-radius: 40px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.6s ease;
+  }
+  .listo-overlay.show { opacity: 1; }
+
+  /* Reset button (small, top-left) */
+  .reset-btn {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    background: rgba(255,255,255,0.06);
+    border: none;
+    border-radius: 8px;
+    color: #61656c;
+    font-size: 11px;
+    padding: 4px 10px;
+    cursor: pointer;
+    font-family: 'Open Sans', sans-serif;
+    transition: color 0.2s;
+  }
+  .reset-btn:hover { color: #dbdae0; }
+</style>
+</head>
+<body>
+
+<div class="screen" id="screen">
+
+  <button class="reset-btn" onclick="resetAnimation()">↺ replay</button>
+  <div class="listo-overlay" id="listoOverlay"></div>
+
+  <div class="badge">Composición corporal</div>
+
+  <div class="photo-wrapper">
+    <div class="photo-scale-wrapper" id="photoScaleWrapper">
+      <div class="photo-ring" id="photoRing">
+        <div class="photo-inner">
+          <img class="photo-img" src="../../rutinas/image 3.png" alt="foto espalda" />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="progress-section">
+    <div class="progress-bar-track">
+      <div class="progress-bar-fill" id="progressFill"></div>
+    </div>
+    <div class="status-text" id="statusText">Procesando automaticamente....</div>
+  </div>
+
+  <button class="btn-siguiente" id="btnSiguiente">
+    Siguiente <span>→</span>
+  </button>
+
+</div>
+
+<script>
+const steps = [
+  { progress: 18, text: 'Procesando automaticamente....' },
+  { progress: 46, text: 'Analizando tu composicion corporal...' },
+  { progress: 73, text: 'Estableciendo tu %...' },
+  { progress: 97, text: 'Listo, porcentaje calculado ✓' },
+];
+
+let currentStep = 0;
+let timeouts = [];
+
+const fill       = document.getElementById('progressFill');
+const statusText = document.getElementById('statusText');
+const btn        = document.getElementById('btnSiguiente');
+const overlay    = document.getElementById('listoOverlay');
+
+function applyStep(index) {
+  const step = steps[index];
+
+  // Fade text out → swap → fade in
+  statusText.classList.add('fade');
+  setTimeout(() => {
+    statusText.textContent = step.text;
+    statusText.classList.remove('fade');
+  }, 260);
+
+  // Progress bar
+  fill.style.width = step.progress + '%';
+
+  // Final step
+  if (index === steps.length - 1) {
+    setTimeout(() => {
+      fill.classList.add('complete');
+      btn.classList.add('ready');
+      btn.innerHTML = 'Ver resultado <span>→</span>';
+      overlay.classList.add('show');
+    }, 600);
+  }
+}
+
+function runAnimation() {
+  // Initial state
+  fill.style.width = steps[0].progress + '%';
+  statusText.textContent = steps[0].text;
+
+  // Step 1 → already shown
+  // Steps 2, 3, 4 with delay
+  [1, 2, 3].forEach((i) => {
+    const t = setTimeout(() => applyStep(i), i * 1600);
+    timeouts.push(t);
+  });
+}
+
+function resetAnimation() {
+  // Clear pending timeouts
+  timeouts.forEach(clearTimeout);
+  timeouts = [];
+
+  // Reset state
+  fill.style.width = '0%';
+  fill.classList.remove('complete');
+  btn.classList.remove('ready');
+  btn.innerHTML = 'Siguiente <span>→</span>';
+  overlay.classList.remove('show');
+  statusText.textContent = steps[0].text;
+
+  // Restart after tiny delay (allows CSS reset to apply)
+  setTimeout(runAnimation, 80);
+}
+
+// Start on load
+window.addEventListener('load', () => setTimeout(runAnimation, 500));
+</script>
+
+</body>
+</html>

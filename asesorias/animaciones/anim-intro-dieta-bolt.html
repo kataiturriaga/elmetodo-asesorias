@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>C0 — Intro: Dieta · Bolt · Animación</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;800&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #0b0f14;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      font-family: 'Open Sans', -apple-system, sans-serif;
+      gap: 24px;
+    }
+
+    /* ── Phone frame ── */
+    .phone {
+      width: 393px;
+      height: 852px;
+      background: #0b0f14;
+      border-radius: 50px;
+      overflow: hidden;
+      position: relative;
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,0.07),
+        0 40px 100px rgba(0,0,0,0.8),
+        0 0 60px rgba(0, 238, 0, 0.04);
+    }
+
+    /* ── Ambient glow — centered at y=270 ── */
+    .glow {
+      position: absolute;
+      width: 210px;
+      height: 210px;
+      left: 50%;
+      top: 165px;   /* 270 - 105 */
+      transform: translateX(-50%);
+      background: radial-gradient(ellipse at center,
+        rgba(0,238,0,0.2) 0%,
+        rgba(0,238,0,0.07) 55%,
+        transparent 100%);
+      border-radius: 50%;
+      opacity: 0;
+      animation: fadeIn 700ms ease-out 150ms forwards;
+    }
+
+    /* ── Spinning gradient ring ── */
+    /* left = 393/2 - 230/2 = 81.5px  top = 270 - 115 = 155px */
+    .spin-ring {
+      position: absolute;
+      width: 230px;
+      height: 230px;
+      left: 81.5px;
+      top: 155px;
+      border-radius: 50%;
+      background: conic-gradient(from 0deg, #00ee00 0%, #666666 50%, #00ee00 100%);
+      -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 1.5px), white calc(100% - 1.5px));
+      mask: radial-gradient(farthest-side, transparent calc(100% - 1.5px), white calc(100% - 1.5px));
+      opacity: 0;
+      transform-origin: center;
+      animation:
+        fadeIn 500ms ease-out 320ms forwards,
+        spinRing 5s linear 820ms infinite;
+    }
+
+    @keyframes spinRing {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+
+    /* ── Bolt SVG — centered at y=270 ── */
+    /* top = 270 - 90 = 180px */
+    .bolt-wrap {
+      position: absolute;
+      left: 50%;
+      top: 180px;
+      transform: translateX(-50%);
+      overflow: visible;
+    }
+
+    @keyframes bolt-enter {
+      0%   { transform: scale(0.15) translateY(-8px); opacity: 0; }
+      55%  { transform: scale(1.12);  opacity: 1; }
+      72%  { transform: scale(0.96);  opacity: 1; }
+      100% { transform: scale(1);     opacity: 1; }
+    }
+
+    @keyframes bolt-pulse {
+      0%, 78%  { opacity: 1; }
+      82%, 87% { opacity: 0.12; }
+      92%, 100%{ opacity: 1; }
+    }
+
+    .bolt-el {
+      transform-box: fill-box;
+      transform-origin: center;
+      animation:
+        bolt-enter 550ms cubic-bezier(0.34,1.56,0.64,1) 420ms both,
+        bolt-pulse 2.8s ease-in-out 1100ms infinite;
+    }
+
+    /* ── Content ── */
+    .content {
+      position: absolute;
+      bottom: 160px;
+      left: 24px;
+      right: 24px;
+    }
+
+    .title {
+      font-size: 28px;
+      font-weight: 800;
+      color: #f2f2f7;
+      text-align: center;
+      margin-bottom: 8px;
+      opacity: 0;
+      transform: translateY(14px);
+      animation: slideUp 350ms ease-out 480ms forwards;
+    }
+
+    .subtitle {
+      font-size: 14px;
+      font-weight: 400;
+      color: #dbdae0;
+      text-align: center;
+      line-height: 1.55;
+      margin-bottom: 28px;
+      opacity: 0;
+      transform: translateY(14px);
+      animation: slideUp 350ms ease-out 580ms forwards;
+    }
+
+    /* ── Stat cards ── */
+    .stats {
+      display: flex;
+      gap: 8px;
+    }
+
+    .stat-card {
+      flex: 1;
+      background: #1d1f23;
+      border: 1px solid #3c3e41;
+      border-radius: 8px;
+      padding: 16px 8px 14px;
+      text-align: center;
+      opacity: 0;
+      transform: translateY(10px);
+    }
+
+    .stat-card:nth-child(1) { animation: slideUp 320ms ease-out 680ms forwards; }
+    .stat-card:nth-child(2) { animation: slideUp 320ms ease-out 860ms forwards; }
+    .stat-card:nth-child(3) { animation: slideUp 320ms ease-out 1040ms forwards; }
+
+    .stat-number {
+      display: block;
+      font-size: 26px;
+      font-weight: 800;
+      color: #00ee00;
+      margin-bottom: 6px;
+      letter-spacing: -0.5px;
+    }
+
+    .stat-label {
+      font-size: 11px;
+      font-weight: 400;
+      color: #8f8f97;
+      line-height: 1.3;
+    }
+
+    /* ── Navigation buttons ── */
+    .buttons {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 152px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 24px 24px 0;
+      background: linear-gradient(to bottom, transparent 0%, #0b0f14 45%);
+    }
+
+    .btn {
+      flex: 1;
+      height: 48px;
+      border-radius: 8px;
+      border: none;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      transition: opacity 120ms;
+    }
+
+    .btn:hover { opacity: 0.85; }
+    .btn:active { opacity: 0.7; }
+
+    .btn-secondary {
+      background: #1d1f23;
+      color: #f2f2f7;
+      border: 1px solid #3c3e41;
+    }
+
+    .btn-primary {
+      background: #00ee00;
+      color: #0b0f14;
+    }
+
+    /* ── Replay button ── */
+    .replay-btn {
+      background: transparent;
+      border: 1px solid rgba(0,238,0,0.35);
+      color: rgba(0,238,0,0.8);
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 8px 20px;
+      border-radius: 100px;
+      cursor: pointer;
+      letter-spacing: 0.3px;
+      transition: all 150ms;
+    }
+
+    .replay-btn:hover {
+      background: rgba(0,238,0,0.08);
+      border-color: rgba(0,238,0,0.6);
+    }
+
+    /* ── Keyframes ── */
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+
+    @keyframes slideUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="phone" id="phone">
+    <div class="glow"></div>
+    <div class="spin-ring"></div>
+
+    <!-- Bolt SVG — 160×160 viewBox, same as anim-figuras card 5 -->
+    <svg class="bolt-wrap" width="180" height="180" viewBox="0 0 160 160" fill="none">
+      <g class="bolt-el">
+        <polygon points="88,18 52,88 74,88 65,148 108,78 86,78" fill="#00ee00"/>
+      </g>
+    </svg>
+
+    <div class="content">
+      <h1 class="title">Tu plan de dieta</h1>
+      <p class="subtitle">Cuéntanos tus preferencias y necesidades para que tu coach personalice tu nutrición.</p>
+
+      <div class="stats">
+        <div class="stat-card">
+          <span class="stat-number" id="stat1">0%</span>
+          <span class="stat-label">Personalizado</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-number" id="stat2">0</span>
+          <span class="stat-label">Restricciones</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-number" id="stat3">1x</span>
+          <span class="stat-label">Más constancia</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="buttons">
+      <button class="btn btn-secondary">Anterior</button>
+      <button class="btn btn-primary">Siguiente →</button>
+    </div>
+  </div>
+
+  <button class="replay-btn" id="replayBtn">↺ Repetir animación</button>
+
+  <script>
+    function countUp(id, from, to, suffix, duration, startDelay) {
+      const el = document.getElementById(id);
+      setTimeout(() => {
+        const t0 = performance.now();
+        function tick(now) {
+          const p = Math.min((now - t0) / duration, 1);
+          const eased = 1 - Math.pow(1 - p, 3);
+          el.textContent = Math.round(from + (to - from) * eased) + suffix;
+          if (p < 1) requestAnimationFrame(tick);
+        }
+        requestAnimationFrame(tick);
+      }, startDelay);
+    }
+
+    function startAnimations() {
+      countUp('stat1', 0, 100, '%', 800, 680);
+      countUp('stat2', 0,   0,  '', 200, 860);
+      countUp('stat3', 1,   3, 'x', 600, 1040);
+    }
+
+    startAnimations();
+
+    document.getElementById('replayBtn').addEventListener('click', () => {
+      const phone = document.getElementById('phone');
+      const parent = phone.parentNode;
+      const next = phone.nextSibling;
+      parent.removeChild(phone);
+      void parent.offsetWidth;
+      parent.insertBefore(phone, next);
+      startAnimations();
+    });
+  </script>
+</body>
+</html>

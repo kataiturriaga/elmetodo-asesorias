@@ -1,8 +1,8 @@
 # Pantalla de Revisión — UX Strategy
 
-**Estado:** En progreso — pendiente de respuestas antes de diseñar  
+**Estado:** Modelo de datos cerrado — listo para diseñar en Figma  
 **Fecha inicio:** 2026-05-12  
-**Próximo paso:** Responder las 4 preguntas de abajo → diseñar cuestionario → diseñar pantalla de progreso
+**Próximo paso:** Diseñar cuestionario en Figma → diseñar pantalla de progreso
 
 ---
 
@@ -28,25 +28,77 @@ Screenshots de referencia: pantalla actual de Diego Martínez (usuario de prueba
 
 | Dato | Fuente | Periodicidad |
 |------|--------|-------------|
-| Peso corporal | Usuario (input manual) | Por revisión |
+| Peso corporal | Usuario (input manual) | Por revisión (cada 2 semanas) |
 | % grasa corporal | IA (análisis de fotos) | Por revisión |
 | Fotos (3 ángulos) | Usuario (cámara) | Por revisión |
-| Autopuntuación de semanas | Usuario (escala 1-5) | Por revisión |
-| Score de actividad | Sistema (entrenos + pasos) | Calculado automático |
+| Autopuntuación del ciclo | Usuario (slider 1-5) | Por revisión — visible al coach + histórico usuario |
+| % entrenos completados | Sistema | Últimas 2 semanas |
+| % días pasos objetivo completados | Sistema | Últimas 2 semanas (de 14 días) |
+| Racha de revisiones | Sistema | Revisiones consecutivas sin saltarse ninguna |
+| Score total del ciclo | Sistema (fórmula) | Por revisión |
 
 ---
 
-## Orden de diseño decidido
+## Fórmula del score de ciclo
 
 ```
-1. Definir modelo de datos  ← HECHO (arriba)
+Score base  = % entrenos completados (0–100)
+            + % días pasos objetivo completados (0–100)
+            → máximo base: 200
+
+Bonus racha = Fibonacci por revisiones consecutivas:
+              racha 1 → +1
+              racha 2 → +2
+              racha 3 → +4
+              racha 4 → +8
+              racha 5 → +16 ...
+
+Score final = Score base + Bonus racha
+```
+
+**Notas:**
+- % grasa corporal se muestra en el reveal pero NO entra en la fórmula (margen de error de IA ~1-3% lo hace poco fiable como input de score)
+- La autopuntuación del ciclo no entra en el score — es señal cualitativa para el coach
+- La racha se rompe si se salta una revisión (no hay revisión parcial)
+
+---
+
+## Flow del cuestionario — decisiones cerradas
+
+**Frecuencia:** cada 2 semanas  
+**Tono:** ritual tipo Spotify Wrapped — momento de revelación, no formulario
+
+### Fase 1 — Capture (5 pasos, uno por pantalla)
+
+| Paso | Acción | Detalle |
+|------|--------|---------|
+| 1 | Peso corporal | Input numérico grande, referencia del ciclo anterior |
+| 2 | Foto frontal | Con guía de postura |
+| 3 | Foto lateral | Con guía de postura |
+| 4 | Foto espalda | Con guía de postura |
+| 5 | Slider autopuntuación | "¿Cómo fue el ciclo?" — 1–5 |
+
+### Fase 2 — Reveal (5 pantallas, una por dato)
+
+| Pantalla | Dato | Tipo |
+|----------|------|------|
+| 1 | % grasa corporal | Informativo (IA) |
+| 2 | % entrenos completados | Componente del score |
+| 3 | % días pasos objetivo | Componente del score |
+| 4 | Racha + bonus Fibonacci | El multiplicador dramático |
+| 5 | Score total del ciclo | El clímax |
+
+---
+
+## Orden de diseño
+
+```
+1. Definir modelo de datos  ← HECHO
       ↓
-2. Diseñar cuestionario de revisión  ← PENDIENTE
+2. Diseñar cuestionario de revisión  ← SIGUIENTE
       ↓
 3. Diseñar pantalla de progreso  ← PENDIENTE
 ```
-
-**Razón:** El cuestionario y la pantalla son dos vistas del mismo modelo de datos. Diseñar la pantalla sin tener el cuestionario cerrado obliga a rediseñarla al añadir body fat % y activity score.
 
 ---
 
@@ -59,15 +111,20 @@ Screenshots de referencia: pantalla actual de Diego Martínez (usuario de prueba
 
 ---
 
-## Preguntas pendientes (responder antes de diseñar)
+## Preguntas cerradas
 
-1. **¿Con qué frecuencia se hace la revisión?** — ¿semanal, quincenal, mensual? Afecta cómo mostrar el historial y los estados de "datos escasos".
+| Pregunta | Respuesta |
+|----------|-----------|
+| Frecuencia de revisión | Cada 2 semanas |
+| Autopuntuación | Slider 1–5, visible al coach + en histórico del usuario, no entra en el score |
+| Activity score | Dos métricas separadas: % entrenos + % días pasos (0–100 cada una) |
+| % grasa en score | No — margen de error de IA lo hace poco fiable |
+| Reveal format | Una pantalla por dato (Spotify Wrapped puro) |
+| Racha | Revisiones consecutivas sin saltarse ninguna |
 
-2. **¿El cliente ve todas sus revisiones pasadas o solo la última?** — Define si la pantalla es "progreso histórico" o "estado actual".
+## Preguntas pendientes
 
-3. **El activity score del sistema** — ¿sería una nota (ej. 7.5/10) o un cumplimiento porcentual (ej. "completaste 4/5 entrenos")? Cambia cómo visualizarlo y cómo el usuario lo interpreta.
-
-4. **¿El flow de revisión y la pantalla de progreso son la misma sección o separadas?** — ¿El modal/flow de captura empieza desde el botón "TOCA REVISIÓN" y la pantalla es solo visualización, o están integradas?
+- **¿El cliente ve todas sus revisiones pasadas o solo la última?** — Define si la pantalla de progreso es "histórico" o "estado actual".
 
 ---
 

@@ -1,0 +1,1403 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Editor de Entreno — Prototipo</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 13px;
+  background: #fff;
+  color: #1a1a1a;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.app {
+  display: flex;
+  height: 100vh;
+}
+
+/* ═══════════════════════════════
+   LEFT PANEL
+═══════════════════════════════ */
+.left-panel {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px 28px;
+  background: #fff;
+}
+
+/* Header */
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.header-left h1 {
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+}
+
+.badge {
+  background: #22C55E;
+  color: white;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 9px;
+  border-radius: 20px;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+}
+
+.dates {
+  display: flex;
+  gap: 28px;
+  font-size: 11px;
+}
+
+.date-block { text-align: center; }
+.date-block .date-label { color: #9ca3af; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; font-size: 10px; margin-bottom: 2px; }
+.date-block .date-val { font-size: 13px; font-weight: 600; color: #111827; }
+
+/* Config */
+.config-section {
+  padding: 14px 0;
+  border-top: 1px solid #f3f4f6;
+  border-bottom: 1px solid #f3f4f6;
+  margin-bottom: 16px;
+}
+
+.config-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 10px;
+}
+
+.config-row:last-child { margin-bottom: 0; }
+
+.config-label {
+  font-size: 12px;
+  color: #6b7280;
+  min-width: 100px;
+  font-weight: 500;
+}
+
+.select-box {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px 5px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  background: white;
+  color: #111827;
+  min-width: 110px;
+}
+
+.select-box .chevron { color: #9ca3af; font-size: 10px; margin-left: auto; }
+.select-box.placeholder { color: #9ca3af; font-weight: 400; }
+
+/* Month dots */
+.month-row { display: flex; align-items: center; gap: 10px; }
+.months { display: flex; gap: 4px; align-items: flex-end; }
+.month-item { display: flex; flex-direction: column; align-items: center; gap: 5px; }
+.month-num { font-size: 10px; color: #9ca3af; }
+.month-dot {
+  width: 15px; height: 15px;
+  border-radius: 50%;
+  border: 2px solid #d1d5db;
+  cursor: pointer;
+  transition: all 0.1s;
+}
+.month-dot:hover { border-color: #9ca3af; }
+.month-dot.done { background: #d1d5db; border-color: #d1d5db; }
+.month-dot.active { background: #111827; border-color: #111827; }
+.month-dot.future { background: white; }
+
+.more-config { font-size: 12px; color: #3B82F6; cursor: pointer; padding-top: 10px; display: inline-block; }
+.more-config:hover { text-decoration: underline; }
+
+/* Session tabs */
+.tabs {
+  display: flex;
+  border-bottom: 1.5px solid #e5e7eb;
+  margin-bottom: 20px;
+  gap: 4px;
+}
+
+.tab {
+  padding: 8px 16px;
+  font-size: 13px;
+  color: #6b7280;
+  cursor: pointer;
+  border-bottom: 2.5px solid transparent;
+  margin-bottom: -1.5px;
+  transition: color 0.1s;
+  font-weight: 400;
+}
+
+.tab.active {
+  color: #111827;
+  border-bottom-color: #111827;
+  font-weight: 600;
+}
+
+.tab:hover:not(.active) { color: #374151; }
+
+/* ═══════════════════════════════
+   BLOCKS
+═══════════════════════════════ */
+.blocks { display: flex; flex-direction: column; gap: 16px; padding-bottom: 24px; }
+
+.block {
+  border: 1.5px solid #3B82F6;
+  border-radius: 10px;
+  padding: 14px 16px;
+}
+
+.block-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.block-drag-handle {
+  color: #93C5FD;
+  cursor: grab;
+  padding: 0 8px 0 0;
+  flex-shrink: 0;
+  transition: color 0.12s;
+  display: flex;
+  align-items: center;
+}
+.block:hover .block-drag-handle { color: #3B82F6; }
+.block-drag-handle:active { cursor: grabbing; }
+
+.block-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: #3B82F6;
+  color: white;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 20px;
+  letter-spacing: 0.2px;
+}
+
+.block-actions { display: flex; gap: 6px; }
+
+.btn-ghost {
+  font-size: 11px;
+  color: #6b7280;
+  border: 1px solid #e5e7eb;
+  border-radius: 5px;
+  padding: 3px 9px;
+  cursor: pointer;
+  background: white;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.btn-ghost:hover { background: #f9fafb; color: #374151; }
+
+/* Exercise row (standalone, inside block) */
+.exercise-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 6px 8px 0;
+  border-bottom: 1px solid #f3f4f6;
+  border-radius: 6px;
+  position: relative;
+  cursor: grab;
+  transition: background 0.1s;
+}
+
+.exercise-row:last-child { border-bottom: none; }
+.exercise-row:hover { background: #fafafa; }
+.exercise-row:active { cursor: grabbing; }
+
+.grip {
+  color: #d1d5db;
+  cursor: grab;
+  padding: 0 4px;
+  flex-shrink: 0;
+  transition: color 0.1s;
+}
+.exercise-row:hover .grip { color: #9ca3af; }
+
+.play-btn {
+  width: 26px; height: 26px;
+  border-radius: 6px;
+  background: #f3f4f6;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  color: #9ca3af;
+  transition: background 0.1s;
+}
+.play-btn:hover { background: #e5e7eb; color: #6b7280; }
+
+.ex-name {
+  flex: 1;
+  font-size: 13px;
+  font-weight: 500;
+  min-width: 0;
+}
+
+/* Column headers row */
+.col-headers {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 6px 6px 6px;
+  color: #9ca3af;
+  font-size: 10px;
+  font-weight: 500;
+}
+.col-headers .spacer-grip { width: 20px; flex-shrink: 0; }
+.col-headers .spacer-play { width: 26px; flex-shrink: 0; }
+.col-headers .spacer-name { flex: 1; }
+
+/* Sets */
+.sets { display: flex; gap: 4px; flex-shrink: 0; }
+.set-box {
+  width: 34px; height: 26px;
+  border: 1px solid #e5e7eb;
+  border-radius: 5px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 600;
+  background: #f9fafb;
+  color: #374151;
+}
+
+.technique-sel {
+  height: 26px;
+  padding: 0 6px;
+  border: 1px solid #e5e7eb;
+  border-radius: 5px;
+  font-size: 11px;
+  background: #f9fafb;
+  color: #374151;
+  width: 78px;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.rest-box {
+  width: 40px; height: 26px;
+  border: 1px solid #e5e7eb;
+  border-radius: 5px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 600;
+  background: #f9fafb;
+  color: #374151;
+  flex-shrink: 0;
+}
+
+/* ═══════════════════════════════
+   RONDA
+═══════════════════════════════ */
+.ronda {
+  border: 1.5px solid #F59E0B;
+  border-radius: 8px;
+  padding: 12px 12px;
+  margin-top: 8px;
+  background: #FFFDF7;
+}
+
+.ronda-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.ronda-badge {
+  font-size: 11px;
+  font-weight: 800;
+  padding: 3px 10px;
+  border-radius: 20px;
+  color: white;
+  letter-spacing: 0.3px;
+}
+
+.ronda-badge.amrap { background: #F59E0B; }
+.ronda-badge.rounds { background: #EF4444; }
+.ronda-badge.fortime { background: #8B5CF6; }
+.ronda-badge.emom { background: #10B981; }
+
+.ronda-params {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: auto;
+}
+
+.ronda-param {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  color: #374151;
+  font-weight: 500;
+}
+
+.ronda-input {
+  width: 42px; height: 26px;
+  border: 1px solid #fcd34d;
+  border-radius: 5px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 600;
+  background: #FFFBEB;
+  color: #92400e;
+}
+
+/* Exercise inside ronda */
+.ronda-ex {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 4px;
+  border-bottom: 1px solid #FEF3C7;
+  cursor: grab;
+  border-radius: 5px;
+  transition: background 0.1s;
+}
+.ronda-ex:last-child { border-bottom: none; }
+.ronda-ex:hover { background: #FEF9EE; }
+
+.ronda-grip { color: #fcd34d; padding: 0 2px; flex-shrink: 0; }
+.ronda-ex:hover .ronda-grip { color: #F59E0B; }
+
+.ronda-play {
+  width: 24px; height: 24px;
+  border-radius: 5px;
+  background: #FEF3C7;
+  border: none;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  color: #d97706;
+}
+
+.ronda-ex-name { flex: 1; font-size: 13px; font-weight: 500; }
+
+.ronda-rep {
+  width: 36px; height: 26px;
+  border: 1px solid #fcd34d;
+  border-radius: 5px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 600;
+  background: #FFFBEB;
+  color: #92400e;
+}
+
+/* Block being dragged */
+.block.block-dragging {
+  opacity: 0.35;
+  border-style: dashed;
+}
+
+/* Block drop-before / drop-after indicators */
+.block.drop-before {
+  border-top: 3px solid #3B82F6;
+  margin-top: -2px;
+}
+.block.drop-after {
+  border-bottom: 3px solid #3B82F6;
+  margin-bottom: -2px;
+}
+
+/* Drop zone hint (visual only) */
+.drop-hint {
+  border: 2px dashed #93c5fd;
+  border-radius: 6px;
+  padding: 10px;
+  text-align: center;
+  font-size: 11px;
+  color: #93c5fd;
+  margin-top: 8px;
+  display: none; /* hidden by default, shown on drag */
+}
+
+/* ═══════════════════════════════
+   RIGHT PANEL — BIBLIOTECA
+═══════════════════════════════ */
+.right-panel {
+  width: 380px;
+  border-left: 1px solid #e8eaed;
+  background: #FAFAFA;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.lib-header {
+  padding: 16px 16px 12px;
+  background: white;
+  border-bottom: 1px solid #e8eaed;
+}
+
+.lib-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 10px;
+}
+
+/* Drag hint banner */
+.drag-hint {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  background: #EFF6FF;
+  border: 1px solid #BFDBFE;
+  border-radius: 7px;
+  padding: 7px 10px;
+  margin-bottom: 10px;
+  font-size: 11px;
+  color: #1d4ed8;
+  line-height: 1.4;
+}
+
+.drag-hint-icon { font-size: 16px; flex-shrink: 0; }
+
+.filters-row {
+  display: flex;
+  gap: 5px;
+  margin-bottom: 8px;
+}
+
+.filter-sel {
+  flex: 1;
+  padding: 5px 8px;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  font-size: 11px;
+  background: white;
+  color: #374151;
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath fill='%239ca3af' d='M0 0l5 6 5-6z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  padding-right: 22px;
+}
+
+.search-wrap {
+  position: relative;
+}
+
+.search-icon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #9ca3af;
+  pointer-events: none;
+}
+
+.search-box {
+  width: 100%;
+  padding: 7px 12px 7px 32px;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  font-size: 13px;
+  background: white;
+  outline: none;
+  transition: border-color 0.1s, box-shadow 0.1s;
+}
+.search-box:focus {
+  border-color: #3B82F6;
+  box-shadow: 0 0 0 3px #dbeafe;
+}
+
+/* Exercise list */
+.lib-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 4px 0;
+}
+
+/* ─── The key redesign: draggable library items ─── */
+.lib-item {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  padding: 8px 12px 8px 0;
+  cursor: grab;
+  transition: background 0.1s, transform 0.1s, box-shadow 0.1s;
+  position: relative;
+  border-bottom: 1px solid #f3f4f6;
+  background: white;
+}
+
+.lib-item:hover {
+  background: #EFF6FF;
+  transform: translateX(-3px);
+  box-shadow: 3px 0 10px rgba(59,130,246,0.12);
+  z-index: 1;
+}
+
+.lib-item:active {
+  cursor: grabbing;
+  background: #DBEAFE;
+  transform: translateX(-5px) scale(1.01);
+  box-shadow: 5px 0 16px rgba(59,130,246,0.2);
+}
+
+/* Blue accent bar on left edge */
+.lib-item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 25%;
+  bottom: 25%;
+  width: 3px;
+  background: #3B82F6;
+  border-radius: 0 2px 2px 0;
+  opacity: 0;
+  transition: opacity 0.12s;
+}
+.lib-item:hover::before { opacity: 1; }
+
+/* Grip zone */
+.lib-grip {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0 10px 0 8px;
+  flex-shrink: 0;
+  opacity: 0.25;
+  transition: opacity 0.12s, color 0.12s;
+  color: #374151;
+}
+.lib-item:hover .lib-grip {
+  opacity: 0.8;
+  color: #3B82F6;
+}
+
+.lib-item-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.lib-item-name {
+  font-size: 12px;
+  color: #1f2937;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.4;
+}
+
+.lib-item-tags {
+  display: flex;
+  gap: 4px;
+  margin-top: 3px;
+  flex-wrap: wrap;
+}
+
+.lib-tag {
+  font-size: 10px;
+  background: #f3f4f6;
+  color: #6b7280;
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-weight: 500;
+}
+
+.lib-item-actions {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex-shrink: 0;
+  margin-left: 8px;
+}
+
+.btn-ver {
+  font-size: 11px;
+  color: #6b7280;
+  padding: 3px 7px;
+  border-radius: 4px;
+  cursor: pointer;
+  border: none;
+  background: none;
+  white-space: nowrap;
+  transition: background 0.1s;
+}
+.btn-ver:hover { background: #f3f4f6; color: #374151; }
+
+.btn-add {
+  font-size: 11px;
+  color: #2563EB;
+  padding: 3px 7px;
+  border-radius: 4px;
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: background 0.1s;
+}
+.btn-add:hover { background: #dbeafe; }
+
+/* ═══════════════════════════════
+   SCROLLBAR STYLE
+═══════════════════════════════ */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #e5e7eb; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #d1d5db; }
+
+/* ═══════════════════════════════
+   UTILITY
+═══════════════════════════════ */
+.mt-8 { margin-top: 8px; }
+.col-header-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 0 5px 58px;
+  font-size: 10px;
+  color: #9ca3af;
+  font-weight: 500;
+}
+
+.drop-zone-active {
+  border: 2px dashed #93C5FD !important;
+  background: #EFF6FF !important;
+}
+
+/* Dragging state visual (simulated) */
+@keyframes shimmer {
+  0% { opacity: 1; }
+  50% { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+
+.is-dragging {
+  animation: shimmer 0.6s ease-in-out;
+  opacity: 0.6;
+  outline: 2px dashed #3B82F6;
+  border-radius: 6px;
+}
+
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- ══════════════════════════════════
+       LEFT PANEL — EDITOR
+  ══════════════════════════════════ -->
+  <div class="left-panel">
+
+    <!-- Header -->
+    <div class="header">
+      <div class="header-left">
+        <h1>Entreno</h1>
+        <span class="badge">Activo</span>
+      </div>
+      <div class="dates">
+        <div class="date-block">
+          <div class="date-label">Comienzo</div>
+          <div class="date-val">14 Febrero</div>
+        </div>
+        <div class="date-block">
+          <div class="date-label">Finalización</div>
+          <div class="date-val">14 Marzo</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Training config -->
+    <div class="config-section">
+      <div class="config-row">
+        <span class="config-label">Tipo de entreno</span>
+        <div class="select-box">Hyrox <span class="chevron">▾</span></div>
+        <span class="config-label" style="text-align:right;min-width:auto;padding-left:8px">Sub-tipo</span>
+        <div class="select-box placeholder">— <span class="chevron">▾</span></div>
+      </div>
+      <div class="config-row">
+        <span class="config-label">Mes</span>
+        <div class="months">
+          <div class="month-item"><div class="month-num">1</div><div class="month-dot done"></div></div>
+          <div class="month-item"><div class="month-num">2</div><div class="month-dot done"></div></div>
+          <div class="month-item"><div class="month-num">3</div><div class="month-dot done"></div></div>
+          <div class="month-item"><div class="month-num">4</div><div class="month-dot active"></div></div>
+          <div class="month-item"><div class="month-num">5</div><div class="month-dot future"></div></div>
+          <div class="month-item"><div class="month-num">6</div><div class="month-dot future"></div></div>
+          <div class="month-item"><div class="month-num">7</div><div class="month-dot future"></div></div>
+          <div class="month-item"><div class="month-num">8</div><div class="month-dot future"></div></div>
+          <div class="month-item"><div class="month-num">9</div><div class="month-dot future"></div></div>
+          <div class="month-item"><div class="month-num">10</div><div class="month-dot future"></div></div>
+          <div class="month-item"><div class="month-num">11</div><div class="month-dot future"></div></div>
+          <div class="month-item"><div class="month-num">12</div><div class="month-dot future"></div></div>
+        </div>
+      </div>
+      <div class="more-config">Más configuración…</div>
+    </div>
+
+    <!-- Session tabs -->
+    <div class="tabs">
+      <div class="tab active">Sesión 1</div>
+      <div class="tab">Sesión 2</div>
+      <div class="tab">Sesión 3</div>
+      <div class="tab">Sesión 4</div>
+      <div class="tab">Sesión 5</div>
+    </div>
+
+    <!-- ─── BLOCKS ─── -->
+    <div class="blocks">
+
+      <!-- BLOCK: Calentamiento -->
+      <div class="block" id="block-calentamiento" draggable="true">
+        <div class="block-header">
+          <div class="block-drag-handle" title="Arrastra para reordenar bloque">
+            <svg width="10" height="18" viewBox="0 0 10 18" fill="currentColor"><circle cx="2" cy="2" r="1.8"/><circle cx="8" cy="2" r="1.8"/><circle cx="2" cy="9" r="1.8"/><circle cx="8" cy="9" r="1.8"/><circle cx="2" cy="16" r="1.8"/><circle cx="8" cy="16" r="1.8"/></svg>
+          </div>
+          <div class="block-label">
+            <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><rect x="1" y="1" width="8" height="8" rx="1.5" stroke="white" stroke-width="1.5"/></svg>
+            Bloque: Calentamiento
+          </div>
+          <div class="block-actions">
+            <button class="btn-ghost">+ Ejercicio</button>
+            <button class="btn-ghost">+ Ronda</button>
+          </div>
+        </div>
+
+        <!-- Column headers -->
+        <div class="col-header-row">
+          <span style="flex:1"></span>
+          <span style="width:34px;text-align:center">S1</span>
+          <span style="width:34px;text-align:center">S2</span>
+          <span style="width:34px;text-align:center">S3</span>
+          <span style="width:34px;text-align:center">S4</span>
+          <span style="width:78px;text-align:center">Técnicas/Obs</span>
+          <span style="width:40px;text-align:center">Desc.</span>
+        </div>
+
+        <!-- Exercise 1 -->
+        <div class="exercise-row">
+          <div class="grip"><svg width="8" height="14" viewBox="0 0 8 14" fill="currentColor"><circle cx="2" cy="2" r="1.5"/><circle cx="6" cy="2" r="1.5"/><circle cx="2" cy="7" r="1.5"/><circle cx="6" cy="7" r="1.5"/><circle cx="2" cy="12" r="1.5"/><circle cx="6" cy="12" r="1.5"/></svg></div>
+          <button class="play-btn"><svg width="8" height="10" viewBox="0 0 8 10" fill="currentColor"><path d="M0 0l8 5-8 5V0z"/></svg></button>
+          <span class="ex-name">Press banca inclinado</span>
+          <div class="sets">
+            <input class="set-box" value="12" type="number">
+            <input class="set-box" value="12" type="number">
+            <input class="set-box" value="12" type="number">
+            <input class="set-box" value="12" type="number">
+          </div>
+          <select class="technique-sel"><option>Lastrada</option><option>ISO Hold</option><option>Parciales</option><option>—</option></select>
+          <input class="rest-box" value="60" type="number">
+        </div>
+
+        <!-- Exercise 2 -->
+        <div class="exercise-row">
+          <div class="grip"><svg width="8" height="14" viewBox="0 0 8 14" fill="currentColor"><circle cx="2" cy="2" r="1.5"/><circle cx="6" cy="2" r="1.5"/><circle cx="2" cy="7" r="1.5"/><circle cx="6" cy="7" r="1.5"/><circle cx="2" cy="12" r="1.5"/><circle cx="6" cy="12" r="1.5"/></svg></div>
+          <button class="play-btn"><svg width="8" height="10" viewBox="0 0 8 10" fill="currentColor"><path d="M0 0l8 5-8 5V0z"/></svg></button>
+          <span class="ex-name">Sentadilla goblet</span>
+          <div class="sets">
+            <input class="set-box" value="15" type="number">
+            <input class="set-box" value="15" type="number">
+            <input class="set-box" value="12" type="number">
+            <input class="set-box" value="12" type="number">
+          </div>
+          <select class="technique-sel"><option>—</option><option>Lastrada</option><option>ISO Hold</option></select>
+          <input class="rest-box" value="60" type="number">
+        </div>
+
+        <!-- Exercise 3 -->
+        <div class="exercise-row">
+          <div class="grip"><svg width="8" height="14" viewBox="0 0 8 14" fill="currentColor"><circle cx="2" cy="2" r="1.5"/><circle cx="6" cy="2" r="1.5"/><circle cx="2" cy="7" r="1.5"/><circle cx="6" cy="7" r="1.5"/><circle cx="2" cy="12" r="1.5"/><circle cx="6" cy="12" r="1.5"/></svg></div>
+          <button class="play-btn"><svg width="8" height="10" viewBox="0 0 8 10" fill="currentColor"><path d="M0 0l8 5-8 5V0z"/></svg></button>
+          <span class="ex-name">Remo con mancuerna</span>
+          <div class="sets">
+            <input class="set-box" value="12" type="number">
+            <input class="set-box" value="12" type="number">
+            <input class="set-box" value="10" type="number">
+            <input class="set-box" value="10" type="number">
+          </div>
+          <select class="technique-sel"><option>—</option><option>Lastrada</option></select>
+          <input class="rest-box" value="90" type="number">
+        </div>
+
+      </div><!-- /block calentamiento -->
+
+
+      <!-- BLOCK: Conditioning -->
+      <div class="block" id="block-conditioning" draggable="true">
+        <div class="block-header">
+          <div class="block-drag-handle" title="Arrastra para reordenar bloque">
+            <svg width="10" height="18" viewBox="0 0 10 18" fill="currentColor"><circle cx="2" cy="2" r="1.8"/><circle cx="8" cy="2" r="1.8"/><circle cx="2" cy="9" r="1.8"/><circle cx="8" cy="9" r="1.8"/><circle cx="2" cy="16" r="1.8"/><circle cx="8" cy="16" r="1.8"/></svg>
+          </div>
+          <div class="block-label">
+            <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><rect x="1" y="1" width="8" height="8" rx="1.5" stroke="white" stroke-width="1.5"/></svg>
+            Bloque: Conditioning
+          </div>
+          <div class="block-actions">
+            <button class="btn-ghost">+ Ejercicio</button>
+            <button class="btn-ghost">+ Ronda</button>
+          </div>
+        </div>
+
+        <!-- Standalone exercise inside block -->
+        <div class="col-header-row">
+          <span style="flex:1"></span>
+          <span style="width:34px;text-align:center">S1</span>
+          <span style="width:34px;text-align:center">S2</span>
+          <span style="width:34px;text-align:center">S3</span>
+          <span style="width:34px;text-align:center">S4</span>
+          <span style="width:78px;text-align:center">Técnicas/Obs</span>
+          <span style="width:40px;text-align:center">Desc.</span>
+        </div>
+
+        <div class="exercise-row">
+          <div class="grip"><svg width="8" height="14" viewBox="0 0 8 14" fill="currentColor"><circle cx="2" cy="2" r="1.5"/><circle cx="6" cy="2" r="1.5"/><circle cx="2" cy="7" r="1.5"/><circle cx="6" cy="7" r="1.5"/><circle cx="2" cy="12" r="1.5"/><circle cx="6" cy="12" r="1.5"/></svg></div>
+          <button class="play-btn"><svg width="8" height="10" viewBox="0 0 8 10" fill="currentColor"><path d="M0 0l8 5-8 5V0z"/></svg></button>
+          <span class="ex-name">Press banca inclinado</span>
+          <div class="sets">
+            <input class="set-box" value="12" type="number">
+            <input class="set-box" value="12" type="number">
+            <input class="set-box" value="12" type="number">
+            <input class="set-box" value="12" type="number">
+          </div>
+          <select class="technique-sel"><option>Lastrada</option><option>ISO Hold</option></select>
+          <input class="rest-box" value="60" type="number">
+        </div>
+
+        <!-- AMRAP ronda -->
+        <div class="ronda" id="ronda-amrap">
+          <div class="ronda-header">
+            <span class="ronda-badge amrap">AMRAP</span>
+            <div class="ronda-params">
+              <div class="ronda-param">Tiempo <input class="ronda-input" value="15" type="number"></div>
+            </div>
+          </div>
+
+          <div class="ronda-ex">
+            <div class="ronda-grip"><svg width="8" height="12" viewBox="0 0 8 12" fill="currentColor"><circle cx="2" cy="2" r="1.5"/><circle cx="6" cy="2" r="1.5"/><circle cx="2" cy="6" r="1.5"/><circle cx="6" cy="6" r="1.5"/><circle cx="2" cy="10" r="1.5"/><circle cx="6" cy="10" r="1.5"/></svg></div>
+            <button class="ronda-play"><svg width="7" height="9" viewBox="0 0 8 10" fill="currentColor"><path d="M0 0l8 5-8 5V0z"/></svg></button>
+            <span class="ronda-ex-name">Press banca inclinado</span>
+            <input class="ronda-rep" value="12" type="number">
+          </div>
+
+          <div class="ronda-ex">
+            <div class="ronda-grip"><svg width="8" height="12" viewBox="0 0 8 12" fill="currentColor"><circle cx="2" cy="2" r="1.5"/><circle cx="6" cy="2" r="1.5"/><circle cx="2" cy="6" r="1.5"/><circle cx="6" cy="6" r="1.5"/><circle cx="2" cy="10" r="1.5"/><circle cx="6" cy="10" r="1.5"/></svg></div>
+            <button class="ronda-play"><svg width="7" height="9" viewBox="0 0 8 10" fill="currentColor"><path d="M0 0l8 5-8 5V0z"/></svg></button>
+            <span class="ronda-ex-name">Burpee</span>
+            <input class="ronda-rep" value="10" type="number">
+          </div>
+
+          <div class="ronda-ex">
+            <div class="ronda-grip"><svg width="8" height="12" viewBox="0 0 8 12" fill="currentColor"><circle cx="2" cy="2" r="1.5"/><circle cx="6" cy="2" r="1.5"/><circle cx="2" cy="6" r="1.5"/><circle cx="6" cy="6" r="1.5"/><circle cx="2" cy="10" r="1.5"/><circle cx="6" cy="10" r="1.5"/></svg></div>
+            <button class="ronda-play"><svg width="7" height="9" viewBox="0 0 8 10" fill="currentColor"><path d="M0 0l8 5-8 5V0z"/></svg></button>
+            <span class="ronda-ex-name">Kettlebell swing</span>
+            <input class="ronda-rep" value="15" type="number">
+          </div>
+        </div><!-- /amrap -->
+
+      </div><!-- /block conditioning -->
+
+
+      <!-- BLOCK: Finisher -->
+      <div class="block" id="block-finisher" draggable="true">
+        <div class="block-header">
+          <div class="block-drag-handle" title="Arrastra para reordenar bloque">
+            <svg width="10" height="18" viewBox="0 0 10 18" fill="currentColor"><circle cx="2" cy="2" r="1.8"/><circle cx="8" cy="2" r="1.8"/><circle cx="2" cy="9" r="1.8"/><circle cx="8" cy="9" r="1.8"/><circle cx="2" cy="16" r="1.8"/><circle cx="8" cy="16" r="1.8"/></svg>
+          </div>
+          <div class="block-label">
+            <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><rect x="1" y="1" width="8" height="8" rx="1.5" stroke="white" stroke-width="1.5"/></svg>
+            Bloque: Finisher
+          </div>
+          <div class="block-actions">
+            <button class="btn-ghost">+ Ejercicio</button>
+            <button class="btn-ghost">+ Ronda</button>
+          </div>
+        </div>
+
+        <!-- Rondas fijas -->
+        <div class="ronda">
+          <div class="ronda-header">
+            <span class="ronda-badge rounds">Rondas fijas</span>
+            <div class="ronda-params">
+              <div class="ronda-param">Rondas <input class="ronda-input" value="4" type="number"></div>
+              <div class="ronda-param">Descanso <input class="ronda-input" value="180" type="number" style="width:50px"></div>
+            </div>
+          </div>
+
+          <div class="ronda-ex">
+            <div class="ronda-grip"><svg width="8" height="12" viewBox="0 0 8 12" fill="currentColor"><circle cx="2" cy="2" r="1.5"/><circle cx="6" cy="2" r="1.5"/><circle cx="2" cy="6" r="1.5"/><circle cx="6" cy="6" r="1.5"/><circle cx="2" cy="10" r="1.5"/><circle cx="6" cy="10" r="1.5"/></svg></div>
+            <button class="ronda-play"><svg width="7" height="9" viewBox="0 0 8 10" fill="currentColor"><path d="M0 0l8 5-8 5V0z"/></svg></button>
+            <span class="ronda-ex-name">Press banca inclinado</span>
+            <input class="ronda-rep" value="12" type="number">
+          </div>
+
+          <div class="ronda-ex">
+            <div class="ronda-grip"><svg width="8" height="12" viewBox="0 0 8 12" fill="currentColor"><circle cx="2" cy="2" r="1.5"/><circle cx="6" cy="2" r="1.5"/><circle cx="2" cy="6" r="1.5"/><circle cx="6" cy="6" r="1.5"/><circle cx="2" cy="10" r="1.5"/><circle cx="6" cy="10" r="1.5"/></svg></div>
+            <button class="ronda-play"><svg width="7" height="9" viewBox="0 0 8 10" fill="currentColor"><path d="M0 0l8 5-8 5V0z"/></svg></button>
+            <span class="ronda-ex-name">Farmer carry</span>
+            <input class="ronda-rep" value="20" type="number">
+          </div>
+
+          <div class="ronda-ex">
+            <div class="ronda-grip"><svg width="8" height="12" viewBox="0 0 8 12" fill="currentColor"><circle cx="2" cy="2" r="1.5"/><circle cx="6" cy="2" r="1.5"/><circle cx="2" cy="6" r="1.5"/><circle cx="6" cy="6" r="1.5"/><circle cx="2" cy="10" r="1.5"/><circle cx="6" cy="10" r="1.5"/></svg></div>
+            <button class="ronda-play"><svg width="7" height="9" viewBox="0 0 8 10" fill="currentColor"><path d="M0 0l8 5-8 5V0z"/></svg></button>
+            <span class="ronda-ex-name">Box jump</span>
+            <input class="ronda-rep" value="12" type="number">
+          </div>
+        </div><!-- /rondas fijas -->
+
+      </div><!-- /block finisher -->
+
+    </div><!-- /blocks -->
+
+  </div><!-- /left-panel -->
+
+
+  <!-- ══════════════════════════════════
+       RIGHT PANEL — BIBLIOTECA
+  ══════════════════════════════════ -->
+  <div class="right-panel">
+
+    <div class="lib-header">
+      <div class="lib-title">Biblioteca de ejercicios</div>
+
+      <!-- Drag hint -->
+      <div class="drag-hint">
+        <span class="drag-hint-icon">⠿</span>
+        <span>Arrastra cualquier ejercicio directamente al bloque donde quieras añadirlo</span>
+      </div>
+
+      <div class="filters-row">
+        <select class="filter-sel">
+          <option>Sexo</option>
+          <option>Hombre</option>
+          <option>Mujer</option>
+        </select>
+        <select class="filter-sel">
+          <option>Lugar</option>
+          <option>Gimnasio</option>
+          <option>Casa</option>
+        </select>
+        <select class="filter-sel">
+          <option>Grupo muscular</option>
+          <option>Pecho</option>
+          <option>Espalda</option>
+          <option>Hombro</option>
+          <option>Pierna</option>
+        </select>
+      </div>
+
+      <div class="search-wrap">
+        <svg class="search-icon" width="14" height="14" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/>
+        </svg>
+        <input class="search-box" type="text" placeholder="Buscar ejercicio…" value="Pr">
+      </div>
+    </div>
+
+    <!-- Exercise list -->
+    <div class="lib-list">
+
+      <!-- Macro for lib-item generation -->
+
+      <div class="lib-item" draggable="true">
+        <div class="lib-grip"><svg width="8" height="14" viewBox="0 0 8 14" fill="currentColor"><circle cx="2" cy="2" r="1.5"/><circle cx="6" cy="2" r="1.5"/><circle cx="2" cy="7" r="1.5"/><circle cx="6" cy="7" r="1.5"/><circle cx="2" cy="12" r="1.5"/><circle cx="6" cy="12" r="1.5"/></svg></div>
+        <div class="lib-item-body">
+          <div class="lib-item-name">Press Militar 1 mano sentado</div>
+          <div class="lib-item-tags"><span class="lib-tag">hombro</span><span class="lib-tag">gym</span><span class="lib-tag">hombre</span></div>
+        </div>
+        <div class="lib-item-actions">
+          <button class="btn-ver">Ver</button>
+          <button class="btn-add">Añadir</button>
+        </div>
+      </div>
+
+      <div class="lib-item" draggable="true">
+        <div class="lib-grip"><svg width="8" height="14" viewBox="0 0 8 14" fill="currentColor"><circle cx="2" cy="2" r="1.5"/><circle cx="6" cy="2" r="1.5"/><circle cx="2" cy="7" r="1.5"/><circle cx="6" cy="7" r="1.5"/><circle cx="2" cy="12" r="1.5"/><circle cx="6" cy="12" r="1.5"/></svg></div>
+        <div class="lib-item-body">
+          <div class="lib-item-name">Press Militar 1 mano sentado</div>
+          <div class="lib-item-tags"><span class="lib-tag">hombro</span><span class="lib-tag">gym</span><span class="lib-tag">mujer</span></div>
+        </div>
+        <div class="lib-item-actions">
+          <button class="btn-ver">Ver</button>
+          <button class="btn-add">Añadir</button>
+        </div>
+      </div>
+
+      <div class="lib-item" draggable="true">
+        <div class="lib-grip"><svg width="8" height="14" viewBox="0 0 8 14" fill="currentColor"><circle cx="2" cy="2" r="1.5"/><circle cx="6" cy="2" r="1.5"/><circle cx="2" cy="7" r="1.5"/><circle cx="6" cy="7" r="1.5"/><circle cx="2" cy="12" r="1.5"/><circle cx="6" cy="12" r="1.5"/></svg></div>
+        <div class="lib-item-body">
+          <div class="lib-item-name">Press Militar 1 mano de pie</div>
+          <div class="lib-item-tags"><span class="lib-tag">hombro</span><span class="lib-tag">gym</span><span class="lib-tag">hombre</span></div>
+        </div>
+        <div class="lib-item-actions">
+          <button class="btn-ver">Ver</button>
+          <button class="btn-add">Añadir</button>
+        </div>
+      </div>
+
+      <div class="lib-item" draggable="true">
+        <div class="lib-grip"><svg width="8" height="14" viewBox="0 0 8 14" fill="currentColor"><circle cx="2" cy="2" r="1.5"/><circle cx="6" cy="2" r="1.5"/><circle cx="2" cy="7" r="1.5"/><circle cx="6" cy="7" r="1.5"/><circle cx="2" cy="12" r="1.5"/><circle cx="6" cy="12" r="1.5"/></svg></div>
+        <div class="lib-item-body">
+          <div class="lib-item-name">Press Militar sentado</div>
+          <div class="lib-item-tags"><span class="lib-tag">hombro</span><span class="lib-tag">gym</span><span class="lib-tag">hombre</span></div>
+        </div>
+        <div class="lib-item-actions">
+          <button class="btn-ver">Ver</button>
+          <button class="btn-add">Añadir</button>
+        </div>
+      </div>
+
+      <div class="lib-item" draggable="true">
+        <div class="lib-grip"><svg width="8" height="14" viewBox="0 0 8 14" fill="currentColor"><circle cx="2" cy="2" r="1.5"/><circle cx="6" cy="2" r="1.5"/><circle cx="2" cy="7" r="1.5"/><circle cx="6" cy="7" r="1.5"/><circle cx="2" cy="12" r="1.5"/><circle cx="6" cy="12" r="1.5"/></svg></div>
+        <div class="lib-item-body">
+          <div class="lib-item-name">Press Militar sentado</div>
+          <div class="lib-item-tags"><span class="lib-tag">hombro</span><span class="lib-tag">gym</span><span class="lib-tag">mujer</span></div>
+        </div>
+        <div class="lib-item-actions">
+          <button class="btn-ver">Ver</button>
+          <button class="btn-add">Añadir</button>
+        </div>
+      </div>
+
+      <div class="lib-item" draggable="true">
+        <div class="lib-grip"><svg width="8" height="14" viewBox="0 0 8 14" fill="currentColor"><circle cx="2" cy="2" r="1.5"/><circle cx="6" cy="2" r="1.5"/><circle cx="2" cy="7" r="1.5"/><circle cx="6" cy="7" r="1.5"/><circle cx="2" cy="12" r="1.5"/><circle cx="6" cy="12" r="1.5"/></svg></div>
+        <div class="lib-item-body">
+          <div class="lib-item-name">Press Militar en máquina</div>
+          <div class="lib-item-tags"><span class="lib-tag">hombro</span><span class="lib-tag">gym</span><span class="lib-tag">hombre</span></div>
+        </div>
+        <div class="lib-item-actions">
+          <button class="btn-ver">Ver</button>
+          <button class="btn-add">Añadir</button>
+        </div>
+      </div>
+
+      <div class="lib-item" draggable="true">
+        <div class="lib-grip"><svg width="8" height="14" viewBox="0 0 8 14" fill="currentColor"><circle cx="2" cy="2" r="1.5"/><circle cx="6" cy="2" r="1.5"/><circle cx="2" cy="7" r="1.5"/><circle cx="6" cy="7" r="1.5"/><circle cx="2" cy="12" r="1.5"/><circle cx="6" cy="12" r="1.5"/></svg></div>
+        <div class="lib-item-body">
+          <div class="lib-item-name">Press banca declinado</div>
+          <div class="lib-item-tags"><span class="lib-tag">pecho</span><span class="lib-tag">gym</span><span class="lib-tag">hombre</span></div>
+        </div>
+        <div class="lib-item-actions">
+          <button class="btn-ver">Ver</button>
+          <button class="btn-add">Añadir</button>
+        </div>
+      </div>
+
+      <div class="lib-item" draggable="true">
+        <div class="lib-grip"><svg width="8" height="14" viewBox="0 0 8 14" fill="currentColor"><circle cx="2" cy="2" r="1.5"/><circle cx="6" cy="2" r="1.5"/><circle cx="2" cy="7" r="1.5"/><circle cx="6" cy="7" r="1.5"/><circle cx="2" cy="12" r="1.5"/><circle cx="6" cy="12" r="1.5"/></svg></div>
+        <div class="lib-item-body">
+          <div class="lib-item-name">Press banca inclinado</div>
+          <div class="lib-item-tags"><span class="lib-tag">pecho</span><span class="lib-tag">gym</span><span class="lib-tag">hombre</span></div>
+        </div>
+        <div class="lib-item-actions">
+          <button class="btn-ver">Ver</button>
+          <button class="btn-add">Añadir</button>
+        </div>
+      </div>
+
+      <div class="lib-item" draggable="true">
+        <div class="lib-grip"><svg width="8" height="14" viewBox="0 0 8 14" fill="currentColor"><circle cx="2" cy="2" r="1.5"/><circle cx="6" cy="2" r="1.5"/><circle cx="2" cy="7" r="1.5"/><circle cx="6" cy="7" r="1.5"/><circle cx="2" cy="12" r="1.5"/><circle cx="6" cy="12" r="1.5"/></svg></div>
+        <div class="lib-item-body">
+          <div class="lib-item-name">Press banca plano</div>
+          <div class="lib-item-tags"><span class="lib-tag">pecho</span><span class="lib-tag">gym</span><span class="lib-tag">hombre</span></div>
+        </div>
+        <div class="lib-item-actions">
+          <button class="btn-ver">Ver</button>
+          <button class="btn-add">Añadir</button>
+        </div>
+      </div>
+
+      <div class="lib-item" draggable="true">
+        <div class="lib-grip"><svg width="8" height="14" viewBox="0 0 8 14" fill="currentColor"><circle cx="2" cy="2" r="1.5"/><circle cx="6" cy="2" r="1.5"/><circle cx="2" cy="7" r="1.5"/><circle cx="6" cy="7" r="1.5"/><circle cx="2" cy="12" r="1.5"/><circle cx="6" cy="12" r="1.5"/></svg></div>
+        <div class="lib-item-body">
+          <div class="lib-item-name">Press banca plano</div>
+          <div class="lib-item-tags"><span class="lib-tag">pecho</span><span class="lib-tag">gym</span><span class="lib-tag">mujer</span></div>
+        </div>
+        <div class="lib-item-actions">
+          <button class="btn-ver">Ver</button>
+          <button class="btn-add">Añadir</button>
+        </div>
+      </div>
+
+      <div class="lib-item" draggable="true">
+        <div class="lib-grip"><svg width="8" height="14" viewBox="0 0 8 14" fill="currentColor"><circle cx="2" cy="2" r="1.5"/><circle cx="6" cy="2" r="1.5"/><circle cx="2" cy="7" r="1.5"/><circle cx="6" cy="7" r="1.5"/><circle cx="2" cy="12" r="1.5"/><circle cx="6" cy="12" r="1.5"/></svg></div>
+        <div class="lib-item-body">
+          <div class="lib-item-name">Press en máquina 1 mano</div>
+          <div class="lib-item-tags"><span class="lib-tag">pecho</span><span class="lib-tag">gym</span><span class="lib-tag">mancuerna</span></div>
+        </div>
+        <div class="lib-item-actions">
+          <button class="btn-ver">Ver</button>
+          <button class="btn-add">Añadir</button>
+        </div>
+      </div>
+
+      <div class="lib-item" draggable="true">
+        <div class="lib-grip"><svg width="8" height="14" viewBox="0 0 8 14" fill="currentColor"><circle cx="2" cy="2" r="1.5"/><circle cx="6" cy="2" r="1.5"/><circle cx="2" cy="7" r="1.5"/><circle cx="6" cy="7" r="1.5"/><circle cx="2" cy="12" r="1.5"/><circle cx="6" cy="12" r="1.5"/></svg></div>
+        <div class="lib-item-body">
+          <div class="lib-item-name">Press francés 1 mano</div>
+          <div class="lib-item-tags"><span class="lib-tag">tríceps</span><span class="lib-tag">casa</span><span class="lib-tag">mancuerna</span></div>
+        </div>
+        <div class="lib-item-actions">
+          <button class="btn-ver">Ver</button>
+          <button class="btn-add">Añadir</button>
+        </div>
+      </div>
+
+      <div class="lib-item" draggable="true">
+        <div class="lib-grip"><svg width="8" height="14" viewBox="0 0 8 14" fill="currentColor"><circle cx="2" cy="2" r="1.5"/><circle cx="6" cy="2" r="1.5"/><circle cx="2" cy="7" r="1.5"/><circle cx="6" cy="7" r="1.5"/><circle cx="2" cy="12" r="1.5"/><circle cx="6" cy="12" r="1.5"/></svg></div>
+        <div class="lib-item-body">
+          <div class="lib-item-name">Press francés barra Z</div>
+          <div class="lib-item-tags"><span class="lib-tag">tríceps</span><span class="lib-tag">gym</span><span class="lib-tag">hombre</span></div>
+        </div>
+        <div class="lib-item-actions">
+          <button class="btn-ver">Ver</button>
+          <button class="btn-add">Añadir</button>
+        </div>
+      </div>
+
+      <div class="lib-item" draggable="true">
+        <div class="lib-grip"><svg width="8" height="14" viewBox="0 0 8 14" fill="currentColor"><circle cx="2" cy="2" r="1.5"/><circle cx="6" cy="2" r="1.5"/><circle cx="2" cy="7" r="1.5"/><circle cx="6" cy="7" r="1.5"/><circle cx="2" cy="12" r="1.5"/><circle cx="6" cy="12" r="1.5"/></svg></div>
+        <div class="lib-item-body">
+          <div class="lib-item-name">Press francés barra Z</div>
+          <div class="lib-item-tags"><span class="lib-tag">tríceps</span><span class="lib-tag">gym</span><span class="lib-tag">mujer</span></div>
+        </div>
+        <div class="lib-item-actions">
+          <button class="btn-ver">Ver</button>
+          <button class="btn-add">Añadir</button>
+        </div>
+      </div>
+
+      <div class="lib-item" draggable="true">
+        <div class="lib-grip"><svg width="8" height="14" viewBox="0 0 8 14" fill="currentColor"><circle cx="2" cy="2" r="1.5"/><circle cx="6" cy="2" r="1.5"/><circle cx="2" cy="7" r="1.5"/><circle cx="6" cy="7" r="1.5"/><circle cx="2" cy="12" r="1.5"/><circle cx="6" cy="12" r="1.5"/></svg></div>
+        <div class="lib-item-body">
+          <div class="lib-item-name">Prensa de piernas</div>
+          <div class="lib-item-tags"><span class="lib-tag">pierna</span><span class="lib-tag">gym</span><span class="lib-tag">hombre</span></div>
+        </div>
+        <div class="lib-item-actions">
+          <button class="btn-ver">Ver</button>
+          <button class="btn-add">Añadir</button>
+        </div>
+      </div>
+
+      <div class="lib-item" draggable="true">
+        <div class="lib-grip"><svg width="8" height="14" viewBox="0 0 8 14" fill="currentColor"><circle cx="2" cy="2" r="1.5"/><circle cx="6" cy="2" r="1.5"/><circle cx="2" cy="7" r="1.5"/><circle cx="6" cy="7" r="1.5"/><circle cx="2" cy="12" r="1.5"/><circle cx="6" cy="12" r="1.5"/></svg></div>
+        <div class="lib-item-body">
+          <div class="lib-item-name">Prensa de piernas</div>
+          <div class="lib-item-tags"><span class="lib-tag">pierna</span><span class="lib-tag">gym</span><span class="lib-tag">mujer</span></div>
+        </div>
+        <div class="lib-item-actions">
+          <button class="btn-ver">Ver</button>
+          <button class="btn-add">Añadir</button>
+        </div>
+      </div>
+
+    </div><!-- /lib-list -->
+
+  </div><!-- /right-panel -->
+
+</div><!-- /app -->
+
+<script>
+// ─── Block reordering drag ───
+const blocksContainer = document.querySelector('.blocks');
+let draggedBlock = null;
+
+document.querySelectorAll('.block').forEach(block => {
+
+  // Only start drag from the handle
+  block.addEventListener('mousedown', e => {
+    block.draggable = !!e.target.closest('.block-drag-handle');
+  });
+
+  block.addEventListener('dragstart', e => {
+    if (!e.target.closest('.block-drag-handle') && e.target.classList.contains('block')) {
+      // If drag didn't start from handle AND it's a lib-item drag, let it through
+      // But if it's the block itself without handle, cancel
+      if (!e.target.closest('.lib-item')) {
+        e.preventDefault();
+        return;
+      }
+    }
+    draggedBlock = block;
+    setTimeout(() => block.classList.add('block-dragging'), 0);
+    e.stopPropagation();
+  });
+
+  block.addEventListener('dragend', () => {
+    block.classList.remove('block-dragging', 'drop-before', 'drop-after');
+    document.querySelectorAll('.block').forEach(b => b.classList.remove('drop-before', 'drop-after'));
+    draggedBlock = null;
+    block.draggable = true; // reset
+  });
+
+  block.addEventListener('dragover', e => {
+    if (!draggedBlock || draggedBlock === block) return;
+    e.preventDefault();
+    e.stopPropagation();
+    document.querySelectorAll('.block').forEach(b => b.classList.remove('drop-before', 'drop-after'));
+    const rect = block.getBoundingClientRect();
+    const midY = rect.top + rect.height / 2;
+    if (e.clientY < midY) {
+      block.classList.add('drop-before');
+    } else {
+      block.classList.add('drop-after');
+    }
+  });
+
+  block.addEventListener('dragleave', e => {
+    if (!block.contains(e.relatedTarget)) {
+      block.classList.remove('drop-before', 'drop-after');
+    }
+  });
+
+  block.addEventListener('drop', e => {
+    if (!draggedBlock || draggedBlock === block) return;
+    e.preventDefault();
+    e.stopPropagation();
+    const isBefore = block.classList.contains('drop-before');
+    block.classList.remove('drop-before', 'drop-after');
+    if (isBefore) {
+      blocksContainer.insertBefore(draggedBlock, block);
+    } else {
+      blocksContainer.insertBefore(draggedBlock, block.nextSibling);
+    }
+    // Green flash on dropped block
+    draggedBlock.style.borderColor = '#22C55E';
+    draggedBlock.style.boxShadow = '0 0 0 3px #DCFCE7';
+    setTimeout(() => {
+      draggedBlock.style.borderColor = '';
+      draggedBlock.style.boxShadow = '';
+    }, 700);
+  });
+});
+
+// ─── Tab switching ───
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+  });
+});
+
+// ─── Visual drag-over feedback on blocks ───
+const blocks = document.querySelectorAll('.block');
+const rondas = document.querySelectorAll('.ronda');
+const dropTargets = [...blocks, ...rondas];
+
+document.querySelectorAll('.lib-item').forEach(item => {
+
+  item.addEventListener('dragstart', e => {
+    e.dataTransfer.effectAllowed = 'copy';
+    item.style.opacity = '0.5';
+    // Highlight all drop zones
+    dropTargets.forEach(t => {
+      t.style.transition = 'background 0.15s, border-color 0.15s';
+    });
+    blocks.forEach(b => {
+      b.style.borderColor = '#93C5FD';
+      b.style.background = '#F0F8FF';
+    });
+    rondas.forEach(r => {
+      r.style.borderColor = '#fbbf24';
+      r.style.boxShadow = '0 0 0 3px #FEF3C7';
+    });
+  });
+
+  item.addEventListener('dragend', () => {
+    item.style.opacity = '1';
+    blocks.forEach(b => {
+      b.style.borderColor = '';
+      b.style.background = '';
+    });
+    rondas.forEach(r => {
+      r.style.borderColor = '';
+      r.style.boxShadow = '';
+    });
+    dropTargets.forEach(t => {
+      t.classList.remove('drag-over');
+    });
+  });
+});
+
+dropTargets.forEach(target => {
+  target.addEventListener('dragover', e => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'copy';
+    target.classList.add('drag-over');
+  });
+  target.addEventListener('dragleave', e => {
+    if (!target.contains(e.relatedTarget)) {
+      target.classList.remove('drag-over');
+    }
+  });
+  target.addEventListener('drop', e => {
+    e.preventDefault();
+    target.classList.remove('drag-over');
+    // Visual feedback only — flash border green
+    const original = target.style.borderColor;
+    target.style.borderColor = '#22C55E';
+    target.style.boxShadow = '0 0 0 3px #DCFCE7';
+    setTimeout(() => {
+      target.style.borderColor = '';
+      target.style.boxShadow = '';
+    }, 800);
+  });
+});
+</script>
+
+<style>
+/* Drag-over state for blocks */
+.block.drag-over {
+  border-color: #60A5FA !important;
+  background: #EFF6FF !important;
+  box-shadow: 0 0 0 3px #BFDBFE;
+}
+
+/* Drag-over state for rondas */
+.ronda.drag-over {
+  border-color: #F59E0B !important;
+  background: #FFFBEB !important;
+  box-shadow: 0 0 0 3px #FDE68A !important;
+}
+</style>
+
+</body>
+</html>
