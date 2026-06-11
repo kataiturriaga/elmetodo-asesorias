@@ -1,0 +1,2241 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>No determinismo IA — misma foto, dos pasadas</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f8f9fa;color:#1a1a1a}
+  .header{background:#fff;border-bottom:2px solid #e5e7eb;padding:28px 40px}
+  .header h1{font-size:22px;font-weight:700;color:#111}
+  .header .sub{font-size:13px;color:#888;margin-top:4px}
+  .insight-box{background:#fffbeb;border:1px solid #fcd34d;border-radius:10px;padding:16px 20px;margin-top:18px;font-size:13px;color:#78350f;line-height:1.6}
+  .insight-box b{color:#92400e}
+  .kpis{display:flex;gap:12px;margin-top:18px;flex-wrap:wrap}
+  .kpi{background:#f3f4f6;border-radius:8px;padding:10px 18px;border:1px solid #e5e7eb}
+  .kpi b{font-size:22px;display:block;color:#111}
+  .kpi span{font-size:11px;color:#888}
+  .kpi.highlight b{color:#ef4444}
+  .dist-section{margin-top:20px}
+  .dist-section h3{font-size:13px;font-weight:600;color:#444;margin-bottom:10px;text-transform:uppercase;letter-spacing:.05em}
+  .bar-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+  .bar-label{width:120px;font-size:12px;color:#555;text-align:right}
+  .bar-track{flex:1;height:18px;background:#e5e7eb;border-radius:4px;overflow:hidden}
+  .bar-fill{height:100%;border-radius:4px;transition:width .3s}
+  .bar-count{width:90px;font-size:12px;color:#555}
+
+  .table-wrap{padding:24px 40px;max-width:1000px;margin:0 auto}
+  .table-header{display:grid;grid-template-columns:60px 1fr 120px 120px 130px;gap:0;background:#f3f4f6;border:1px solid #e5e7eb;border-radius:8px 8px 0 0;padding:8px 12px;font-size:11px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.05em}
+  .row{display:grid;grid-template-columns:60px 1fr 120px 120px 130px;gap:0;background:#fff;border:1px solid #e5e7eb;border-top:none;padding:10px 12px;align-items:center}
+  .row:hover{background:#f9fafb}
+  .row-error{background:#fff5f5;border-color:#fecaca}
+  .row:last-child{border-radius:0 0 8px 8px}
+  .thumb{width:48px;height:60px;object-fit:cover;border-radius:4px;border:1px solid #e5e7eb}
+  .uid{font-size:10px;color:#aaa;display:block}
+  .uname{font-size:13px;font-weight:500;color:#111}
+  .gender-chip{font-size:14px;margin-left:6px}
+  .est{font-size:18px;font-weight:700;color:#111}
+  .conf{font-size:11px;color:#aaa;margin-left:4px}
+  .delta-badge{font-size:12px;font-weight:700;padding:3px 10px;border-radius:20px}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>No determinismo de la IA — misma foto, dos pasadas</h1>
+  <div class="sub">Modelo: gemini-2.5-flash-lite · Temperature: 0.2 · 2026-06-09 11:31 · 85 usuarios · misma foto enviada dos veces consecutivas</div>
+
+  <div class="insight-box">
+    <b>¿Qué demuestra esto?</b> La IA no es una calculadora determinista. Con la <b>misma foto, mismo prompt y mismos datos biométricos</b>,
+    el modelo puede dar resultados ligeramente distintos en cada llamada. A temperatura 0.2 la variación es pequeña pero existe —
+    lo que significa que el resultado de una sola pasada tiene una incertidumbre intrínseca además de la incertidumbre del propio análisis visual.
+    <br><br>
+    Implicación práctica: <b>el % graso estimado por la IA debe interpretarse como un rango</b>, no como un número exacto.
+    El coach puede usar esto como punto de partida y ajustar según su criterio.
+  </div>
+
+  <div class="kpis">
+    <div class="kpi"><b>85</b><span>usuarios comparados</span></div>
+    <div class="kpi"><b>0.4 pts</b><span>variación media entre pasadas</span></div>
+    <div class="kpi"><b>4.0 pts</b><span>variación máxima</span></div>
+    <div class="kpi"><b>58</b><span>resultados idénticos (68%)</span></div>
+    <div class="kpi"><b>81</b><span>variación ≤ 1 pt (95%)</span></div>
+    <div class="kpi "><b>2</b><span>variación > 2 pts (2%)</span></div>
+  </div>
+
+  <div class="dist-section" style="max-width:500px;margin-top:20px">
+    <h3>Distribución de variaciones</h3>
+    
+        <div class="bar-row">
+          <div class="bar-label">0 pts (igual)</div>
+          <div class="bar-track">
+            <div class="bar-fill" style="width:68%;background:#6b7280"></div>
+          </div>
+          <div class="bar-count">58 (68%)</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">0.5–1 pt</div>
+          <div class="bar-track">
+            <div class="bar-fill" style="width:27%;background:#22c55e"></div>
+          </div>
+          <div class="bar-count">23 (27%)</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">1.5–2 pts</div>
+          <div class="bar-track">
+            <div class="bar-fill" style="width:2%;background:#f59e0b"></div>
+          </div>
+          <div class="bar-count">2 (2%)</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">>2 pts</div>
+          <div class="bar-track">
+            <div class="bar-fill" style="width:2%;background:#ef4444"></div>
+          </div>
+          <div class="bar-count">2 (2%)</div>
+        </div>
+  </div>
+</div>
+
+<div class="table-wrap">
+  <div class="table-header">
+    <div>Foto</div>
+    <div>Usuario</div>
+    <div>Pasada 1</div>
+    <div>Pasada 2</div>
+    <div>Δ diferencia</div>
+  </div>
+  
+        <div class="row">
+          <div class="cell-photo">
+            <img class="thumb" src="https://elmetodo-reviews-pics.s3.amazonaws.com/7e615048-947e-4be4-b560-c662a513328b.jpg" loading="lazy"
+                 onerror="this.style.display='none'" />
+          </div>
+          <div class="cell-name">
+            <span class="uid">id=313</span>
+            <span class="uname">jaimito Rodriguez </span>
+            <span class="gender-chip" style="color:#60a5fa">♂</span>
+          </div>
+          <div class="cell-r2">
+            <span class="est">12.0%</span>
+            <span class="conf">H</span>
+          </div>
+          <div class="cell-r3">
+            <span class="est">15.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-delta">
+            <span class="delta-badge" style="background:#ef444420;color:#ef4444;border:1px solid #ef444450">
+              +3.0 pts
+            </span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="cell-photo">
+            <img class="thumb" src="https://elmetodo-reviews-pics.s3.amazonaws.com/2e3577f0-e575-48dd-b916-7ed43a17a6da.jpg" loading="lazy"
+                 onerror="this.style.display='none'" />
+          </div>
+          <div class="cell-name">
+            <span class="uid">id=435</span>
+            <span class="uname">kata prueba 92</span>
+            <span class="gender-chip" style="color:#f472b6">♀</span>
+          </div>
+          <div class="cell-r2">
+            <span class="est">28.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-r3">
+            <span class="est">28.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-delta">
+            <span class="delta-badge" style="background:#6b728020;color:#6b7280;border:1px solid #6b728050">
+              = igual
+            </span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="cell-photo">
+            <img class="thumb" src="https://elmetodo-reviews-pics.s3.amazonaws.com/edf16cbd-d256-4a98-916a-2a2f2f7ef15d.jpg" loading="lazy"
+                 onerror="this.style.display='none'" />
+          </div>
+          <div class="cell-name">
+            <span class="uid">id=535</span>
+            <span class="uname">Rubén Alarcón Albarrán</span>
+            <span class="gender-chip" style="color:#60a5fa">♂</span>
+          </div>
+          <div class="cell-r2">
+            <span class="est">16.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-r3">
+            <span class="est">16.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-delta">
+            <span class="delta-badge" style="background:#6b728020;color:#6b7280;border:1px solid #6b728050">
+              = igual
+            </span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="cell-photo">
+            <img class="thumb" src="https://elmetodo-reviews-pics.s3.amazonaws.com/fd006d88-d3d3-45e3-b297-c2ac4525f695.jpg" loading="lazy"
+                 onerror="this.style.display='none'" />
+          </div>
+          <div class="cell-name">
+            <span class="uid">id=592</span>
+            <span class="uname">Javier García Díez</span>
+            <span class="gender-chip" style="color:#60a5fa">♂</span>
+          </div>
+          <div class="cell-r2">
+            <span class="est">23.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-r3">
+            <span class="est">22.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-delta">
+            <span class="delta-badge" style="background:#22c55e20;color:#22c55e;border:1px solid #22c55e50">
+              -1.0 pt
+            </span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="cell-photo">
+            <img class="thumb" src="https://elmetodo-reviews-pics.s3.amazonaws.com/5fbe152b-3c4e-4880-8e01-3d2c3007eff9.jpg" loading="lazy"
+                 onerror="this.style.display='none'" />
+          </div>
+          <div class="cell-name">
+            <span class="uid">id=647</span>
+            <span class="uname">Verónica cebrian Navarro </span>
+            <span class="gender-chip" style="color:#f472b6">♀</span>
+          </div>
+          <div class="cell-r2">
+            <span class="est">29.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-r3">
+            <span class="est">29.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-delta">
+            <span class="delta-badge" style="background:#6b728020;color:#6b7280;border:1px solid #6b728050">
+              = igual
+            </span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="cell-photo">
+            <img class="thumb" src="https://elmetodo-reviews-pics.s3.amazonaws.com/36c2d91d-a578-4db8-972b-4a5b7962cfd6.jpg" loading="lazy"
+                 onerror="this.style.display='none'" />
+          </div>
+          <div class="cell-name">
+            <span class="uid">id=703</span>
+            <span class="uname">irene moreno ciudad</span>
+            <span class="gender-chip" style="color:#f472b6">♀</span>
+          </div>
+          <div class="cell-r2">
+            <span class="est">20.0%</span>
+            <span class="conf">H</span>
+          </div>
+          <div class="cell-r3">
+            <span class="est">22.0%</span>
+            <span class="conf">H</span>
+          </div>
+          <div class="cell-delta">
+            <span class="delta-badge" style="background:#f59e0b20;color:#f59e0b;border:1px solid #f59e0b50">
+              +2.0 pts
+            </span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="cell-photo">
+            <img class="thumb" src="https://elmetodo-reviews-pics.s3.amazonaws.com/ecc7d7b0-2f39-430e-8e3c-7fd76f2e1f06.jpg" loading="lazy"
+                 onerror="this.style.display='none'" />
+          </div>
+          <div class="cell-name">
+            <span class="uid">id=756</span>
+            <span class="uname">Antonio Carrero </span>
+            <span class="gender-chip" style="color:#60a5fa">♂</span>
+          </div>
+          <div class="cell-r2">
+            <span class="est">18.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-r3">
+            <span class="est">22.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-delta">
+            <span class="delta-badge" style="background:#ef444420;color:#ef4444;border:1px solid #ef444450">
+              +4.0 pts
+            </span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="cell-photo">
+            <img class="thumb" src="https://elmetodo-reviews-pics.s3.amazonaws.com/809d504b-76cb-4c7c-be6d-3005d2d4ec1e.jpg" loading="lazy"
+                 onerror="this.style.display='none'" />
+          </div>
+          <div class="cell-name">
+            <span class="uid">id=812</span>
+            <span class="uname">David Martínez García </span>
+            <span class="gender-chip" style="color:#60a5fa">♂</span>
+          </div>
+          <div class="cell-r2">
+            <span class="est">17.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-r3">
+            <span class="est">17.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-delta">
+            <span class="delta-badge" style="background:#6b728020;color:#6b7280;border:1px solid #6b728050">
+              = igual
+            </span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="cell-photo">
+            <img class="thumb" src="https://elmetodo-reviews-pics.s3.amazonaws.com/60fadb0b-3aca-4461-8eb4-fb88946684c6.jpg" loading="lazy"
+                 onerror="this.style.display='none'" />
+          </div>
+          <div class="cell-name">
+            <span class="uid">id=867</span>
+            <span class="uname">Eneko García </span>
+            <span class="gender-chip" style="color:#60a5fa">♂</span>
+          </div>
+          <div class="cell-r2">
+            <span class="est">14.0%</span>
+            <span class="conf">H</span>
+          </div>
+          <div class="cell-r3">
+            <span class="est">14.0%</span>
+            <span class="conf">H</span>
+          </div>
+          <div class="cell-delta">
+            <span class="delta-badge" style="background:#6b728020;color:#6b7280;border:1px solid #6b728050">
+              = igual
+            </span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="cell-photo">
+            <img class="thumb" src="https://elmetodo-reviews-pics.s3.amazonaws.com/57fa996d-faa3-44f4-950b-b55d177c1e47.jpg" loading="lazy"
+                 onerror="this.style.display='none'" />
+          </div>
+          <div class="cell-name">
+            <span class="uid">id=922</span>
+            <span class="uname">Genis Pro Martínez </span>
+            <span class="gender-chip" style="color:#60a5fa">♂</span>
+          </div>
+          <div class="cell-r2">
+            <span class="est">30.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-r3">
+            <span class="est">30.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-delta">
+            <span class="delta-badge" style="background:#6b728020;color:#6b7280;border:1px solid #6b728050">
+              = igual
+            </span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="cell-photo">
+            <img class="thumb" src="https://elmetodo-reviews-pics.s3.amazonaws.com/f7f0c431-3b1c-437e-af45-48efd336844d.jpg" loading="lazy"
+                 onerror="this.style.display='none'" />
+          </div>
+          <div class="cell-name">
+            <span class="uid">id=974</span>
+            <span class="uname">Jakoba Olaiz Villan</span>
+            <span class="gender-chip" style="color:#60a5fa">♂</span>
+          </div>
+          <div class="cell-r2">
+            <span class="est">18.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-r3">
+            <span class="est">18.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-delta">
+            <span class="delta-badge" style="background:#6b728020;color:#6b7280;border:1px solid #6b728050">
+              = igual
+            </span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="cell-photo">
+            <img class="thumb" src="https://elmetodo-reviews-pics.s3.amazonaws.com/8f1eae08-6ac6-4446-a234-ccbec60cf9dd.jpg" loading="lazy"
+                 onerror="this.style.display='none'" />
+          </div>
+          <div class="cell-name">
+            <span class="uid">id=1031</span>
+            <span class="uname">Endika Contreras Ayala</span>
+            <span class="gender-chip" style="color:#60a5fa">♂</span>
+          </div>
+          <div class="cell-r2">
+            <span class="est">17.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-r3">
+            <span class="est">17.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-delta">
+            <span class="delta-badge" style="background:#6b728020;color:#6b7280;border:1px solid #6b728050">
+              = igual
+            </span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="cell-photo">
+            <img class="thumb" src="https://elmetodo-reviews-pics.s3.amazonaws.com/ff907671-65a5-4fce-b66a-28695c1f9b00.jpg" loading="lazy"
+                 onerror="this.style.display='none'" />
+          </div>
+          <div class="cell-name">
+            <span class="uid">id=1083</span>
+            <span class="uname">Javier García Grau </span>
+            <span class="gender-chip" style="color:#60a5fa">♂</span>
+          </div>
+          <div class="cell-r2">
+            <span class="est">22.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-r3">
+            <span class="est">23.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-delta">
+            <span class="delta-badge" style="background:#22c55e20;color:#22c55e;border:1px solid #22c55e50">
+              +1.0 pt
+            </span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="cell-photo">
+            <img class="thumb" src="https://elmetodo-reviews-pics.s3.amazonaws.com/be9a0bbc-1c7b-4520-9450-c4ec5ca120cd.jpg" loading="lazy"
+                 onerror="this.style.display='none'" />
+          </div>
+          <div class="cell-name">
+            <span class="uid">id=1138</span>
+            <span class="uname">Laia Viñals Padilla</span>
+            <span class="gender-chip" style="color:#f472b6">♀</span>
+          </div>
+          <div class="cell-r2">
+            <span class="est">24.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-r3">
+            <span class="est">24.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-delta">
+            <span class="delta-badge" style="background:#6b728020;color:#6b7280;border:1px solid #6b728050">
+              = igual
+            </span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="cell-photo">
+            <img class="thumb" src="https://elmetodo-reviews-pics.s3.amazonaws.com/8cae0086-b95b-440d-93ed-c5585fdd40a1.jpg" loading="lazy"
+                 onerror="this.style.display='none'" />
+          </div>
+          <div class="cell-name">
+            <span class="uid">id=1196</span>
+            <span class="uname">Federico Yañez Siller </span>
+            <span class="gender-chip" style="color:#60a5fa">♂</span>
+          </div>
+          <div class="cell-r2">
+            <span class="est">18.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-r3">
+            <span class="est">18.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-delta">
+            <span class="delta-badge" style="background:#6b728020;color:#6b7280;border:1px solid #6b728050">
+              = igual
+            </span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="cell-photo">
+            <img class="thumb" src="https://elmetodo-reviews-pics.s3.amazonaws.com/b918e5f9-0f52-49c4-a50a-93c37fd39a46.jpg" loading="lazy"
+                 onerror="this.style.display='none'" />
+          </div>
+          <div class="cell-name">
+            <span class="uid">id=1250</span>
+            <span class="uname">Hur Arce </span>
+            <span class="gender-chip" style="color:#60a5fa">♂</span>
+          </div>
+          <div class="cell-r2">
+            <span class="est">16.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-r3">
+            <span class="est">15.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-delta">
+            <span class="delta-badge" style="background:#22c55e20;color:#22c55e;border:1px solid #22c55e50">
+              -1.0 pt
+            </span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="cell-photo">
+            <img class="thumb" src="https://elmetodo-reviews-pics.s3.amazonaws.com/cac17743-51be-4696-a37e-61e8da7e21c7.jpg" loading="lazy"
+                 onerror="this.style.display='none'" />
+          </div>
+          <div class="cell-name">
+            <span class="uid">id=1308</span>
+            <span class="uname">Christel Gómez </span>
+            <span class="gender-chip" style="color:#f472b6">♀</span>
+          </div>
+          <div class="cell-r2">
+            <span class="est">24.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-r3">
+            <span class="est">24.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-delta">
+            <span class="delta-badge" style="background:#6b728020;color:#6b7280;border:1px solid #6b728050">
+              = igual
+            </span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="cell-photo">
+            <img class="thumb" src="https://elmetodo-reviews-pics.s3.amazonaws.com/f76eeac2-1a3f-43ce-a04c-effe7c51ca1d.jpg" loading="lazy"
+                 onerror="this.style.display='none'" />
+          </div>
+          <div class="cell-name">
+            <span class="uid">id=1362</span>
+            <span class="uname">Aarondy Jesús Díaz Cabrera </span>
+            <span class="gender-chip" style="color:#60a5fa">♂</span>
+          </div>
+          <div class="cell-r2">
+            <span class="est">15.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-r3">
+            <span class="est">16.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-delta">
+            <span class="delta-badge" style="background:#22c55e20;color:#22c55e;border:1px solid #22c55e50">
+              +1.0 pt
+            </span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="cell-photo">
+            <img class="thumb" src="https://elmetodo-reviews-pics.s3.amazonaws.com/a51c6190-9fd3-4a27-8931-4eb9d7772dfb.jpg" loading="lazy"
+                 onerror="this.style.display='none'" />
+          </div>
+          <div class="cell-name">
+            <span class="uid">id=1415</span>
+            <span class="uname">José miguel cortes cruz</span>
+            <span class="gender-chip" style="color:#60a5fa">♂</span>
+          </div>
+          <div class="cell-r2">
+            <span class="est">14.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-r3">
+            <span class="est">14.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-delta">
+            <span class="delta-badge" style="background:#6b728020;color:#6b7280;border:1px solid #6b728050">
+              = igual
+            </span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="cell-photo">
+            <img class="thumb" src="https://elmetodo-reviews-pics.s3.amazonaws.com/e21edcef-a830-48bd-8917-d9ebe5f831d8.jpg" loading="lazy"
+                 onerror="this.style.display='none'" />
+          </div>
+          <div class="cell-name">
+            <span class="uid">id=1476</span>
+            <span class="uname">Christian Cardoso </span>
+            <span class="gender-chip" style="color:#60a5fa">♂</span>
+          </div>
+          <div class="cell-r2">
+            <span class="est">28.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-r3">
+            <span class="est">28.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-delta">
+            <span class="delta-badge" style="background:#6b728020;color:#6b7280;border:1px solid #6b728050">
+              = igual
+            </span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="cell-photo">
+            <img class="thumb" src="https://elmetodo-reviews-pics.s3.amazonaws.com/3ae96bfa-127d-4313-b660-67b5c03b57df.jpg" loading="lazy"
+                 onerror="this.style.display='none'" />
+          </div>
+          <div class="cell-name">
+            <span class="uid">id=1526</span>
+            <span class="uname">Federica De Martinis </span>
+            <span class="gender-chip" style="color:#f472b6">♀</span>
+          </div>
+          <div class="cell-r2">
+            <span class="est">28.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-r3">
+            <span class="est">28.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-delta">
+            <span class="delta-badge" style="background:#6b728020;color:#6b7280;border:1px solid #6b728050">
+              = igual
+            </span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="cell-photo">
+            <img class="thumb" src="https://elmetodo-reviews-pics.s3.amazonaws.com/a4b5430a-f52a-4a51-ba0d-4be020daee44.jpg" loading="lazy"
+                 onerror="this.style.display='none'" />
+          </div>
+          <div class="cell-name">
+            <span class="uid">id=1582</span>
+            <span class="uname">Tamara Pardiño </span>
+            <span class="gender-chip" style="color:#f472b6">♀</span>
+          </div>
+          <div class="cell-r2">
+            <span class="est">26%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-r3">
+            <span class="est">26.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-delta">
+            <span class="delta-badge" style="background:#6b728020;color:#6b7280;border:1px solid #6b728050">
+              = igual
+            </span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="cell-photo">
+            <img class="thumb" src="https://elmetodo-reviews-pics.s3.amazonaws.com/8e5230f5-ec81-4e55-bef3-e0c7e0b9c40e.jpg" loading="lazy"
+                 onerror="this.style.display='none'" />
+          </div>
+          <div class="cell-name">
+            <span class="uid">id=1645</span>
+            <span class="uname">Rubén Zamora paredes </span>
+            <span class="gender-chip" style="color:#60a5fa">♂</span>
+          </div>
+          <div class="cell-r2">
+            <span class="est">22.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-r3">
+            <span class="est">22.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-delta">
+            <span class="delta-badge" style="background:#6b728020;color:#6b7280;border:1px solid #6b728050">
+              = igual
+            </span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="cell-photo">
+            <img class="thumb" src="https://elmetodo-reviews-pics.s3.amazonaws.com/f871c905-41e0-4ef1-a353-f109f7ae46ca.jpg" loading="lazy"
+                 onerror="this.style.display='none'" />
+          </div>
+          <div class="cell-name">
+            <span class="uid">id=1703</span>
+            <span class="uname">Iván Arias Bande</span>
+            <span class="gender-chip" style="color:#60a5fa">♂</span>
+          </div>
+          <div class="cell-r2">
+            <span class="est">23.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-r3">
+            <span class="est">23.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-delta">
+            <span class="delta-badge" style="background:#6b728020;color:#6b7280;border:1px solid #6b728050">
+              = igual
+            </span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="cell-photo">
+            <img class="thumb" src="https://elmetodo-reviews-pics.s3.amazonaws.com/f50b894c-5894-44a8-8ee9-66f052c3e6c4.jpg" loading="lazy"
+                 onerror="this.style.display='none'" />
+          </div>
+          <div class="cell-name">
+            <span class="uid">id=1757</span>
+            <span class="uname">Cristian Pineda </span>
+            <span class="gender-chip" style="color:#60a5fa">♂</span>
+          </div>
+          <div class="cell-r2">
+            <span class="est">25.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-r3">
+            <span class="est">25.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-delta">
+            <span class="delta-badge" style="background:#6b728020;color:#6b7280;border:1px solid #6b728050">
+              = igual
+            </span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="cell-photo">
+            <img class="thumb" src="https://elmetodo-reviews-pics.s3.amazonaws.com/c8a0700c-3a93-4da0-8ffe-ab1a3c6049f1.jpg" loading="lazy"
+                 onerror="this.style.display='none'" />
+          </div>
+          <div class="cell-name">
+            <span class="uid">id=1812</span>
+            <span class="uname">Jessica Jurado Gomez</span>
+            <span class="gender-chip" style="color:#f472b6">♀</span>
+          </div>
+          <div class="cell-r2">
+            <span class="est">28.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-r3">
+            <span class="est">29.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-delta">
+            <span class="delta-badge" style="background:#22c55e20;color:#22c55e;border:1px solid #22c55e50">
+              +1.0 pt
+            </span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="cell-photo">
+            <img class="thumb" src="https://elmetodo-reviews-pics.s3.amazonaws.com/362546cb-6428-4840-8868-45a3333c531c.jpg" loading="lazy"
+                 onerror="this.style.display='none'" />
+          </div>
+          <div class="cell-name">
+            <span class="uid">id=1866</span>
+            <span class="uname">Aisha Villalta Vaque</span>
+            <span class="gender-chip" style="color:#f472b6">♀</span>
+          </div>
+          <div class="cell-r2">
+            <span class="est">36.0%</span>
+            <span class="conf">H</span>
+          </div>
+          <div class="cell-r3">
+            <span class="est">37.0%</span>
+            <span class="conf">H</span>
+          </div>
+          <div class="cell-delta">
+            <span class="delta-badge" style="background:#22c55e20;color:#22c55e;border:1px solid #22c55e50">
+              +1.0 pt
+            </span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="cell-photo">
+            <img class="thumb" src="https://elmetodo-reviews-pics.s3.amazonaws.com/830de42b-06f5-4041-a2bc-9f1bf8793d89.jpg" loading="lazy"
+                 onerror="this.style.display='none'" />
+          </div>
+          <div class="cell-name">
+            <span class="uid">id=1923</span>
+            <span class="uname">Julian</span>
+            <span class="gender-chip" style="color:#60a5fa">♂</span>
+          </div>
+          <div class="cell-r2">
+            <span class="est">22.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-r3">
+            <span class="est">23.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-delta">
+            <span class="delta-badge" style="background:#22c55e20;color:#22c55e;border:1px solid #22c55e50">
+              +1.0 pt
+            </span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="cell-photo">
+            <img class="thumb" src="https://elmetodo-reviews-pics.s3.amazonaws.com/69ea599e-ae06-4c54-a535-ef1d743c1a01.jpg" loading="lazy"
+                 onerror="this.style.display='none'" />
+          </div>
+          <div class="cell-name">
+            <span class="uid">id=1986</span>
+            <span class="uname">Ines De Merlier Bellod</span>
+            <span class="gender-chip" style="color:#f472b6">♀</span>
+          </div>
+          <div class="cell-r2">
+            <span class="est">35.0%</span>
+            <span class="conf">H</span>
+          </div>
+          <div class="cell-r3">
+            <span class="est">35.0%</span>
+            <span class="conf">H</span>
+          </div>
+          <div class="cell-delta">
+            <span class="delta-badge" style="background:#6b728020;color:#6b7280;border:1px solid #6b728050">
+              = igual
+            </span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="cell-photo">
+            <img class="thumb" src="https://elmetodo-reviews-pics.s3.amazonaws.com/1a3f7a4f-68be-4039-ad17-0d8c7160db07.jpg" loading="lazy"
+                 onerror="this.style.display='none'" />
+          </div>
+          <div class="cell-name">
+            <span class="uid">id=2043</span>
+            <span class="uname">Carlos Lopez Agout</span>
+            <span class="gender-chip" style="color:#60a5fa">♂</span>
+          </div>
+          <div class="cell-r2">
+            <span class="est">27.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-r3">
+            <span class="est">27.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-delta">
+            <span class="delta-badge" style="background:#6b728020;color:#6b7280;border:1px solid #6b728050">
+              = igual
+            </span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="cell-photo">
+            <img class="thumb" src="https://elmetodo-reviews-pics.s3.amazonaws.com/a782f537-e492-4066-80f9-6e9cf1172b08.jpg" loading="lazy"
+                 onerror="this.style.display='none'" />
+          </div>
+          <div class="cell-name">
+            <span class="uid">id=2106</span>
+            <span class="uname">Álvaro Macías </span>
+            <span class="gender-chip" style="color:#60a5fa">♂</span>
+          </div>
+          <div class="cell-r2">
+            <span class="est">16.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-r3">
+            <span class="est">16.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-delta">
+            <span class="delta-badge" style="background:#6b728020;color:#6b7280;border:1px solid #6b728050">
+              = igual
+            </span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="cell-photo">
+            <img class="thumb" src="https://elmetodo-reviews-pics.s3.amazonaws.com/b9e3ea8c-ba5f-4885-b71f-8c011f9544d0.jpg" loading="lazy"
+                 onerror="this.style.display='none'" />
+          </div>
+          <div class="cell-name">
+            <span class="uid">id=2157</span>
+            <span class="uname">Itziar Ayerra </span>
+            <span class="gender-chip" style="color:#f472b6">♀</span>
+          </div>
+          <div class="cell-r2">
+            <span class="est">27.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-r3">
+            <span class="est">27.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-delta">
+            <span class="delta-badge" style="background:#6b728020;color:#6b7280;border:1px solid #6b728050">
+              = igual
+            </span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="cell-photo">
+            <img class="thumb" src="https://elmetodo-reviews-pics.s3.amazonaws.com/9f546bbc-f7c0-4524-a174-74191a91b626.jpg" loading="lazy"
+                 onerror="this.style.display='none'" />
+          </div>
+          <div class="cell-name">
+            <span class="uid">id=2216</span>
+            <span class="uname">Miguel Pérez </span>
+            <span class="gender-chip" style="color:#60a5fa">♂</span>
+          </div>
+          <div class="cell-r2">
+            <span class="est">17.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-r3">
+            <span class="est">17.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-delta">
+            <span class="delta-badge" style="background:#6b728020;color:#6b7280;border:1px solid #6b728050">
+              = igual
+            </span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="cell-photo">
+            <img class="thumb" src="https://elmetodo-reviews-pics.s3.amazonaws.com/3c2a06fd-4de7-4c2c-873f-e4c11c01488b.jpg" loading="lazy"
+                 onerror="this.style.display='none'" />
+          </div>
+          <div class="cell-name">
+            <span class="uid">id=2270</span>
+            <span class="uname">Marta Casales </span>
+            <span class="gender-chip" style="color:#f472b6">♀</span>
+          </div>
+          <div class="cell-r2">
+            <span class="est">25%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-r3">
+            <span class="est">26.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-delta">
+            <span class="delta-badge" style="background:#22c55e20;color:#22c55e;border:1px solid #22c55e50">
+              +1.0 pt
+            </span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="cell-photo">
+            <img class="thumb" src="https://elmetodo-reviews-pics.s3.amazonaws.com/0936cc58-4789-45a6-ba3e-98e1909d2984.jpg" loading="lazy"
+                 onerror="this.style.display='none'" />
+          </div>
+          <div class="cell-name">
+            <span class="uid">id=2329</span>
+            <span class="uname">Lourdes Tomás najar</span>
+            <span class="gender-chip" style="color:#f472b6">♀</span>
+          </div>
+          <div class="cell-r2">
+            <span class="est">28.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-r3">
+            <span class="est">28.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-delta">
+            <span class="delta-badge" style="background:#6b728020;color:#6b7280;border:1px solid #6b728050">
+              = igual
+            </span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="cell-photo">
+            <img class="thumb" src="https://elmetodo-reviews-pics.s3.amazonaws.com/f07a135d-d8e2-4e01-bbb3-21f44fe59eb3.jpg" loading="lazy"
+                 onerror="this.style.display='none'" />
+          </div>
+          <div class="cell-name">
+            <span class="uid">id=2387</span>
+            <span class="uname">Andrés Antón </span>
+            <span class="gender-chip" style="color:#60a5fa">♂</span>
+          </div>
+          <div class="cell-r2">
+            <span class="est">26.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-r3">
+            <span class="est">26.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-delta">
+            <span class="delta-badge" style="background:#6b728020;color:#6b7280;border:1px solid #6b728050">
+              = igual
+            </span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="cell-photo">
+            <img class="thumb" src="https://elmetodo-reviews-pics.s3.amazonaws.com/f1d63eb7-6b32-4f3e-b1af-097d38239eef.jpg" loading="lazy"
+                 onerror="this.style.display='none'" />
+          </div>
+          <div class="cell-name">
+            <span class="uid">id=2443</span>
+            <span class="uname">Sandra López Bermejo </span>
+            <span class="gender-chip" style="color:#f472b6">♀</span>
+          </div>
+          <div class="cell-r2">
+            <span class="est">20.0%</span>
+            <span class="conf">H</span>
+          </div>
+          <div class="cell-r3">
+            <span class="est">20.0%</span>
+            <span class="conf">H</span>
+          </div>
+          <div class="cell-delta">
+            <span class="delta-badge" style="background:#6b728020;color:#6b7280;border:1px solid #6b728050">
+              = igual
+            </span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="cell-photo">
+            <img class="thumb" src="https://elmetodo-reviews-pics.s3.amazonaws.com/476b41e1-116b-472b-abca-a54d00e7d395.jpg" loading="lazy"
+                 onerror="this.style.display='none'" />
+          </div>
+          <div class="cell-name">
+            <span class="uid">id=2524</span>
+            <span class="uname">Nerea Martínez </span>
+            <span class="gender-chip" style="color:#f472b6">♀</span>
+          </div>
+          <div class="cell-r2">
+            <span class="est">30.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-r3">
+            <span class="est">31.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-delta">
+            <span class="delta-badge" style="background:#22c55e20;color:#22c55e;border:1px solid #22c55e50">
+              +1.0 pt
+            </span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="cell-photo">
+            <img class="thumb" src="https://elmetodo-reviews-pics.s3.amazonaws.com/493b4dfa-b83a-4e6e-b51b-3ff8db113ab5.jpg" loading="lazy"
+                 onerror="this.style.display='none'" />
+          </div>
+          <div class="cell-name">
+            <span class="uid">id=2582</span>
+            <span class="uname">Raquel Bentolila Chocron</span>
+            <span class="gender-chip" style="color:#f472b6">♀</span>
+          </div>
+          <div class="cell-r2">
+            <span class="est">29.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-r3">
+            <span class="est">29.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-delta">
+            <span class="delta-badge" style="background:#6b728020;color:#6b7280;border:1px solid #6b728050">
+              = igual
+            </span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="cell-photo">
+            <img class="thumb" src="https://elmetodo-reviews-pics.s3.amazonaws.com/a2f06596-38e6-4b92-83b7-2fd9a1f2ff11.jpg" loading="lazy"
+                 onerror="this.style.display='none'" />
+          </div>
+          <div class="cell-name">
+            <span class="uid">id=2665</span>
+            <span class="uname">Manuel Lama</span>
+            <span class="gender-chip" style="color:#60a5fa">♂</span>
+          </div>
+          <div class="cell-r2">
+            <span class="est">23.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-r3">
+            <span class="est">23.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-delta">
+            <span class="delta-badge" style="background:#6b728020;color:#6b7280;border:1px solid #6b728050">
+              = igual
+            </span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="cell-photo">
+            <img class="thumb" src="https://elmetodo-reviews-pics.s3.amazonaws.com/a39bcfa0-d269-45d2-a2c8-b54cda394c59.jpg" loading="lazy"
+                 onerror="this.style.display='none'" />
+          </div>
+          <div class="cell-name">
+            <span class="uid">id=2720</span>
+            <span class="uname">Alejandro Pérez</span>
+            <span class="gender-chip" style="color:#60a5fa">♂</span>
+          </div>
+          <div class="cell-r2">
+            <span class="est">17.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-r3">
+            <span class="est">17.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-delta">
+            <span class="delta-badge" style="background:#6b728020;color:#6b7280;border:1px solid #6b728050">
+              = igual
+            </span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="cell-photo">
+            <img class="thumb" src="https://elmetodo-reviews-pics.s3.amazonaws.com/857b3753-992d-46cd-8fb8-89a4440e6807.jpg" loading="lazy"
+                 onerror="this.style.display='none'" />
+          </div>
+          <div class="cell-name">
+            <span class="uid">id=2776</span>
+            <span class="uname">Andrea Clemente Pérez </span>
+            <span class="gender-chip" style="color:#f472b6">♀</span>
+          </div>
+          <div class="cell-r2">
+            <span class="est">19.0%</span>
+            <span class="conf">H</span>
+          </div>
+          <div class="cell-r3">
+            <span class="est">19.0%</span>
+            <span class="conf">H</span>
+          </div>
+          <div class="cell-delta">
+            <span class="delta-badge" style="background:#6b728020;color:#6b7280;border:1px solid #6b728050">
+              = igual
+            </span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="cell-photo">
+            <img class="thumb" src="https://elmetodo-reviews-pics.s3.amazonaws.com/5734d19b-64cd-473a-956c-5cda60cfd11b.jpg" loading="lazy"
+                 onerror="this.style.display='none'" />
+          </div>
+          <div class="cell-name">
+            <span class="uid">id=2832</span>
+            <span class="uname">Borja Nebot Huerta </span>
+            <span class="gender-chip" style="color:#60a5fa">♂</span>
+          </div>
+          <div class="cell-r2">
+            <span class="est">18%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-r3">
+            <span class="est">17.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-delta">
+            <span class="delta-badge" style="background:#22c55e20;color:#22c55e;border:1px solid #22c55e50">
+              -1.0 pt
+            </span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="cell-photo">
+            <img class="thumb" src="https://elmetodo-reviews-pics.s3.amazonaws.com/bca4fe35-cd4a-4652-9f07-d6fade07ae01.jpg" loading="lazy"
+                 onerror="this.style.display='none'" />
+          </div>
+          <div class="cell-name">
+            <span class="uid">id=2899</span>
+            <span class="uname">José Yuste </span>
+            <span class="gender-chip" style="color:#60a5fa">♂</span>
+          </div>
+          <div class="cell-r2">
+            <span class="est">14.0%</span>
+            <span class="conf">G</span>
+          </div>
+          <div class="cell-r3">
+            <span class="est">15.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-delta">
+            <span class="delta-badge" style="background:#22c55e20;color:#22c55e;border:1px solid #22c55e50">
+              +1.0 pt
+            </span>
+          </div>
+        </div>
+            <div class="row row-error">
+              <div class="cell-name"><span class="uid">id=2959</span> ?</div>
+              <div class="cell-r2">—</div>
+              <div class="cell-r3">—</div>
+              <div class="cell-delta">Error: 503 Server Error: Service Unavailable for url: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=AIzaSyC1EqKngJ-szh3OFS4EOZIvNpr0H020Rx4</div>
+            </div>
+        <div class="row">
+          <div class="cell-photo">
+            <img class="thumb" src="https://elmetodo-reviews-pics.s3.amazonaws.com/562c8dcc-fcae-4f50-814b-432d5fd070f4.jpg" loading="lazy"
+                 onerror="this.style.display='none'" />
+          </div>
+          <div class="cell-name">
+            <span class="uid">id=3021</span>
+            <span class="uname">Iván Lázaro Díaz </span>
+            <span class="gender-chip" style="color:#60a5fa">♂</span>
+          </div>
+          <div class="cell-r2">
+            <span class="est">15.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-r3">
+            <span class="est">15.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-delta">
+            <span class="delta-badge" style="background:#6b728020;color:#6b7280;border:1px solid #6b728050">
+              = igual
+            </span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="cell-photo">
+            <img class="thumb" src="https://elmetodo-reviews-pics.s3.amazonaws.com/fa7a4126-945a-49de-9747-927113e2b89f.jpg" loading="lazy"
+                 onerror="this.style.display='none'" />
+          </div>
+          <div class="cell-name">
+            <span class="uid">id=3084</span>
+            <span class="uname">peter peña</span>
+            <span class="gender-chip" style="color:#60a5fa">♂</span>
+          </div>
+          <div class="cell-r2">
+            <span class="est">23.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-r3">
+            <span class="est">23.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-delta">
+            <span class="delta-badge" style="background:#6b728020;color:#6b7280;border:1px solid #6b728050">
+              = igual
+            </span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="cell-photo">
+            <img class="thumb" src="https://elmetodo-reviews-pics.s3.amazonaws.com/b33c6c4c-029a-4b57-bf1e-e77befdaee70.jpg" loading="lazy"
+                 onerror="this.style.display='none'" />
+          </div>
+          <div class="cell-name">
+            <span class="uid">id=3137</span>
+            <span class="uname">Virginia Pino del Castillo </span>
+            <span class="gender-chip" style="color:#f472b6">♀</span>
+          </div>
+          <div class="cell-r2">
+            <span class="est">36.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-r3">
+            <span class="est">36.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-delta">
+            <span class="delta-badge" style="background:#6b728020;color:#6b7280;border:1px solid #6b728050">
+              = igual
+            </span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="cell-photo">
+            <img class="thumb" src="https://elmetodo-reviews-pics.s3.amazonaws.com/f66af0a8-1d07-46e8-ad25-a286ebee9378.jpg" loading="lazy"
+                 onerror="this.style.display='none'" />
+          </div>
+          <div class="cell-name">
+            <span class="uid">id=3195</span>
+            <span class="uname">Pedro García-Atucha</span>
+            <span class="gender-chip" style="color:#60a5fa">♂</span>
+          </div>
+          <div class="cell-r2">
+            <span class="est">18.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-r3">
+            <span class="est">18.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-delta">
+            <span class="delta-badge" style="background:#6b728020;color:#6b7280;border:1px solid #6b728050">
+              = igual
+            </span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="cell-photo">
+            <img class="thumb" src="https://elmetodo-reviews-pics.s3.amazonaws.com/d67df931-b433-4fd2-9940-78af46edfa1f.jpg" loading="lazy"
+                 onerror="this.style.display='none'" />
+          </div>
+          <div class="cell-name">
+            <span class="uid">id=3259</span>
+            <span class="uname">Alfredo Acosta Delgado </span>
+            <span class="gender-chip" style="color:#60a5fa">♂</span>
+          </div>
+          <div class="cell-r2">
+            <span class="est">22.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-r3">
+            <span class="est">22.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-delta">
+            <span class="delta-badge" style="background:#6b728020;color:#6b7280;border:1px solid #6b728050">
+              = igual
+            </span>
+          </div>
+        </div>
+            <div class="row row-error">
+              <div class="cell-name"><span class="uid">id=3313</span> ?</div>
+              <div class="cell-r2">—</div>
+              <div class="cell-r3">—</div>
+              <div class="cell-delta">Error: 503 Server Error: Service Unavailable for url: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=AIzaSyC1EqKngJ-szh3OFS4EOZIvNpr0H020Rx4</div>
+            </div>
+        <div class="row">
+          <div class="cell-photo">
+            <img class="thumb" src="https://elmetodo-reviews-pics.s3.amazonaws.com/892ae145-af5f-4bf6-9d55-2cca527a5cfb.jpg" loading="lazy"
+                 onerror="this.style.display='none'" />
+          </div>
+          <div class="cell-name">
+            <span class="uid">id=3374</span>
+            <span class="uname">Mirari Olazabal </span>
+            <span class="gender-chip" style="color:#f472b6">♀</span>
+          </div>
+          <div class="cell-r2">
+            <span class="est">24.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-r3">
+            <span class="est">25%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-delta">
+            <span class="delta-badge" style="background:#22c55e20;color:#22c55e;border:1px solid #22c55e50">
+              +1.0 pt
+            </span>
+          </div>
+        </div>
+            <div class="row row-error">
+              <div class="cell-name"><span class="uid">id=3438</span> ?</div>
+              <div class="cell-r2">—</div>
+              <div class="cell-r3">—</div>
+              <div class="cell-delta">Error: 'candidates'</div>
+            </div>
+        <div class="row">
+          <div class="cell-photo">
+            <img class="thumb" src="https://elmetodo-reviews-pics.s3.amazonaws.com/5e1eead5-3341-46c6-a6f3-ffd6f945773f.jpg" loading="lazy"
+                 onerror="this.style.display='none'" />
+          </div>
+          <div class="cell-name">
+            <span class="uid">id=3492</span>
+            <span class="uname">Ángel Ortiz</span>
+            <span class="gender-chip" style="color:#60a5fa">♂</span>
+          </div>
+          <div class="cell-r2">
+            <span class="est">20.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-r3">
+            <span class="est">18.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-delta">
+            <span class="delta-badge" style="background:#f59e0b20;color:#f59e0b;border:1px solid #f59e0b50">
+              -2.0 pts
+            </span>
+          </div>
+        </div>
+            <div class="row row-error">
+              <div class="cell-name"><span class="uid">id=3546</span> ?</div>
+              <div class="cell-r2">—</div>
+              <div class="cell-r3">—</div>
+              <div class="cell-delta">Error: 503 Server Error: Service Unavailable for url: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=AIzaSyC1EqKngJ-szh3OFS4EOZIvNpr0H020Rx4</div>
+            </div>
+        <div class="row">
+          <div class="cell-photo">
+            <img class="thumb" src="https://elmetodo-reviews-pics.s3.amazonaws.com/407cfcd0-671e-4d81-97b7-77cf3d4be218.jpg" loading="lazy"
+                 onerror="this.style.display='none'" />
+          </div>
+          <div class="cell-name">
+            <span class="uid">id=3606</span>
+            <span class="uname">Alejandro Márquez</span>
+            <span class="gender-chip" style="color:#60a5fa">♂</span>
+          </div>
+          <div class="cell-r2">
+            <span class="est">28.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-r3">
+            <span class="est">28.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-delta">
+            <span class="delta-badge" style="background:#6b728020;color:#6b7280;border:1px solid #6b728050">
+              = igual
+            </span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="cell-photo">
+            <img class="thumb" src="https://elmetodo-reviews-pics.s3.amazonaws.com/6ef373eb-c813-41e3-b3d0-c3f53b481739.jpg" loading="lazy"
+                 onerror="this.style.display='none'" />
+          </div>
+          <div class="cell-name">
+            <span class="uid">id=3658</span>
+            <span class="uname">Ana Ogalla Gilbert </span>
+            <span class="gender-chip" style="color:#f472b6">♀</span>
+          </div>
+          <div class="cell-r2">
+            <span class="est">27.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-r3">
+            <span class="est">27.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-delta">
+            <span class="delta-badge" style="background:#6b728020;color:#6b7280;border:1px solid #6b728050">
+              = igual
+            </span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="cell-photo">
+            <img class="thumb" src="https://elmetodo-reviews-pics.s3.amazonaws.com/6c358e9a-6ebf-487c-9d02-d1eaf54bd710.jpg" loading="lazy"
+                 onerror="this.style.display='none'" />
+          </div>
+          <div class="cell-name">
+            <span class="uid">id=3713</span>
+            <span class="uname">Javier Garcia</span>
+            <span class="gender-chip" style="color:#60a5fa">♂</span>
+          </div>
+          <div class="cell-r2">
+            <span class="est">22.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-r3">
+            <span class="est">22.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-delta">
+            <span class="delta-badge" style="background:#6b728020;color:#6b7280;border:1px solid #6b728050">
+              = igual
+            </span>
+          </div>
+        </div>
+            <div class="row row-error">
+              <div class="cell-name"><span class="uid">id=3770</span> ?</div>
+              <div class="cell-r2">—</div>
+              <div class="cell-r3">—</div>
+              <div class="cell-delta">Error: 503 Server Error: Service Unavailable for url: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=AIzaSyC1EqKngJ-szh3OFS4EOZIvNpr0H020Rx4</div>
+            </div>
+        <div class="row">
+          <div class="cell-photo">
+            <img class="thumb" src="https://elmetodo-reviews-pics.s3.amazonaws.com/39016fea-7058-4791-bd45-06bbd6f5a7c3.jpg" loading="lazy"
+                 onerror="this.style.display='none'" />
+          </div>
+          <div class="cell-name">
+            <span class="uid">id=3830</span>
+            <span class="uname">Lorena lozano</span>
+            <span class="gender-chip" style="color:#f472b6">♀</span>
+          </div>
+          <div class="cell-r2">
+            <span class="est">28.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-r3">
+            <span class="est">29%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-delta">
+            <span class="delta-badge" style="background:#22c55e20;color:#22c55e;border:1px solid #22c55e50">
+              +1.0 pt
+            </span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="cell-photo">
+            <img class="thumb" src="https://elmetodo-reviews-pics.s3.amazonaws.com/43e43495-7f15-4d55-b057-b8da789d528e.jpg" loading="lazy"
+                 onerror="this.style.display='none'" />
+          </div>
+          <div class="cell-name">
+            <span class="uid">id=3894</span>
+            <span class="uname"> claudia D'onofrio salas </span>
+            <span class="gender-chip" style="color:#f472b6">♀</span>
+          </div>
+          <div class="cell-r2">
+            <span class="est">36.0%</span>
+            <span class="conf">H</span>
+          </div>
+          <div class="cell-r3">
+            <span class="est">36.0%</span>
+            <span class="conf">H</span>
+          </div>
+          <div class="cell-delta">
+            <span class="delta-badge" style="background:#6b728020;color:#6b7280;border:1px solid #6b728050">
+              = igual
+            </span>
+          </div>
+        </div>
+            <div class="row row-error">
+              <div class="cell-name"><span class="uid">id=3954</span> ?</div>
+              <div class="cell-r2">—</div>
+              <div class="cell-r3">—</div>
+              <div class="cell-delta">Error: 'candidates'</div>
+            </div>
+        <div class="row">
+          <div class="cell-photo">
+            <img class="thumb" src="https://elmetodo-reviews-pics.s3.amazonaws.com/466d7473-5a31-4a3a-be5e-9d7cab05116f.jpg" loading="lazy"
+                 onerror="this.style.display='none'" />
+          </div>
+          <div class="cell-name">
+            <span class="uid">id=4047</span>
+            <span class="uname">Bernardo Rodriguez Toro</span>
+            <span class="gender-chip" style="color:#60a5fa">♂</span>
+          </div>
+          <div class="cell-r2">
+            <span class="est">14.0%</span>
+            <span class="conf">G</span>
+          </div>
+          <div class="cell-r3">
+            <span class="est">13.0%</span>
+            <span class="conf">G</span>
+          </div>
+          <div class="cell-delta">
+            <span class="delta-badge" style="background:#22c55e20;color:#22c55e;border:1px solid #22c55e50">
+              -1.0 pt
+            </span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="cell-photo">
+            <img class="thumb" src="https://elmetodo-reviews-pics.s3.amazonaws.com/a9ceb28e-d1de-4f19-8331-11686b4cd656.jpg" loading="lazy"
+                 onerror="this.style.display='none'" />
+          </div>
+          <div class="cell-name">
+            <span class="uid">id=4102</span>
+            <span class="uname">Javier Garcia Peña</span>
+            <span class="gender-chip" style="color:#60a5fa">♂</span>
+          </div>
+          <div class="cell-r2">
+            <span class="est">12.0%</span>
+            <span class="conf">H</span>
+          </div>
+          <div class="cell-r3">
+            <span class="est">12.0%</span>
+            <span class="conf">H</span>
+          </div>
+          <div class="cell-delta">
+            <span class="delta-badge" style="background:#6b728020;color:#6b7280;border:1px solid #6b728050">
+              = igual
+            </span>
+          </div>
+        </div>
+            <div class="row row-error">
+              <div class="cell-name"><span class="uid">id=4160</span> ?</div>
+              <div class="cell-r2">—</div>
+              <div class="cell-r3">—</div>
+              <div class="cell-delta">Error: 503 Server Error: Service Unavailable for url: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=AIzaSyC1EqKngJ-szh3OFS4EOZIvNpr0H020Rx4</div>
+            </div>
+        <div class="row">
+          <div class="cell-photo">
+            <img class="thumb" src="https://elmetodo-reviews-pics.s3.amazonaws.com/6e38a12b-be0b-44ed-a2a7-e2968eb5798b.jpg" loading="lazy"
+                 onerror="this.style.display='none'" />
+          </div>
+          <div class="cell-name">
+            <span class="uid">id=4217</span>
+            <span class="uname">Natividad Salazar</span>
+            <span class="gender-chip" style="color:#f472b6">♀</span>
+          </div>
+          <div class="cell-r2">
+            <span class="est">27.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-r3">
+            <span class="est">27.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-delta">
+            <span class="delta-badge" style="background:#6b728020;color:#6b7280;border:1px solid #6b728050">
+              = igual
+            </span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="cell-photo">
+            <img class="thumb" src="https://elmetodo-reviews-pics.s3.amazonaws.com/56a4fc69-ed15-42c1-9036-3215ec304b50.jpg" loading="lazy"
+                 onerror="this.style.display='none'" />
+          </div>
+          <div class="cell-name">
+            <span class="uid">id=4277</span>
+            <span class="uname">Tetin fuentes Sanmartín </span>
+            <span class="gender-chip" style="color:#60a5fa">♂</span>
+          </div>
+          <div class="cell-r2">
+            <span class="est">12.0%</span>
+            <span class="conf">H</span>
+          </div>
+          <div class="cell-r3">
+            <span class="est">13.0%</span>
+            <span class="conf">H</span>
+          </div>
+          <div class="cell-delta">
+            <span class="delta-badge" style="background:#22c55e20;color:#22c55e;border:1px solid #22c55e50">
+              +1.0 pt
+            </span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="cell-photo">
+            <img class="thumb" src="https://elmetodo-reviews-pics.s3.amazonaws.com/b8583fd9-a290-4413-89f0-c1cbeae84095.jpg" loading="lazy"
+                 onerror="this.style.display='none'" />
+          </div>
+          <div class="cell-name">
+            <span class="uid">id=4331</span>
+            <span class="uname">Miguel Blázquez </span>
+            <span class="gender-chip" style="color:#60a5fa">♂</span>
+          </div>
+          <div class="cell-r2">
+            <span class="est">25.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-r3">
+            <span class="est">25.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-delta">
+            <span class="delta-badge" style="background:#6b728020;color:#6b7280;border:1px solid #6b728050">
+              = igual
+            </span>
+          </div>
+        </div>
+            <div class="row row-error">
+              <div class="cell-name"><span class="uid">id=4395</span> ?</div>
+              <div class="cell-r2">—</div>
+              <div class="cell-r3">—</div>
+              <div class="cell-delta">Error: 503 Server Error: Service Unavailable for url: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=AIzaSyC1EqKngJ-szh3OFS4EOZIvNpr0H020Rx4</div>
+            </div>
+            <div class="row row-error">
+              <div class="cell-name"><span class="uid">id=4452</span> ?</div>
+              <div class="cell-r2">—</div>
+              <div class="cell-r3">—</div>
+              <div class="cell-delta">Error: 'candidates'</div>
+            </div>
+        <div class="row">
+          <div class="cell-photo">
+            <img class="thumb" src="https://elmetodo-reviews-pics.s3.amazonaws.com/6ae4332b-331c-4c4f-9c78-dabbc04a4265.jpg" loading="lazy"
+                 onerror="this.style.display='none'" />
+          </div>
+          <div class="cell-name">
+            <span class="uid">id=4510</span>
+            <span class="uname">María Jesús Quintana </span>
+            <span class="gender-chip" style="color:#f472b6">♀</span>
+          </div>
+          <div class="cell-r2">
+            <span class="est">30.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-r3">
+            <span class="est">31.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-delta">
+            <span class="delta-badge" style="background:#22c55e20;color:#22c55e;border:1px solid #22c55e50">
+              +1.0 pt
+            </span>
+          </div>
+        </div>
+            <div class="row row-error">
+              <div class="cell-name"><span class="uid">id=4572</span> ?</div>
+              <div class="cell-r2">—</div>
+              <div class="cell-r3">—</div>
+              <div class="cell-delta">Error: 503 Server Error: Service Unavailable for url: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=AIzaSyC1EqKngJ-szh3OFS4EOZIvNpr0H020Rx4</div>
+            </div>
+        <div class="row">
+          <div class="cell-photo">
+            <img class="thumb" src="https://elmetodo-reviews-pics.s3.amazonaws.com/5cd60588-1303-403c-945b-835199a19634.jpg" loading="lazy"
+                 onerror="this.style.display='none'" />
+          </div>
+          <div class="cell-name">
+            <span class="uid">id=4629</span>
+            <span class="uname">Manuel López Alcántara </span>
+            <span class="gender-chip" style="color:#60a5fa">♂</span>
+          </div>
+          <div class="cell-r2">
+            <span class="est">22.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-r3">
+            <span class="est">22.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-delta">
+            <span class="delta-badge" style="background:#6b728020;color:#6b7280;border:1px solid #6b728050">
+              = igual
+            </span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="cell-photo">
+            <img class="thumb" src="https://elmetodo-reviews-pics.s3.amazonaws.com/a88e5553-f3a5-410b-9971-3b328c16a845.jpg" loading="lazy"
+                 onerror="this.style.display='none'" />
+          </div>
+          <div class="cell-name">
+            <span class="uid">id=4694</span>
+            <span class="uname">Daniel de la calle </span>
+            <span class="gender-chip" style="color:#60a5fa">♂</span>
+          </div>
+          <div class="cell-r2">
+            <span class="est">23.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-r3">
+            <span class="est">23.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-delta">
+            <span class="delta-badge" style="background:#6b728020;color:#6b7280;border:1px solid #6b728050">
+              = igual
+            </span>
+          </div>
+        </div>
+            <div class="row row-error">
+              <div class="cell-name"><span class="uid">id=4751</span> ?</div>
+              <div class="cell-r2">—</div>
+              <div class="cell-r3">—</div>
+              <div class="cell-delta">Error: 503 Server Error: Service Unavailable for url: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=AIzaSyC1EqKngJ-szh3OFS4EOZIvNpr0H020Rx4</div>
+            </div>
+        <div class="row">
+          <div class="cell-photo">
+            <img class="thumb" src="https://elmetodo-reviews-pics.s3.amazonaws.com/b0d2dca0-6c64-47c5-980e-b62c91101b9f.jpg" loading="lazy"
+                 onerror="this.style.display='none'" />
+          </div>
+          <div class="cell-name">
+            <span class="uid">id=4827</span>
+            <span class="uname">Francisco José Castro Pérez </span>
+            <span class="gender-chip" style="color:#60a5fa">♂</span>
+          </div>
+          <div class="cell-r2">
+            <span class="est">22.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-r3">
+            <span class="est">23.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-delta">
+            <span class="delta-badge" style="background:#22c55e20;color:#22c55e;border:1px solid #22c55e50">
+              +1.0 pt
+            </span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="cell-photo">
+            <img class="thumb" src="https://elmetodo-reviews-pics.s3.amazonaws.com/2a1d84ea-9948-499d-867c-30664c04f7f7.jpg" loading="lazy"
+                 onerror="this.style.display='none'" />
+          </div>
+          <div class="cell-name">
+            <span class="uid">id=4890</span>
+            <span class="uname">lucas nuñez</span>
+            <span class="gender-chip" style="color:#60a5fa">♂</span>
+          </div>
+          <div class="cell-r2">
+            <span class="est">14.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-r3">
+            <span class="est">15.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-delta">
+            <span class="delta-badge" style="background:#22c55e20;color:#22c55e;border:1px solid #22c55e50">
+              +1.0 pt
+            </span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="cell-photo">
+            <img class="thumb" src="https://elmetodo-reviews-pics.s3.amazonaws.com/512c3078-5c9c-4590-9952-8d3892574f2c.heic" loading="lazy"
+                 onerror="this.style.display='none'" />
+          </div>
+          <div class="cell-name">
+            <span class="uid">id=4953</span>
+            <span class="uname">Carlos Núñez Bayón</span>
+            <span class="gender-chip" style="color:#60a5fa">♂</span>
+          </div>
+          <div class="cell-r2">
+            <span class="est">16.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-r3">
+            <span class="est">16.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-delta">
+            <span class="delta-badge" style="background:#6b728020;color:#6b7280;border:1px solid #6b728050">
+              = igual
+            </span>
+          </div>
+        </div>
+            <div class="row row-error">
+              <div class="cell-name"><span class="uid">id=5015</span> ?</div>
+              <div class="cell-r2">—</div>
+              <div class="cell-r3">—</div>
+              <div class="cell-delta">Error: 503 Server Error: Service Unavailable for url: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=AIzaSyC1EqKngJ-szh3OFS4EOZIvNpr0H020Rx4</div>
+            </div>
+        <div class="row">
+          <div class="cell-photo">
+            <img class="thumb" src="https://elmetodo-reviews-pics.s3.amazonaws.com/a8108bbe-252f-436b-b65a-e5a5ab1e2673.jpg" loading="lazy"
+                 onerror="this.style.display='none'" />
+          </div>
+          <div class="cell-name">
+            <span class="uid">id=5077</span>
+            <span class="uname">Anabel Doña</span>
+            <span class="gender-chip" style="color:#f472b6">♀</span>
+          </div>
+          <div class="cell-r2">
+            <span class="est">28.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-r3">
+            <span class="est">28.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-delta">
+            <span class="delta-badge" style="background:#6b728020;color:#6b7280;border:1px solid #6b728050">
+              = igual
+            </span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="cell-photo">
+            <img class="thumb" src="https://elmetodo-reviews-pics.s3.amazonaws.com/1da7d49a-7a24-4ad9-a19c-36e5b323d8da.jpg" loading="lazy"
+                 onerror="this.style.display='none'" />
+          </div>
+          <div class="cell-name">
+            <span class="uid">id=5190</span>
+            <span class="uname">Raúl Sánchez Saura </span>
+            <span class="gender-chip" style="color:#60a5fa">♂</span>
+          </div>
+          <div class="cell-r2">
+            <span class="est">23.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-r3">
+            <span class="est">23.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-delta">
+            <span class="delta-badge" style="background:#6b728020;color:#6b7280;border:1px solid #6b728050">
+              = igual
+            </span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="cell-photo">
+            <img class="thumb" src="https://elmetodo-reviews-pics.s3.amazonaws.com/514ba512-f144-4a27-84aa-0cb3383a12c5.jpg" loading="lazy"
+                 onerror="this.style.display='none'" />
+          </div>
+          <div class="cell-name">
+            <span class="uid">id=5259</span>
+            <span class="uname">MONTSERRAT MICOL SANCHEZ </span>
+            <span class="gender-chip" style="color:#f472b6">♀</span>
+          </div>
+          <div class="cell-r2">
+            <span class="est">36.0%</span>
+            <span class="conf">H</span>
+          </div>
+          <div class="cell-r3">
+            <span class="est">36.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-delta">
+            <span class="delta-badge" style="background:#6b728020;color:#6b7280;border:1px solid #6b728050">
+              = igual
+            </span>
+          </div>
+        </div>
+            <div class="row row-error">
+              <div class="cell-name"><span class="uid">id=5328</span> ?</div>
+              <div class="cell-r2">—</div>
+              <div class="cell-r3">—</div>
+              <div class="cell-delta">Error: 'candidates'</div>
+            </div>
+        <div class="row">
+          <div class="cell-photo">
+            <img class="thumb" src="https://elmetodo-reviews-pics.s3.amazonaws.com/3510cd23-9163-493d-877c-0a730c493d26.jpg" loading="lazy"
+                 onerror="this.style.display='none'" />
+          </div>
+          <div class="cell-name">
+            <span class="uid">id=5440</span>
+            <span class="uname">Sandra Pedrosa García </span>
+            <span class="gender-chip" style="color:#f472b6">♀</span>
+          </div>
+          <div class="cell-r2">
+            <span class="est">30.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-r3">
+            <span class="est">30.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-delta">
+            <span class="delta-badge" style="background:#6b728020;color:#6b7280;border:1px solid #6b728050">
+              = igual
+            </span>
+          </div>
+        </div>
+            <div class="row row-error">
+              <div class="cell-name"><span class="uid">id=5504</span> ?</div>
+              <div class="cell-r2">—</div>
+              <div class="cell-r3">—</div>
+              <div class="cell-delta">Error: 503 Server Error: Service Unavailable for url: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=AIzaSyC1EqKngJ-szh3OFS4EOZIvNpr0H020Rx4</div>
+            </div>
+            <div class="row row-error">
+              <div class="cell-name"><span class="uid">id=5569</span> ?</div>
+              <div class="cell-r2">—</div>
+              <div class="cell-r3">—</div>
+              <div class="cell-delta">Error: 503 Server Error: Service Unavailable for url: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=AIzaSyC1EqKngJ-szh3OFS4EOZIvNpr0H020Rx4</div>
+            </div>
+        <div class="row">
+          <div class="cell-photo">
+            <img class="thumb" src="https://elmetodo-reviews-pics.s3.amazonaws.com/151755a1-cb33-42a7-8c20-4a0ed2e5c0c5.jpg" loading="lazy"
+                 onerror="this.style.display='none'" />
+          </div>
+          <div class="cell-name">
+            <span class="uid">id=5647</span>
+            <span class="uname">Estefania ortola</span>
+            <span class="gender-chip" style="color:#f472b6">♀</span>
+          </div>
+          <div class="cell-r2">
+            <span class="est">24.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-r3">
+            <span class="est">25%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-delta">
+            <span class="delta-badge" style="background:#22c55e20;color:#22c55e;border:1px solid #22c55e50">
+              +1.0 pt
+            </span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="cell-photo">
+            <img class="thumb" src="https://elmetodo-reviews-pics.s3.amazonaws.com/d8ba9b07-fa88-4aed-86df-c27c0932b772.jpg" loading="lazy"
+                 onerror="this.style.display='none'" />
+          </div>
+          <div class="cell-name">
+            <span class="uid">id=5710</span>
+            <span class="uname">Killian Pérez </span>
+            <span class="gender-chip" style="color:#60a5fa">♂</span>
+          </div>
+          <div class="cell-r2">
+            <span class="est">15.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-r3">
+            <span class="est">15.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-delta">
+            <span class="delta-badge" style="background:#6b728020;color:#6b7280;border:1px solid #6b728050">
+              = igual
+            </span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="cell-photo">
+            <img class="thumb" src="https://elmetodo-reviews-pics.s3.amazonaws.com/7735aef9-187d-44ba-a43d-c479bd9e79d9.jpg" loading="lazy"
+                 onerror="this.style.display='none'" />
+          </div>
+          <div class="cell-name">
+            <span class="uid">id=5785</span>
+            <span class="uname">Susana Matia Garcia </span>
+            <span class="gender-chip" style="color:#f472b6">♀</span>
+          </div>
+          <div class="cell-r2">
+            <span class="est">37.0%</span>
+            <span class="conf">H</span>
+          </div>
+          <div class="cell-r3">
+            <span class="est">36.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-delta">
+            <span class="delta-badge" style="background:#22c55e20;color:#22c55e;border:1px solid #22c55e50">
+              -1.0 pt
+            </span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="cell-photo">
+            <img class="thumb" src="https://elmetodo-reviews-pics.s3.amazonaws.com/ae2adf29-005f-4071-9a35-70917cb49411.jpg" loading="lazy"
+                 onerror="this.style.display='none'" />
+          </div>
+          <div class="cell-name">
+            <span class="uid">id=5878</span>
+            <span class="uname">Roxana Izquierdo</span>
+            <span class="gender-chip" style="color:#f472b6">♀</span>
+          </div>
+          <div class="cell-r2">
+            <span class="est">30.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-r3">
+            <span class="est">30.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-delta">
+            <span class="delta-badge" style="background:#6b728020;color:#6b7280;border:1px solid #6b728050">
+              = igual
+            </span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="cell-photo">
+            <img class="thumb" src="https://elmetodo-reviews-pics.s3.amazonaws.com/c5beca4f-ca98-4d9b-a975-7fd143cc9656.jpg" loading="lazy"
+                 onerror="this.style.display='none'" />
+          </div>
+          <div class="cell-name">
+            <span class="uid">id=5978</span>
+            <span class="uname">Francisco Manuel Vera Rueda </span>
+            <span class="gender-chip" style="color:#60a5fa">♂</span>
+          </div>
+          <div class="cell-r2">
+            <span class="est">18.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-r3">
+            <span class="est">18.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-delta">
+            <span class="delta-badge" style="background:#6b728020;color:#6b7280;border:1px solid #6b728050">
+              = igual
+            </span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="cell-photo">
+            <img class="thumb" src="https://elmetodo-reviews-pics.s3.amazonaws.com/29324b27-520a-4ed0-9d66-8f4ca4dab782.jpg" loading="lazy"
+                 onerror="this.style.display='none'" />
+          </div>
+          <div class="cell-name">
+            <span class="uid">id=7450</span>
+            <span class="uname">Omar Bataller Martinez</span>
+            <span class="gender-chip" style="color:#60a5fa">♂</span>
+          </div>
+          <div class="cell-r2">
+            <span class="est">30.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-r3">
+            <span class="est">30.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-delta">
+            <span class="delta-badge" style="background:#6b728020;color:#6b7280;border:1px solid #6b728050">
+              = igual
+            </span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="cell-photo">
+            <img class="thumb" src="https://elmetodo-reviews-pics.s3.amazonaws.com/30c87d0a-5e38-475b-b559-0d4e48c6782f.jpg" loading="lazy"
+                 onerror="this.style.display='none'" />
+          </div>
+          <div class="cell-name">
+            <span class="uid">id=7958</span>
+            <span class="uname">Nacho Lucena</span>
+            <span class="gender-chip" style="color:#60a5fa">♂</span>
+          </div>
+          <div class="cell-r2">
+            <span class="est">17.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-r3">
+            <span class="est">17.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-delta">
+            <span class="delta-badge" style="background:#6b728020;color:#6b7280;border:1px solid #6b728050">
+              = igual
+            </span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="cell-photo">
+            <img class="thumb" src="https://elmetodo-reviews-pics.s3.amazonaws.com/0a6572b1-d16a-4a1a-8fe2-f2ae14c82117.jpg" loading="lazy"
+                 onerror="this.style.display='none'" />
+          </div>
+          <div class="cell-name">
+            <span class="uid">id=8299</span>
+            <span class="uname">Sergio Obel</span>
+            <span class="gender-chip" style="color:#60a5fa">♂</span>
+          </div>
+          <div class="cell-r2">
+            <span class="est">28.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-r3">
+            <span class="est">27.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-delta">
+            <span class="delta-badge" style="background:#22c55e20;color:#22c55e;border:1px solid #22c55e50">
+              -1.0 pt
+            </span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="cell-photo">
+            <img class="thumb" src="https://elmetodo-reviews-pics.s3.amazonaws.com/6bfb6c4d-213e-4aaf-abc8-0756f9d3ac9d.jpg" loading="lazy"
+                 onerror="this.style.display='none'" />
+          </div>
+          <div class="cell-name">
+            <span class="uid">id=8487</span>
+            <span class="uname">Verónica Asís </span>
+            <span class="gender-chip" style="color:#f472b6">♀</span>
+          </div>
+          <div class="cell-r2">
+            <span class="est">34.0%</span>
+            <span class="conf">H</span>
+          </div>
+          <div class="cell-r3">
+            <span class="est">33.0%</span>
+            <span class="conf">H</span>
+          </div>
+          <div class="cell-delta">
+            <span class="delta-badge" style="background:#22c55e20;color:#22c55e;border:1px solid #22c55e50">
+              -1.0 pt
+            </span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="cell-photo">
+            <img class="thumb" src="https://elmetodo-reviews-pics.s3.amazonaws.com/716aa15c-26f3-4cb1-9a4c-3606f8c9eb33.jpg" loading="lazy"
+                 onerror="this.style.display='none'" />
+          </div>
+          <div class="cell-name">
+            <span class="uid">id=8568</span>
+            <span class="uname">Verónica Herrero</span>
+            <span class="gender-chip" style="color:#f472b6">♀</span>
+          </div>
+          <div class="cell-r2">
+            <span class="est">23.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-r3">
+            <span class="est">23.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-delta">
+            <span class="delta-badge" style="background:#6b728020;color:#6b7280;border:1px solid #6b728050">
+              = igual
+            </span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="cell-photo">
+            <img class="thumb" src="https://elmetodo-reviews-pics.s3.amazonaws.com/3b99b86e-ae7a-4fed-9196-4926129a0036.jpg" loading="lazy"
+                 onerror="this.style.display='none'" />
+          </div>
+          <div class="cell-name">
+            <span class="uid">id=8644</span>
+            <span class="uname">nieves garcía pacheco</span>
+            <span class="gender-chip" style="color:#f472b6">♀</span>
+          </div>
+          <div class="cell-r2">
+            <span class="est">28.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-r3">
+            <span class="est">28.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-delta">
+            <span class="delta-badge" style="background:#6b728020;color:#6b7280;border:1px solid #6b728050">
+              = igual
+            </span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="cell-photo">
+            <img class="thumb" src="https://elmetodo-reviews-pics.s3.amazonaws.com/df89cd64-a7a2-47dd-ad5d-5c983db258ff.jpg" loading="lazy"
+                 onerror="this.style.display='none'" />
+          </div>
+          <div class="cell-name">
+            <span class="uid">id=8724</span>
+            <span class="uname">Gema Maqueda Mingo</span>
+            <span class="gender-chip" style="color:#f472b6">♀</span>
+          </div>
+          <div class="cell-r2">
+            <span class="est">30.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-r3">
+            <span class="est">30.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-delta">
+            <span class="delta-badge" style="background:#6b728020;color:#6b7280;border:1px solid #6b728050">
+              = igual
+            </span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="cell-photo">
+            <img class="thumb" src="https://elmetodo-reviews-pics.s3.amazonaws.com/98adb562-75f9-430b-a526-38f8e467af22.jpg" loading="lazy"
+                 onerror="this.style.display='none'" />
+          </div>
+          <div class="cell-name">
+            <span class="uid">id=8828</span>
+            <span class="uname">Joaquín De Miguel Vázquez</span>
+            <span class="gender-chip" style="color:#60a5fa">♂</span>
+          </div>
+          <div class="cell-r2">
+            <span class="est">14.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-r3">
+            <span class="est">13.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-delta">
+            <span class="delta-badge" style="background:#22c55e20;color:#22c55e;border:1px solid #22c55e50">
+              -1.0 pt
+            </span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="cell-photo">
+            <img class="thumb" src="https://elmetodo-reviews-pics.s3.amazonaws.com/b2d2140d-0fc6-4f6d-8899-40d8dd88567e.jpg" loading="lazy"
+                 onerror="this.style.display='none'" />
+          </div>
+          <div class="cell-name">
+            <span class="uid">id=8915</span>
+            <span class="uname">Efren Benítez Rodríguez </span>
+            <span class="gender-chip" style="color:#60a5fa">♂</span>
+          </div>
+          <div class="cell-r2">
+            <span class="est">23.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-r3">
+            <span class="est">23.0%</span>
+            <span class="conf">M</span>
+          </div>
+          <div class="cell-delta">
+            <span class="delta-badge" style="background:#6b728020;color:#6b7280;border:1px solid #6b728050">
+              = igual
+            </span>
+          </div>
+        </div>
+</div>
+</body>
+</html>

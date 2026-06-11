@@ -1,0 +1,2323 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>100 usuarios · prompt género + altura/peso · run 2</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0f0f0f;color:#e5e5e5}
+  .header{background:#1a1a1a;border-bottom:1px solid #2d2d2d;padding:24px 32px}
+  .header h1{font-size:20px;font-weight:700;color:#fff}
+  .header .sub{font-size:13px;color:#888;margin-top:4px}
+  .kpis{display:flex;gap:16px;margin-top:16px;flex-wrap:wrap}
+  .kpi{background:#252525;border-radius:8px;padding:10px 18px}
+  .kpi b{color:#fff;font-size:20px;display:block}
+  .kpi span{font-size:12px;color:#888}
+  .methodology{background:#1e2a1e;border:1px solid #2d4a2d;border-radius:8px;padding:14px 18px;margin-top:16px;font-size:12px;color:#aaa;line-height:1.6}
+  .methodology b{color:#86efac}
+  .container{padding:16px 32px;max-width:1200px;margin:0 auto}
+  .user-row{background:#1a1a1a;border:1px solid #2a2a2a;border-radius:12px;margin-bottom:14px;overflow:hidden}
+  .user-header{background:#212121;padding:10px 16px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid #2a2a2a}
+  .num{background:#333;color:#aaa;font-size:11px;padding:2px 8px;border-radius:4px;font-weight:600}
+  .uname{font-weight:600;font-size:15px;color:#fff}
+  .umeta{font-size:12px;color:#666}
+  .gender-chip{font-size:11px;padding:2px 8px;border-radius:4px;font-weight:600;margin-left:auto}
+  .user-body{display:flex}
+  .photos-col{display:flex;flex-direction:column;gap:4px;padding:12px;background:#151515;min-width:130px;border-right:1px solid #2a2a2a}
+  .photo{width:110px;height:140px;object-fit:cover;border-radius:6px;border:1px solid #333}
+  .results-col{flex:1;padding:12px}
+  .result-card{background:#252525;border-radius:8px;padding:12px;border:1px solid #333}
+  .result-card.error{background:#1a0808;border-color:#ef444440;color:#ef4444;font-size:13px}
+  .result-header{display:flex;align-items:center;gap:12px;margin-bottom:8px}
+  .bf-big{font-size:32px;font-weight:800;color:#fff;line-height:1}
+  .bf-range{font-size:14px;color:#aaa}
+  .conf-badge{font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;color:#fff}
+  .latency{font-size:11px;color:#555;margin-left:auto}
+  .bio-ctx{font-size:11px;color:#666;margin-bottom:8px;font-family:monospace}
+  .tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:4px}
+  .tag{font-size:11px;padding:2px 8px;border-radius:4px}
+  .tag.cue{background:#1e3a5f;color:#93c5fd;border:1px solid #1e40af40}
+  .tag.lim{background:#3d1f0a;color:#fb923c}
+  .tag.empty{color:#444}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>100 usuarios · prompt género + altura/peso · run 2</h1>
+  <div class="sub">Modelo: gemini-2.5-flash-lite · Temperature: 0.2 · 2026-06-09 11:25 · Gemini directo (sin proxy backend)</div>
+  <div class="kpis">
+    <div class="kpi"><b>96</b><span>usuarios procesados</span></div>
+    <div class="kpi"><b>57</b><span>hombres</span></div>
+    <div class="kpi"><b>39</b><span>mujeres</span></div>
+    <div class="kpi"><b>23.3%</b><span>media estimada (todos)</span></div>
+    <div class="kpi"><b style="color:#60a5fa">19.6%</b><span>media hombres</span></div>
+    <div class="kpi"><b style="color:#f472b6">28.7%</b><span>media mujeres</span></div>
+  </div>
+  <div class="methodology">
+    <b>Metodología:</b> Muestra estratificada de 100 usuarios reales (IDs 300–9000). Género, altura y peso obtenidos del cuestionario vía API. Foto principal de la revisión más reciente enviada a Gemini con contexto biométrico.
+    Prompt ♂: escala Henselmans / calibración −1-2 pts. Prompt ♀: escala femenina / calibración −4-5 pts.
+    Sin corrección post-procesado aplicada.
+  </div>
+</div>
+<div class="container">
+
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#1</span>
+            <span class="uname">jaimito Rodriguez </span>
+            <span class="umeta">id=313 · ♂ male · 182cm · 81.0kg · IMC 24.5</span>
+            <span class="gender-chip" style="background:#60a5fa20;color:#60a5fa;border:1px solid #60a5fa40">♂ male</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/7e615048-947e-4be4-b560-c662a513328b.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/8e617606-2ab5-44d5-b6ea-b31fb391d7dd.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/e949ad7c-54bf-4a85-ad2c-66622152433d.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">15.0%</span>
+                <span class="bf-range">12.0–18.0%</span>
+                <span class="conf-badge" style="background:#6b7280">MEDIUM 70%</span>
+                <span class="latency">2215ms</span>
+              </div>
+              <div class="bio-ctx">Sex: male, Height: 182cm, Weight: 81.0kg, BMI: 24.5 · prompt: male</div>
+              <div class="tags"><span class="tag cue">Soft ab outline visible</span><span class="tag cue">Slight definition in deltoids</span><span class="tag cue">Some vascularity in arms</span><span class="tag cue">Love handles present but not overly prominent</span><span class="tag cue">Lower back shows some definition</span></div>
+              <div class="tags"><span class="tag lim">Lighting conditions obscure some details</span><span class="tag lim">Image resolution could be higher</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#2</span>
+            <span class="uname">kata prueba 92</span>
+            <span class="umeta">id=435 · ♀ female · 160cm · 60.0kg · IMC 23.4</span>
+            <span class="gender-chip" style="background:#f472b620;color:#f472b6;border:1px solid #f472b640">♀ female</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/2e3577f0-e575-48dd-b916-7ed43a17a6da.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/58a2908b-8713-4bab-8cf4-b11b5b2b1b38.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/7d48faf6-f717-42c3-a17c-2cdb8b114c17.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">28.0%</span>
+                <span class="bf-range">24.0–32.0%</span>
+                <span class="conf-badge" style="background:#6b7280">MEDIUM 65%</span>
+                <span class="latency">1585ms</span>
+              </div>
+              <div class="bio-ctx">Sex: female, Height: 160cm, Weight: 60.0kg, BMI: 23.4 · prompt: female</div>
+              <div class="tags"><span class="tag cue">rounder lower body</span><span class="tag cue">waist less defined</span></div>
+              <div class="tags"><span class="tag lim">image quality</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#3</span>
+            <span class="uname">Rubén Alarcón Albarrán</span>
+            <span class="umeta">id=535 · ♂ male · 173cm · 67.85kg · IMC 22.7</span>
+            <span class="gender-chip" style="background:#60a5fa20;color:#60a5fa;border:1px solid #60a5fa40">♂ male</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/edf16cbd-d256-4a98-916a-2a2f2f7ef15d.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/abb6c588-71b2-4fce-b312-a0ce25ee4197.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/16359a40-ecf2-4e0f-923f-0196d7da82db.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">15.0%</span>
+                <span class="bf-range">12.0–18.0%</span>
+                <span class="conf-badge" style="background:#6b7280">MEDIUM 65%</span>
+                <span class="latency">1573ms</span>
+              </div>
+              <div class="bio-ctx">Sex: male, Height: 173cm, Weight: 67.85kg, BMI: 22.7 · prompt: male</div>
+              <div class="tags"><span class="tag cue">Soft ab outline</span><span class="tag cue">Slight vascularity in arms</span><span class="tag cue">Some definition in deltoids</span><span class="tag cue">Minimal love handle fat</span></div>
+              <div class="tags"><span class="tag lim">Lighting is not optimal</span><span class="tag lim">Slight angle distortion from mirror</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#4</span>
+            <span class="uname">Javier García Díez</span>
+            <span class="umeta">id=592 · ♂ male · 178cm · 86.0kg · IMC 27.1</span>
+            <span class="gender-chip" style="background:#60a5fa20;color:#60a5fa;border:1px solid #60a5fa40">♂ male</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/fd006d88-d3d3-45e3-b297-c2ac4525f695.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/9e70d4ae-c6b1-4df1-9335-6e8fc6833bab.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/9e8ca82f-cead-4bc3-83de-a7ca35eddbeb.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">23.0%</span>
+                <span class="bf-range">20.0–26.0%</span>
+                <span class="conf-badge" style="background:#6b7280">MODERATE 70%</span>
+                <span class="latency">1616ms</span>
+              </div>
+              <div class="bio-ctx">Sex: male, Height: 178cm, Weight: 86.0kg, BMI: 27.1 · prompt: male</div>
+              <div class="tags"><span class="tag cue">No ab definition</span><span class="tag cue">Slight love handle fat</span><span class="tag cue">Soft overall musculature</span></div>
+              <div class="tags"><span class="tag lim">Lighting</span><span class="tag lim">Angle</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#5</span>
+            <span class="uname">Verónica cebrian Navarro </span>
+            <span class="umeta">id=647 · ♀ female · 158cm · 65.4kg · IMC 26.2</span>
+            <span class="gender-chip" style="background:#f472b620;color:#f472b6;border:1px solid #f472b640">♀ female</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/5fbe152b-3c4e-4880-8e01-3d2c3007eff9.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/b4cf4859-a1bd-4570-a441-559ec1ba8f7d.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/682fef06-c462-4b6d-9812-bfaf93e283ef.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">30.0%</span>
+                <span class="bf-range">26.0–34.0%</span>
+                <span class="conf-badge" style="background:#6b7280">MEDIUM 65%</span>
+                <span class="latency">2137ms</span>
+              </div>
+              <div class="bio-ctx">Sex: female, Height: 158cm, Weight: 65.4kg, BMI: 26.2 · prompt: female</div>
+              <div class="tags"><span class="tag cue">Moderate hip/thigh fat</span><span class="tag cue">Soft midsection</span><span class="tag cue">Waist less defined</span><span class="tag cue">Upper-arm fullness</span><span class="tag cue">Rounder lower body</span></div>
+              <div class="tags"><span class="tag lim">Image quality/lighting</span><span class="tag lim">Pose</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#6</span>
+            <span class="uname">irene moreno ciudad</span>
+            <span class="umeta">id=703 · ♀ female · 152cm · 40.0kg · IMC 17.3</span>
+            <span class="gender-chip" style="background:#f472b620;color:#f472b6;border:1px solid #f472b640">♀ female</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/36c2d91d-a578-4db8-972b-4a5b7962cfd6.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/ac6478dc-dfca-4763-9da5-b3d87b47df40.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/2454ba9a-f8c9-4620-bf6a-38a035268277.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">19.0%</span>
+                <span class="bf-range">15.0–23.0%</span>
+                <span class="conf-badge" style="background:#6b7280">HIGH 85%</span>
+                <span class="latency">1956ms</span>
+              </div>
+              <div class="bio-ctx">Sex: female, Height: 152cm, Weight: 40.0kg, BMI: 17.3 · prompt: female</div>
+              <div class="tags"><span class="tag cue">Visible abdominal definition, though not sharply delineated.</span><span class="tag cue">Lean upper arms and shoulders.</span><span class="tag cue">Defined quadriceps and hamstrings.</span><span class="tag cue">Waist is relatively defined.</span><span class="tag cue">No significant lower body fat accumulation.</span></div>
+              <div class="tags"><span class="tag lim">Lighting conditions may obscure subtle fat distribution.</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#7</span>
+            <span class="uname">Antonio Carrero </span>
+            <span class="umeta">id=756 · ♂ male · 178cm · 81.0kg · IMC 25.6</span>
+            <span class="gender-chip" style="background:#60a5fa20;color:#60a5fa;border:1px solid #60a5fa40">♂ male</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/ecc7d7b0-2f39-430e-8e3c-7fd76f2e1f06.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/af59d15f-533e-424f-889a-959ca5ec19d4.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/4ff89a96-1eff-4c96-a2c4-4eb0827f12c8.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">22.0%</span>
+                <span class="bf-range">19.0–25.0%</span>
+                <span class="conf-badge" style="background:#6b7280">MODERATE 70%</span>
+                <span class="latency">10910ms</span>
+              </div>
+              <div class="bio-ctx">Sex: male, Height: 178cm, Weight: 81.0kg, BMI: 25.6 · prompt: male</div>
+              <div class="tags"><span class="tag cue">Soft abs outline</span><span class="tag cue">Slight love handle fat</span><span class="tag cue">No vascularity</span><span class="tag cue">No deltoid striations</span></div>
+              <div class="tags"><span class="tag lim">Lighting</span><span class="tag lim">Image resolution</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#8</span>
+            <span class="uname">David Martínez García </span>
+            <span class="umeta">id=812 · ♂ male · 180cm · 70.0kg · IMC 21.6</span>
+            <span class="gender-chip" style="background:#60a5fa20;color:#60a5fa;border:1px solid #60a5fa40">♂ male</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/809d504b-76cb-4c7c-be6d-3005d2d4ec1e.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/9b4eb481-058a-4e39-b4fb-6199f5f6d60d.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/18e15b5a-5e9f-421c-b67a-b9fa6f86de43.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">17.0%</span>
+                <span class="bf-range">14.0–20.0%</span>
+                <span class="conf-badge" style="background:#6b7280">MODERATE 70%</span>
+                <span class="latency">1588ms</span>
+              </div>
+              <div class="bio-ctx">Sex: male, Height: 180cm, Weight: 70.0kg, BMI: 21.6 · prompt: male</div>
+              <div class="tags"><span class="tag cue">Soft ab outline</span><span class="tag cue">Slight love handle fat</span><span class="tag cue">Some chest and shoulder vascularity</span><span class="tag cue">Slight definition in deltoids</span></div>
+              <div class="tags"><span class="tag lim">Lighting is slightly uneven, obscuring some finer details.</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#9</span>
+            <span class="uname">Eneko García </span>
+            <span class="umeta">id=867 · ♂ male · 182cm · 74.5kg · IMC 22.5</span>
+            <span class="gender-chip" style="background:#60a5fa20;color:#60a5fa;border:1px solid #60a5fa40">♂ male</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/60fadb0b-3aca-4461-8eb4-fb88946684c6.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/955a2956-a7e5-4c60-830c-96ed278120f7.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/40a83730-3e67-4997-b48a-eeaf4a52d9ec.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">14.0%</span>
+                <span class="bf-range">12.0–16.0%</span>
+                <span class="conf-badge" style="background:#6b7280">GOOD 85%</span>
+                <span class="latency">2159ms</span>
+              </div>
+              <div class="bio-ctx">Sex: male, Height: 182cm, Weight: 74.5kg, BMI: 22.5 · prompt: male</div>
+              <div class="tags"><span class="tag cue">Visible abs</span><span class="tag cue">Slight definition in obliques</span><span class="tag cue">Some vascularity in arms</span><span class="tag cue">Slight rounding of belly</span></div>
+              <div class="tags"><span class="tag lim">Lighting is slightly uneven, casting some shadows that obscure fine details.</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#10</span>
+            <span class="uname">Genis Pro Martínez </span>
+            <span class="umeta">id=922 · ♂ male · 171cm · 106.5kg · IMC 36.4</span>
+            <span class="gender-chip" style="background:#60a5fa20;color:#60a5fa;border:1px solid #60a5fa40">♂ male</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/57fa996d-faa3-44f4-950b-b55d177c1e47.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/add09d63-28d0-4c70-ab70-0d9f26078ada.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/9d38ecda-8ee7-4af0-a0d0-569e92dc8f10.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">30.0%</span>
+                <span class="bf-range">27.0–33.0%</span>
+                <span class="conf-badge" style="background:#6b7280">MODERATE 70%</span>
+                <span class="latency">2869ms</span>
+              </div>
+              <div class="bio-ctx">Sex: male, Height: 171cm, Weight: 106.5kg, BMI: 36.4 · prompt: male</div>
+              <div class="tags"><span class="tag cue">Rounded belly</span><span class="tag cue">Love handles</span><span class="tag cue">No ab definition</span></div>
+              <div class="tags"><span class="tag lim">Image quality/lighting</span><span class="tag lim">Pose/angle</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#11</span>
+            <span class="uname">Jakoba Olaiz Villan</span>
+            <span class="umeta">id=974 · ♂ male · 172cm · 75.7kg · IMC 25.6</span>
+            <span class="gender-chip" style="background:#60a5fa20;color:#60a5fa;border:1px solid #60a5fa40">♂ male</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/f7f0c431-3b1c-437e-af45-48efd336844d.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/a311b416-3b35-48fa-a4a9-7090946ad212.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/12397415-9c68-4663-9ef1-4792dfb042b2.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">18.0%</span>
+                <span class="bf-range">15.0–21.0%</span>
+                <span class="conf-badge" style="background:#6b7280">MODERATE 70%</span>
+                <span class="latency">1774ms</span>
+              </div>
+              <div class="bio-ctx">Sex: male, Height: 172cm, Weight: 75.7kg, BMI: 25.6 · prompt: male</div>
+              <div class="tags"><span class="tag cue">Soft ab outline</span><span class="tag cue">Slight love handle fat</span><span class="tag cue">No vascularity</span><span class="tag cue">No deltoid striations</span></div>
+              <div class="tags"><span class="tag lim">Lighting</span><span class="tag lim">Image angle</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#12</span>
+            <span class="uname">Endika Contreras Ayala</span>
+            <span class="umeta">id=1031 · ♂ male · 174cm · 77.2kg · IMC 25.5</span>
+            <span class="gender-chip" style="background:#60a5fa20;color:#60a5fa;border:1px solid #60a5fa40">♂ male</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/8f1eae08-6ac6-4446-a234-ccbec60cf9dd.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/4e27d84d-27b1-42ce-bb48-389473ae54b6.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/c66aa79d-33e0-449b-b659-53cf1b4cc127.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">16.0%</span>
+                <span class="bf-range">13.0–19.0%</span>
+                <span class="conf-badge" style="background:#6b7280">MODERATE 70%</span>
+                <span class="latency">1964ms</span>
+              </div>
+              <div class="bio-ctx">Sex: male, Height: 174cm, Weight: 77.2kg, BMI: 25.5 · prompt: male</div>
+              <div class="tags"><span class="tag cue">Soft ab outline</span><span class="tag cue">Slight love handle fat</span><span class="tag cue">Some vascularity in arms</span></div>
+              <div class="tags"><span class="tag lim">Lighting</span><span class="tag lim">Image resolution</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#13</span>
+            <span class="uname">Javier García Grau </span>
+            <span class="umeta">id=1083 · ♂ male · 170cm · 79.0kg · IMC 27.3</span>
+            <span class="gender-chip" style="background:#60a5fa20;color:#60a5fa;border:1px solid #60a5fa40">♂ male</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/ff907671-65a5-4fce-b66a-28695c1f9b00.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/d570d610-4ab4-4431-9c0f-5b651278f4b3.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/3119957c-7cf6-43df-a42f-ab1a6d4825e6.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">22.0%</span>
+                <span class="bf-range">19.0–25.0%</span>
+                <span class="conf-badge" style="background:#6b7280">MEDIUM 65%</span>
+                <span class="latency">1984ms</span>
+              </div>
+              <div class="bio-ctx">Sex: male, Height: 170cm, Weight: 79.0kg, BMI: 27.3 · prompt: male</div>
+              <div class="tags"><span class="tag cue">No ab definition</span><span class="tag cue">Slight love handles visible</span><span class="tag cue">Some subcutaneous fat on the lower abdomen</span><span class="tag cue">Legs appear lean with some muscle definition</span></div>
+              <div class="tags"><span class="tag lim">Lighting conditions obscure some details</span><span class="tag lim">Body hair obscures some abdominal definition</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#14</span>
+            <span class="uname">Laia Viñals Padilla</span>
+            <span class="umeta">id=1138 · ♀ female · 171cm · 64.0kg · IMC 21.9</span>
+            <span class="gender-chip" style="background:#f472b620;color:#f472b6;border:1px solid #f472b640">♀ female</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/be9a0bbc-1c7b-4520-9450-c4ec5ca120cd.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/387721b4-df79-446a-b6c4-65beaee99619.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/31f8f5d3-43ef-4815-95fe-5590dfe3c5fb.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">24.0%</span>
+                <span class="bf-range">20.0–28.0%</span>
+                <span class="conf-badge" style="background:#6b7280">MEDIUM 70%</span>
+                <span class="latency">2830ms</span>
+              </div>
+              <div class="bio-ctx">Sex: female, Height: 171cm, Weight: 64.0kg, BMI: 21.9 · prompt: female</div>
+              <div class="tags"><span class="tag cue">Moderate hip and thigh fat.</span><span class="tag cue">Soft midsection.</span><span class="tag cue">Waist is somewhat defined but not sharply delineated.</span><span class="tag cue">Upper arms appear to have some fullness.</span><span class="tag cue">Abs are not visible.</span></div>
+              <div class="tags"><span class="tag lim">Image angle and lighting may obscure subtle fat distribution patterns.</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#15</span>
+            <span class="uname">Federico Yañez Siller </span>
+            <span class="umeta">id=1196 · ♂ male · 183cm · 79.8kg · IMC 23.8</span>
+            <span class="gender-chip" style="background:#60a5fa20;color:#60a5fa;border:1px solid #60a5fa40">♂ male</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/8cae0086-b95b-440d-93ed-c5585fdd40a1.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/d91df54a-783a-4fc7-942f-1c8d6ea480ae.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/1494f075-f41d-4058-beac-6b569e604669.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">18%</span>
+                <span class="bf-range">15–21%</span>
+                <span class="conf-badge" style="background:#6b7280">MODERATE 70%</span>
+                <span class="latency">1426ms</span>
+              </div>
+              <div class="bio-ctx">Sex: male, Height: 183cm, Weight: 79.8kg, BMI: 23.8 · prompt: male</div>
+              <div class="tags"><span class="tag cue">soft abs outline</span><span class="tag cue">slight love handles</span><span class="tag cue">no vascularity</span><span class="tag cue">no deltoid striations</span></div>
+              <div class="tags"><span class="tag lim">lighting</span><span class="tag lim">image resolution</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#16</span>
+            <span class="uname">Hur Arce </span>
+            <span class="umeta">id=1250 · ♂ male · 170cm · 67.6kg · IMC 23.4</span>
+            <span class="gender-chip" style="background:#60a5fa20;color:#60a5fa;border:1px solid #60a5fa40">♂ male</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/b918e5f9-0f52-49c4-a50a-93c37fd39a46.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/6907e897-4b33-43e3-bfc6-adabb4387104.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/7eb7d884-38ca-47a1-ac1b-d6495b0baef3.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">16.0%</span>
+                <span class="bf-range">13.0–19.0%</span>
+                <span class="conf-badge" style="background:#6b7280">MODERATE 70%</span>
+                <span class="latency">2297ms</span>
+              </div>
+              <div class="bio-ctx">Sex: male, Height: 170cm, Weight: 67.6kg, BMI: 23.4 · prompt: male</div>
+              <div class="tags"><span class="tag cue">Soft ab outline</span><span class="tag cue">Slight love handle fat</span></div>
+              <div class="tags"><span class="tag lim">Lighting</span><span class="tag lim">Angle</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#17</span>
+            <span class="uname">Christel Gómez </span>
+            <span class="umeta">id=1308 · ♀ female · 164cm · 54.7kg · IMC 20.3</span>
+            <span class="gender-chip" style="background:#f472b620;color:#f472b6;border:1px solid #f472b640">♀ female</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/cac17743-51be-4696-a37e-61e8da7e21c7.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/3513180a-1593-44a2-9805-66f11dedd2e0.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/e9703663-7882-48d4-8195-99dcc72644a8.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">24.0%</span>
+                <span class="bf-range">20.0–28.0%</span>
+                <span class="conf-badge" style="background:#6b7280">MEDIUM 65%</span>
+                <span class="latency">2330ms</span>
+              </div>
+              <div class="bio-ctx">Sex: female, Height: 164cm, Weight: 54.7kg, BMI: 20.3 · prompt: female</div>
+              <div class="tags"><span class="tag cue">soft midsection</span><span class="tag cue">moderate hip fat</span><span class="tag cue">moderate thigh fat</span><span class="tag cue">waist less defined</span></div>
+              <div class="tags"><span class="tag lim">lighting</span><span class="tag lim">pose</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#18</span>
+            <span class="uname">Aarondy Jesús Díaz Cabrera </span>
+            <span class="umeta">id=1362 · ♂ male · 175cm · 75.5kg · IMC 24.7</span>
+            <span class="gender-chip" style="background:#60a5fa20;color:#60a5fa;border:1px solid #60a5fa40">♂ male</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/f76eeac2-1a3f-43ce-a04c-effe7c51ca1d.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/9f2f8658-b6f1-4a3d-8991-e6c17690a80b.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/e901e526-690e-4238-ac4e-387f714092ca.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">16.0%</span>
+                <span class="bf-range">13.0–19.0%</span>
+                <span class="conf-badge" style="background:#6b7280">MODERATE 70%</span>
+                <span class="latency">1556ms</span>
+              </div>
+              <div class="bio-ctx">Sex: male, Height: 175cm, Weight: 75.5kg, BMI: 24.7 · prompt: male</div>
+              <div class="tags"><span class="tag cue">Soft ab outline</span><span class="tag cue">Slight vascularity in arms</span><span class="tag cue">No love handles visible</span><span class="tag cue">Slight definition in deltoids</span></div>
+              <div class="tags"><span class="tag lim">Lighting is slightly uneven, obscuring some fine details.</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#19</span>
+            <span class="uname">José miguel cortes cruz</span>
+            <span class="umeta">id=1415 · ♂ male · 188cm · 72.0kg · IMC 20.4</span>
+            <span class="gender-chip" style="background:#60a5fa20;color:#60a5fa;border:1px solid #60a5fa40">♂ male</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/a51c6190-9fd3-4a27-8931-4eb9d7772dfb.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/f0e0ceb7-8fae-4e4c-a6e4-5e1a6ed9f8d6.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/3e621714-f8e6-4c5f-89d4-7f74a1eb51a0.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">14.0%</span>
+                <span class="bf-range">12.0–16.0%</span>
+                <span class="conf-badge" style="background:#6b7280">HIGH 85%</span>
+                <span class="latency">1537ms</span>
+              </div>
+              <div class="bio-ctx">Sex: male, Height: 188cm, Weight: 72.0kg, BMI: 20.4 · prompt: male</div>
+              <div class="tags"><span class="tag cue">Soft ab outline</span><span class="tag cue">Slight vascularity in arms</span><span class="tag cue">Minimal love handle fat</span></div>
+              <div class="tags"><span class="tag lim">Lighting</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#20</span>
+            <span class="uname">Christian Cardoso </span>
+            <span class="umeta">id=1476 · ♂ male · 173cm · 97.0kg · IMC 32.4</span>
+            <span class="gender-chip" style="background:#60a5fa20;color:#60a5fa;border:1px solid #60a5fa40">♂ male</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/e21edcef-a830-48bd-8917-d9ebe5f831d8.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/a0e37e34-97a8-40d1-8529-c7484eb83299.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/3bb0e4b8-c51f-4c17-84a9-bad8ccef8371.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">28.0%</span>
+                <span class="bf-range">25.0–31.0%</span>
+                <span class="conf-badge" style="background:#6b7280">MODERATE 70%</span>
+                <span class="latency">2005ms</span>
+              </div>
+              <div class="bio-ctx">Sex: male, Height: 173cm, Weight: 97.0kg, BMI: 32.4 · prompt: male</div>
+              <div class="tags"><span class="tag cue">No ab definition</span><span class="tag cue">Love handles are present</span><span class="tag cue">Belly is rounded</span></div>
+              <div class="tags"><span class="tag lim">Lighting is not optimal</span><span class="tag lim">Image quality could be better</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#21</span>
+            <span class="uname">Federica De Martinis </span>
+            <span class="umeta">id=1526 · ♀ female · 159cm · 64.0kg · IMC 25.3</span>
+            <span class="gender-chip" style="background:#f472b620;color:#f472b6;border:1px solid #f472b640">♀ female</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/3ae96bfa-127d-4313-b660-67b5c03b57df.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/636596c5-8072-4e9a-a545-0e93e46db8aa.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/e16a725a-9bfe-448b-a15f-9b4b109efd7a.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">28.0%</span>
+                <span class="bf-range">24.0–32.0%</span>
+                <span class="conf-badge" style="background:#6b7280">MEDIUM 65%</span>
+                <span class="latency">2836ms</span>
+              </div>
+              <div class="bio-ctx">Sex: female, Height: 159cm, Weight: 64.0kg, BMI: 25.3 · prompt: female</div>
+              <div class="tags"><span class="tag cue">rounder lower body</span><span class="tag cue">waist less defined</span><span class="tag cue">moderate hip/thigh fat</span><span class="tag cue">upper arms show some fullness</span><span class="tag cue">face is not particularly lean</span></div>
+              <div class="tags"><span class="tag lim">image quality</span><span class="tag lim">lighting</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#22</span>
+            <span class="uname">Tamara Pardiño </span>
+            <span class="umeta">id=1582 · ♀ female · 165cm · 56.4kg · IMC 20.7</span>
+            <span class="gender-chip" style="background:#f472b620;color:#f472b6;border:1px solid #f472b640">♀ female</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/a4b5430a-f52a-4a51-ba0d-4be020daee44.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/3ba4fea9-0c12-4507-ab97-0d52420e9519.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/df80f53d-d77f-4648-aa5d-6d53aa9c9baf.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">26%</span>
+                <span class="bf-range">22–30%</span>
+                <span class="conf-badge" style="background:#6b7280">MEDIUM 65%</span>
+                <span class="latency">1538ms</span>
+              </div>
+              <div class="bio-ctx">Sex: female, Height: 165cm, Weight: 56.4kg, BMI: 20.7 · prompt: female</div>
+              <div class="tags"><span class="tag cue">Soft midsection</span><span class="tag cue">Moderate hip and thigh fat</span><span class="tag cue">Waist is moderately defined</span><span class="tag cue">Abs not visible</span></div>
+              <div class="tags"><span class="tag lim">Image angle and lighting may obscure subtle fat distribution.</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#23</span>
+            <span class="uname">Rubén Zamora paredes </span>
+            <span class="umeta">id=1645 · ♂ male · 174cm · 79.0kg · IMC 26.1</span>
+            <span class="gender-chip" style="background:#60a5fa20;color:#60a5fa;border:1px solid #60a5fa40">♂ male</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/8e5230f5-ec81-4e55-bef3-e0c7e0b9c40e.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/1c89af3a-8e97-4cb0-b397-aad1a595dedf.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/c89cdbb1-4102-4815-905a-fc9895da31c1.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">22.0%</span>
+                <span class="bf-range">19.0–25.0%</span>
+                <span class="conf-badge" style="background:#6b7280">MEDIUM 70%</span>
+                <span class="latency">1940ms</span>
+              </div>
+              <div class="bio-ctx">Sex: male, Height: 174cm, Weight: 79.0kg, BMI: 26.1 · prompt: male</div>
+              <div class="tags"><span class="tag cue">No ab definition</span><span class="tag cue">Slight love handle fat</span></div>
+              <div class="tags"><span class="tag lim">Lighting is not ideal</span><span class="tag lim">Image resolution is not optimal</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#24</span>
+            <span class="uname">Iván Arias Bande</span>
+            <span class="umeta">id=1703 · ♂ male · 176cm · 97.7kg · IMC 31.5</span>
+            <span class="gender-chip" style="background:#60a5fa20;color:#60a5fa;border:1px solid #60a5fa40">♂ male</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/f871c905-41e0-4ef1-a353-f109f7ae46ca.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/bac611d6-450f-41e4-a5a7-258272fbe08c.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/b1c1c7d7-9046-4dfd-9623-c86c371c5bf4.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">23.0%</span>
+                <span class="bf-range">20.0–26.0%</span>
+                <span class="conf-badge" style="background:#6b7280">MODERATE 70%</span>
+                <span class="latency">1852ms</span>
+              </div>
+              <div class="bio-ctx">Sex: male, Height: 176cm, Weight: 97.7kg, BMI: 31.5 · prompt: male</div>
+              <div class="tags"><span class="tag cue">no ab definition</span><span class="tag cue">slight love handles</span><span class="tag cue">soft obliques</span></div>
+              <div class="tags"><span class="tag lim">lighting</span><span class="tag lim">angle</span><span class="tag lim">reflection</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#25</span>
+            <span class="uname">Cristian Pineda </span>
+            <span class="umeta">id=1757 · ♂ male · 170cm · 84.5kg · IMC 29.2</span>
+            <span class="gender-chip" style="background:#60a5fa20;color:#60a5fa;border:1px solid #60a5fa40">♂ male</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/f50b894c-5894-44a8-8ee9-66f052c3e6c4.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/68d9fc62-bebb-49e1-b255-c80f7eb44155.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/387c5f54-1a25-4b8a-9b13-986143158717.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">25.0%</span>
+                <span class="bf-range">22.0–28.0%</span>
+                <span class="conf-badge" style="background:#6b7280">MODERATE 70%</span>
+                <span class="latency">2324ms</span>
+              </div>
+              <div class="bio-ctx">Sex: male, Height: 170cm, Weight: 84.5kg, BMI: 29.2 · prompt: male</div>
+              <div class="tags"><span class="tag cue">No ab definition</span><span class="tag cue">Love handles are present</span><span class="tag cue">Slight rounding of the belly</span></div>
+              <div class="tags"><span class="tag lim">Image lighting is not optimal</span><span class="tag lim">Subject is not fully facing the camera</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#26</span>
+            <span class="uname">Jessica Jurado Gomez</span>
+            <span class="umeta">id=1812 · ♀ female · 159cm · 59.2kg · IMC 23.4</span>
+            <span class="gender-chip" style="background:#f472b620;color:#f472b6;border:1px solid #f472b640">♀ female</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/c8a0700c-3a93-4da0-8ffe-ab1a3c6049f1.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/8bb07957-d64f-452c-a09c-6d0c9f978681.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/88bbbca7-9d65-4019-bb0f-f93a4eac40c4.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">28.0%</span>
+                <span class="bf-range">24.0–32.0%</span>
+                <span class="conf-badge" style="background:#6b7280">MEDIUM 65%</span>
+                <span class="latency">1777ms</span>
+              </div>
+              <div class="bio-ctx">Sex: female, Height: 159cm, Weight: 59.2kg, BMI: 23.4 · prompt: female</div>
+              <div class="tags"><span class="tag cue">moderate hip/thigh fat</span><span class="tag cue">rounder lower body</span><span class="tag cue">waist less defined</span><span class="tag cue">soft midsection</span></div>
+              <div class="tags"><span class="tag lim">lighting</span><span class="tag lim">pose</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#27</span>
+            <span class="uname">Aisha Villalta Vaque</span>
+            <span class="umeta">id=1866 · ♀ female · 155cm · 96.9kg · IMC 40.3</span>
+            <span class="gender-chip" style="background:#f472b620;color:#f472b6;border:1px solid #f472b640">♀ female</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/362546cb-6428-4840-8868-45a3333c531c.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/72959f9b-d802-4226-9c0d-2e43d72e2d12.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/b2da42b4-cb3b-4a79-afa5-c34700118721.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">37.0%</span>
+                <span class="bf-range">33.0–41.0%</span>
+                <span class="conf-badge" style="background:#6b7280">HIGH 85%</span>
+                <span class="latency">1578ms</span>
+              </div>
+              <div class="bio-ctx">Sex: female, Height: 155cm, Weight: 96.9kg, BMI: 40.3 · prompt: female</div>
+              <div class="tags"><span class="tag cue">rounder lower body</span><span class="tag cue">waist less defined</span><span class="tag cue">pronounced curves</span><span class="tag cue">significant hip/thigh mass</span><span class="tag cue">upper-arm fullness</span></div>
+              <div class="tags"><span class="tag lim">image quality</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#28</span>
+            <span class="uname">Julian</span>
+            <span class="umeta">id=1923 · ♂ male · 171cm · 89.5kg · IMC 30.6</span>
+            <span class="gender-chip" style="background:#60a5fa20;color:#60a5fa;border:1px solid #60a5fa40">♂ male</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/830de42b-06f5-4041-a2bc-9f1bf8793d89.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/d0efa0af-40a7-483b-8acb-2ba27a8bcbb0.png" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/75b70149-2805-4244-9f9b-2631e2ec6188.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">22.0%</span>
+                <span class="bf-range">19.0–25.0%</span>
+                <span class="conf-badge" style="background:#6b7280">MODERATE 70%</span>
+                <span class="latency">2470ms</span>
+              </div>
+              <div class="bio-ctx">Sex: male, Height: 171cm, Weight: 89.5kg, BMI: 30.6 · prompt: male</div>
+              <div class="tags"><span class="tag cue">no ab definition</span><span class="tag cue">slight love handle fat</span></div>
+              <div class="tags"><span class="tag lim">lighting</span><span class="tag lim">angle</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#29</span>
+            <span class="uname">Ines De Merlier Bellod</span>
+            <span class="umeta">id=1986 · ♀ female · 160cm · 86.8kg · IMC 33.9</span>
+            <span class="gender-chip" style="background:#f472b620;color:#f472b6;border:1px solid #f472b640">♀ female</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/69ea599e-ae06-4c54-a535-ef1d743c1a01.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/852bd7b1-154e-45d9-9843-75138f956eae.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/5eda507e-46b1-4484-99e0-ceeb5ae5ef99.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">35.0%</span>
+                <span class="bf-range">31.0–39.0%</span>
+                <span class="conf-badge" style="background:#6b7280">HIGH 85%</span>
+                <span class="latency">1774ms</span>
+              </div>
+              <div class="bio-ctx">Sex: female, Height: 160cm, Weight: 86.8kg, BMI: 33.9 · prompt: female</div>
+              <div class="tags"><span class="tag cue">Lower-ab roundness</span><span class="tag cue">Upper-arm fullness</span><span class="tag cue">Waist less defined</span><span class="tag cue">Moderate hip and thigh fat</span></div>
+              <div class="tags"><span class="tag lim">Lighting conditions obscure some details</span><span class="tag lim">Pose does not fully display lower body</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#30</span>
+            <span class="uname">Carlos Lopez Agout</span>
+            <span class="umeta">id=2043 · ♂ male · 176cm · 96.0kg · IMC 31.0</span>
+            <span class="gender-chip" style="background:#60a5fa20;color:#60a5fa;border:1px solid #60a5fa40">♂ male</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/1a3f7a4f-68be-4039-ad17-0d8c7160db07.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/cc951f19-0b8e-4401-b4f9-4fb1a20a9bd0.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/2a085aa6-ea05-4925-a39f-64ed5a8708ca.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">26.0%</span>
+                <span class="bf-range">23.0–29.0%</span>
+                <span class="conf-badge" style="background:#6b7280">MODERATE 70%</span>
+                <span class="latency">1712ms</span>
+              </div>
+              <div class="bio-ctx">Sex: male, Height: 176cm, Weight: 96.0kg, BMI: 31.0 · prompt: male</div>
+              <div class="tags"><span class="tag cue">No ab definition</span><span class="tag cue">Love handles</span><span class="tag cue">Rounded belly</span></div>
+              <div class="tags"><span class="tag lim">Lighting</span><span class="tag lim">Image angle</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#31</span>
+            <span class="uname">Álvaro Macías </span>
+            <span class="umeta">id=2106 · ♂ male · 177cm · 72.0kg · IMC 23.0</span>
+            <span class="gender-chip" style="background:#60a5fa20;color:#60a5fa;border:1px solid #60a5fa40">♂ male</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/a782f537-e492-4066-80f9-6e9cf1172b08.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/d79e5b46-477b-4b17-aa4b-cbee609d7abe.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/1a1e03e4-869d-4591-a1d1-ec49ac20f14b.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">15.0%</span>
+                <span class="bf-range">12.0–18.0%</span>
+                <span class="conf-badge" style="background:#6b7280">MODERATE 70%</span>
+                <span class="latency">1501ms</span>
+              </div>
+              <div class="bio-ctx">Sex: male, Height: 177cm, Weight: 72.0kg, BMI: 23.0 · prompt: male</div>
+              <div class="tags"><span class="tag cue">Soft ab outline</span><span class="tag cue">Slight love handle fat</span></div>
+              <div class="tags"><span class="tag lim">Lighting</span><span class="tag lim">Image angle</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#32</span>
+            <span class="uname">Itziar Ayerra </span>
+            <span class="umeta">id=2157 · ♀ female · 165cm · 68.5kg · IMC 25.2</span>
+            <span class="gender-chip" style="background:#f472b620;color:#f472b6;border:1px solid #f472b640">♀ female</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/b9e3ea8c-ba5f-4885-b71f-8c011f9544d0.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/29c67b64-5577-41f2-ab7f-20e5b6616225.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/356e48bb-66fd-4ddb-80de-7871fa394d72.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">27.0%</span>
+                <span class="bf-range">23.0–31.0%</span>
+                <span class="conf-badge" style="background:#6b7280">MEDIUM 65%</span>
+                <span class="latency">1842ms</span>
+              </div>
+              <div class="bio-ctx">Sex: female, Height: 165cm, Weight: 68.5kg, BMI: 25.2 · prompt: female</div>
+              <div class="tags"><span class="tag cue">soft midsection</span><span class="tag cue">moderate hip fat</span><span class="tag cue">moderate thigh fat</span><span class="tag cue">waist less defined than athletic</span><span class="tag cue">no visible abs</span></div>
+              <div class="tags"><span class="tag lim">lighting</span><span class="tag lim">clothing obscuring full view</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#33</span>
+            <span class="uname">Miguel Pérez </span>
+            <span class="umeta">id=2216 · ♂ male · 189cm · 84.7kg · IMC 23.7</span>
+            <span class="gender-chip" style="background:#60a5fa20;color:#60a5fa;border:1px solid #60a5fa40">♂ male</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/9f546bbc-f7c0-4524-a174-74191a91b626.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/3e14c9a8-6334-412c-9110-aecef95efa6f.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/1d49513c-bc0d-4a60-a56f-ddb35c920a09.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">17.0%</span>
+                <span class="bf-range">14.0–20.0%</span>
+                <span class="conf-badge" style="background:#6b7280">MODERATE 70%</span>
+                <span class="latency">1806ms</span>
+              </div>
+              <div class="bio-ctx">Sex: male, Height: 189cm, Weight: 84.7kg, BMI: 23.7 · prompt: male</div>
+              <div class="tags"><span class="tag cue">Soft ab outline</span><span class="tag cue">Slight love handle fat</span><span class="tag cue">Stretch marks</span></div>
+              <div class="tags"><span class="tag lim">Lighting</span><span class="tag lim">Image Angle</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#34</span>
+            <span class="uname">Marta Casales </span>
+            <span class="umeta">id=2270 · ♀ female · 180cm · 76.8kg · IMC 23.7</span>
+            <span class="gender-chip" style="background:#f472b620;color:#f472b6;border:1px solid #f472b640">♀ female</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/3c2a06fd-4de7-4c2c-873f-e4c11c01488b.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/da8da457-f634-4c7a-bf59-ef22e8f987cf.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/31fa7b55-5d48-4057-84d3-45fc42cf5f09.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">25.0%</span>
+                <span class="bf-range">21.0–29.0%</span>
+                <span class="conf-badge" style="background:#6b7280">MODERATE 70%</span>
+                <span class="latency">2021ms</span>
+              </div>
+              <div class="bio-ctx">Sex: female, Height: 180cm, Weight: 76.8kg, BMI: 23.7 · prompt: female</div>
+              <div class="tags"><span class="tag cue">Soft midsection</span><span class="tag cue">Moderate hip and thigh fat</span><span class="tag cue">Waist is somewhat defined</span><span class="tag cue">Lower body is rounder than upper body</span><span class="tag cue">Upper arms are not particularly full</span></div>
+              <div class="tags"><span class="tag lim">Image quality</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#35</span>
+            <span class="uname">Lourdes Tomás najar</span>
+            <span class="umeta">id=2329 · ♀ female · 159cm · 68.5kg · IMC 27.1</span>
+            <span class="gender-chip" style="background:#f472b620;color:#f472b6;border:1px solid #f472b640">♀ female</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/0936cc58-4789-45a6-ba3e-98e1909d2984.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/edada69d-e515-483d-bba1-3fe3cd64359e.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/078b5b2d-0a27-480e-9bf4-00048a87a6c9.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">27.0%</span>
+                <span class="bf-range">23.0–31.0%</span>
+                <span class="conf-badge" style="background:#6b7280">MEDIUM 65%</span>
+                <span class="latency">1743ms</span>
+              </div>
+              <div class="bio-ctx">Sex: female, Height: 159cm, Weight: 68.5kg, BMI: 27.1 · prompt: female</div>
+              <div class="tags"><span class="tag cue">soft midsection</span><span class="tag cue">moderate hip fat</span><span class="tag cue">moderate thigh fat</span><span class="tag cue">waist less defined than ideal</span><span class="tag cue">upper arms appear full</span></div>
+              <div class="tags"><span class="tag lim">lighting</span><span class="tag lim">angle</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#36</span>
+            <span class="uname">Andrés Antón </span>
+            <span class="umeta">id=2387 · ♂ male · 183cm · 102.0kg · IMC 30.5</span>
+            <span class="gender-chip" style="background:#60a5fa20;color:#60a5fa;border:1px solid #60a5fa40">♂ male</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/f07a135d-d8e2-4e01-bbb3-21f44fe59eb3.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/bcde82ae-0967-40af-93fd-f0af2b9a2217.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/96ceb487-b657-48a6-8698-b8bf7d9f6a61.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">26.0%</span>
+                <span class="bf-range">23.0–29.0%</span>
+                <span class="conf-badge" style="background:#6b7280">MODERATE 70%</span>
+                <span class="latency">1926ms</span>
+              </div>
+              <div class="bio-ctx">Sex: male, Height: 183cm, Weight: 102.0kg, BMI: 30.5 · prompt: male</div>
+              <div class="tags"><span class="tag cue">No ab definition</span><span class="tag cue">Love handles</span><span class="tag cue">Rounded belly</span></div>
+              <div class="tags"><span class="tag lim">Image quality/lighting</span><span class="tag lim">Pose/angle</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#37</span>
+            <span class="uname">Sandra López Bermejo </span>
+            <span class="umeta">id=2443 · ♀ female · 168cm · 57.8kg · IMC 20.5</span>
+            <span class="gender-chip" style="background:#f472b620;color:#f472b6;border:1px solid #f472b640">♀ female</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/f1d63eb7-6b32-4f3e-b1af-097d38239eef.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/5822f51d-dba7-47cf-bf9d-fd12d5762484.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/4d92aa1a-8be8-45b2-9cae-3402edfd91e3.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">20.0%</span>
+                <span class="bf-range">16.0–24.0%</span>
+                <span class="conf-badge" style="background:#6b7280">HIGH 85%</span>
+                <span class="latency">1972ms</span>
+              </div>
+              <div class="bio-ctx">Sex: female, Height: 168cm, Weight: 57.8kg, BMI: 20.5 · prompt: female</div>
+              <div class="tags"><span class="tag cue">Defined waist</span><span class="tag cue">Visible muscle definition in legs and abdomen</span><span class="tag cue">Slight fullness in lower abdomen</span><span class="tag cue">Moderate hip and thigh fat distribution</span><span class="tag cue">Upper arms appear lean</span></div>
+              <div class="tags"><span class="tag lim">Lighting may obscure subtle fat distribution.</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#38</span>
+            <span class="uname">Nerea Martínez </span>
+            <span class="umeta">id=2524 · ♀ female · 162cm · 76.2kg · IMC 29.0</span>
+            <span class="gender-chip" style="background:#f472b620;color:#f472b6;border:1px solid #f472b640">♀ female</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/476b41e1-116b-472b-abca-a54d00e7d395.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/ed43938f-7656-4619-8790-84279b10bee3.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/3d74cb94-e1ee-4d88-8c1c-37dccd23bf67.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">33.0%</span>
+                <span class="bf-range">29.0–37.0%</span>
+                <span class="conf-badge" style="background:#6b7280">MEDIUM 70%</span>
+                <span class="latency">1620ms</span>
+              </div>
+              <div class="bio-ctx">Sex: female, Height: 162cm, Weight: 76.2kg, BMI: 29.0 · prompt: female</div>
+              <div class="tags"><span class="tag cue">rounder lower body</span><span class="tag cue">waist less defined</span><span class="tag cue">significant hip/thigh mass</span></div>
+              <div class="tags"><span class="tag lim">image quality</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#39</span>
+            <span class="uname">Raquel Bentolila Chocron</span>
+            <span class="umeta">id=2582 · ♀ female · 163cm · 70.0kg · IMC 26.3</span>
+            <span class="gender-chip" style="background:#f472b620;color:#f472b6;border:1px solid #f472b640">♀ female</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/493b4dfa-b83a-4e6e-b51b-3ff8db113ab5.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/c011d410-fec4-4b4d-9d25-419979a1b191.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/bcbbe237-1512-4a14-b0a1-25934664f6bd.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">29.0%</span>
+                <span class="bf-range">25.0–33.0%</span>
+                <span class="conf-badge" style="background:#6b7280">MEDIUM 65%</span>
+                <span class="latency">1744ms</span>
+              </div>
+              <div class="bio-ctx">Sex: female, Height: 163cm, Weight: 70.0kg, BMI: 26.3 · prompt: female</div>
+              <div class="tags"><span class="tag cue">soft midsection</span><span class="tag cue">moderate hip fat</span><span class="tag cue">moderate thigh fat</span><span class="tag cue">waist less defined</span></div>
+              <div class="tags"><span class="tag lim">lighting</span><span class="tag lim">clothing obscuring full view</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#40</span>
+            <span class="uname">Manuel Lama</span>
+            <span class="umeta">id=2665 · ♂ male · 182cm · 95.0kg · IMC 28.7</span>
+            <span class="gender-chip" style="background:#60a5fa20;color:#60a5fa;border:1px solid #60a5fa40">♂ male</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/a2f06596-38e6-4b92-83b7-2fd9a1f2ff11.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/560dbc22-9711-4294-9f13-5a535c7ed534.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/28be001f-1430-45e6-a5af-feba8ba0a08c.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">23.0%</span>
+                <span class="bf-range">20.0–26.0%</span>
+                <span class="conf-badge" style="background:#6b7280">MODERATE 70%</span>
+                <span class="latency">1818ms</span>
+              </div>
+              <div class="bio-ctx">Sex: male, Height: 182cm, Weight: 95.0kg, BMI: 28.7 · prompt: male</div>
+              <div class="tags"><span class="tag cue">No ab definition</span><span class="tag cue">Slight love handles</span><span class="tag cue">Soft midsection</span></div>
+              <div class="tags"><span class="tag lim">Lighting is slightly harsh, creating some shadows that obscure finer details.</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#41</span>
+            <span class="uname">Alejandro Pérez</span>
+            <span class="umeta">id=2720 · ♂ male · 183cm · 70.1kg · IMC 20.9</span>
+            <span class="gender-chip" style="background:#60a5fa20;color:#60a5fa;border:1px solid #60a5fa40">♂ male</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/a39bcfa0-d269-45d2-a2c8-b54cda394c59.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/e0ff76ff-559d-4648-9e8a-192b379243a0.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/d61d2ca1-0e01-4d79-9c14-8bc43e6c9887.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">17.0%</span>
+                <span class="bf-range">14.0–20.0%</span>
+                <span class="conf-badge" style="background:#6b7280">MEDIUM 70%</span>
+                <span class="latency">1533ms</span>
+              </div>
+              <div class="bio-ctx">Sex: male, Height: 183cm, Weight: 70.1kg, BMI: 20.9 · prompt: male</div>
+              <div class="tags"><span class="tag cue">Soft ab outline</span><span class="tag cue">Slight love handle fat</span></div>
+              <div class="tags"><span class="tag lim">Lighting</span><span class="tag lim">Image resolution</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#42</span>
+            <span class="uname">Andrea Clemente Pérez </span>
+            <span class="umeta">id=2776 · ♀ female · 160cm · 54.6kg · IMC 21.3</span>
+            <span class="gender-chip" style="background:#f472b620;color:#f472b6;border:1px solid #f472b640">♀ female</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/857b3753-992d-46cd-8fb8-89a4440e6807.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/4a4e94bf-19a4-48b4-b946-4b5a93c73b5a.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/77a40655-c83c-45fe-bc37-a0e992ef91e4.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">19.0%</span>
+                <span class="bf-range">15.0–23.0%</span>
+                <span class="conf-badge" style="background:#6b7280">HIGH 85%</span>
+                <span class="latency">1563ms</span>
+              </div>
+              <div class="bio-ctx">Sex: female, Height: 160cm, Weight: 54.6kg, BMI: 21.3 · prompt: female</div>
+              <div class="tags"><span class="tag cue">Visible abs</span><span class="tag cue">Defined waist</span><span class="tag cue">Lean upper arms</span><span class="tag cue">Moderate hip and thigh fat</span></div>
+              <div class="tags"><span class="tag lim">Lighting conditions could obscure subtle fat distribution details.</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#43</span>
+            <span class="uname">Borja Nebot Huerta </span>
+            <span class="umeta">id=2832 · ♂ male · 180cm · 70.4kg · IMC 21.7</span>
+            <span class="gender-chip" style="background:#60a5fa20;color:#60a5fa;border:1px solid #60a5fa40">♂ male</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/5734d19b-64cd-473a-956c-5cda60cfd11b.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/eb1e103e-5189-469c-b0fb-74b4bacf6aaa.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/349b22da-23a2-4dde-a399-c4ac064a5f05.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">16.0%</span>
+                <span class="bf-range">13.0–19.0%</span>
+                <span class="conf-badge" style="background:#6b7280">MODERATE 70%</span>
+                <span class="latency">1698ms</span>
+              </div>
+              <div class="bio-ctx">Sex: male, Height: 180cm, Weight: 70.4kg, BMI: 21.7 · prompt: male</div>
+              <div class="tags"><span class="tag cue">Slight abdominal outline</span><span class="tag cue">Some vascularity in arms</span><span class="tag cue">Minimal love handle fat</span></div>
+              <div class="tags"><span class="tag lim">Lighting</span><span class="tag lim">Slight"softness" around midsection</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#44</span>
+            <span class="uname">José Yuste </span>
+            <span class="umeta">id=2899 · ♂ male · 179cm · 80.2kg · IMC 25.0</span>
+            <span class="gender-chip" style="background:#60a5fa20;color:#60a5fa;border:1px solid #60a5fa40">♂ male</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/bca4fe35-cd4a-4652-9f07-d6fade07ae01.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/51ec60b9-150f-4250-962d-0ccc31ec3044.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/1fdbfacb-9605-47af-935f-af98a3b60516.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">15.0%</span>
+                <span class="bf-range">12.0–18.0%</span>
+                <span class="conf-badge" style="background:#6b7280">MODERATE 70%</span>
+                <span class="latency">1578ms</span>
+              </div>
+              <div class="bio-ctx">Sex: male, Height: 179cm, Weight: 80.2kg, BMI: 25.0 · prompt: male</div>
+              <div class="tags"><span class="tag cue">soft ab outline</span><span class="tag cue">slight love handle fat</span><span class="tag cue">some vascularity in arms</span></div>
+              <div class="tags"><span class="tag lim">lighting</span><span class="tag lim">pose</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#45</span>
+            <span class="uname">Maria de la Caridad Torres Almenares</span>
+            <span class="umeta">id=2959 · ♀ female · 142cm · 44.2kg · IMC 21.9</span>
+            <span class="gender-chip" style="background:#f472b620;color:#f472b6;border:1px solid #f472b640">♀ female</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/407dfb03-2bef-44c9-94e4-793f355f54dc.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/013f5d0e-a88f-4e85-9c9a-af35ab6d0ea5.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/b79ec650-530a-4933-baec-9d2a74f6de17.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">26%</span>
+                <span class="bf-range">22–30%</span>
+                <span class="conf-badge" style="background:#6b7280">MEDIUM 65%</span>
+                <span class="latency">2170ms</span>
+              </div>
+              <div class="bio-ctx">Sex: female, Height: 142cm, Weight: 44.2kg, BMI: 21.9 · prompt: female</div>
+              <div class="tags"><span class="tag cue">moderate hip/thigh fat</span><span class="tag cue">soft midsection</span><span class="tag cue">waist less defined</span><span class="tag cue">upper-arm fullness</span></div>
+              <div class="tags"><span class="tag lim">lighting</span><span class="tag lim">pose</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#46</span>
+            <span class="uname">Iván Lázaro Díaz </span>
+            <span class="umeta">id=3021 · ♂ male · 182cm · 77.1kg · IMC 23.3</span>
+            <span class="gender-chip" style="background:#60a5fa20;color:#60a5fa;border:1px solid #60a5fa40">♂ male</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/562c8dcc-fcae-4f50-814b-432d5fd070f4.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/45f4ca4e-926e-4682-ab9e-bd29472ecd88.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/25241970-fb69-4e26-9731-329ccb351911.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">13.0%</span>
+                <span class="bf-range">10.0–16.0%</span>
+                <span class="conf-badge" style="background:#6b7280">GOOD 85%</span>
+                <span class="latency">1909ms</span>
+              </div>
+              <div class="bio-ctx">Sex: male, Height: 182cm, Weight: 77.1kg, BMI: 23.3 · prompt: male</div>
+              <div class="tags"><span class="tag cue">Visible abs</span><span class="tag cue">Slight oblique definition</span><span class="tag cue">Some vascularity in arms</span></div>
+              <div class="tags"><span class="tag lim">Lighting</span><span class="tag lim">Angle</span><span class="tag lim">Tattoos obscure some detail</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#47</span>
+            <span class="uname">peter peña</span>
+            <span class="umeta">id=3084 · ♂ male · 170cm · 83.0kg · IMC 28.7</span>
+            <span class="gender-chip" style="background:#60a5fa20;color:#60a5fa;border:1px solid #60a5fa40">♂ male</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/fa7a4126-945a-49de-9747-927113e2b89f.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/19db531d-2212-465f-8185-0a156e0c9026.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/a3cdcdc5-de87-4f5d-8484-f9461edf4953.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">23.0%</span>
+                <span class="bf-range">20.0–26.0%</span>
+                <span class="conf-badge" style="background:#6b7280">MODERATE 65%</span>
+                <span class="latency">1923ms</span>
+              </div>
+              <div class="bio-ctx">Sex: male, Height: 170cm, Weight: 83.0kg, BMI: 28.7 · prompt: male</div>
+              <div class="tags"><span class="tag cue">no ab definition</span><span class="tag cue">soft obliques</span><span class="tag cue">slight love handles</span></div>
+              <div class="tags"><span class="tag lim">Lighting is not ideal</span><span class="tag lim">Image resolution is low</span><span class="tag lim">Subject is not in a neutral pose</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#48</span>
+            <span class="uname">Virginia Pino del Castillo </span>
+            <span class="umeta">id=3137 · ♀ female · 166cm · 93.7kg · IMC 34.0</span>
+            <span class="gender-chip" style="background:#f472b620;color:#f472b6;border:1px solid #f472b640">♀ female</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/b33c6c4c-029a-4b57-bf1e-e77befdaee70.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/1ff35998-ea46-4198-afd3-2a1a806f1ab0.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/ee0fc2e1-bded-4a02-acb6-792a00597443.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">36.0%</span>
+                <span class="bf-range">32.0–40.0%</span>
+                <span class="conf-badge" style="background:#6b7280">MEDIUM 65%</span>
+                <span class="latency">1987ms</span>
+              </div>
+              <div class="bio-ctx">Sex: female, Height: 166cm, Weight: 93.7kg, BMI: 34.0 · prompt: female</div>
+              <div class="tags"><span class="tag cue">Lower-ab roundness</span><span class="tag cue">Upper-arm fullness</span><span class="tag cue">Moderate hip/thigh fat</span><span class="tag cue">Waist less defined</span></div>
+              <div class="tags"><span class="tag lim">Image quality (mirror reflection, lighting)</span><span class="tag lim">Limited view of lower body and back</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#49</span>
+            <span class="uname">Pedro García-Atucha</span>
+            <span class="umeta">id=3195 · ♂ male · 173cm · 78.15kg · IMC 26.1</span>
+            <span class="gender-chip" style="background:#60a5fa20;color:#60a5fa;border:1px solid #60a5fa40">♂ male</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/f66af0a8-1d07-46e8-ad25-a286ebee9378.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/ee958b78-24cb-4a6b-8804-6d805e3610b1.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/7c83dca7-6e55-4c28-a2f7-d2e6cfbd4089.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">18.0%</span>
+                <span class="bf-range">15.0–21.0%</span>
+                <span class="conf-badge" style="background:#6b7280">MODERATE 70%</span>
+                <span class="latency">2871ms</span>
+              </div>
+              <div class="bio-ctx">Sex: male, Height: 173cm, Weight: 78.15kg, BMI: 26.1 · prompt: male</div>
+              <div class="tags"><span class="tag cue">Soft ab outline</span><span class="tag cue">Slight love handle fat</span><span class="tag cue">Minimal vascularity</span></div>
+              <div class="tags"><span class="tag lim">Image quality/lighting</span><span class="tag lim">Pose/angle</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#50</span>
+            <span class="uname">Alfredo Acosta Delgado </span>
+            <span class="umeta">id=3259 · ♂ male · 192cm · 92.3kg · IMC 25.0</span>
+            <span class="gender-chip" style="background:#60a5fa20;color:#60a5fa;border:1px solid #60a5fa40">♂ male</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/d67df931-b433-4fd2-9940-78af46edfa1f.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/cae64925-9f7e-48ce-91c7-ff85ee151a30.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/f3028a96-30ea-47c5-8bda-3c2703c1f619.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">22.0%</span>
+                <span class="bf-range">19.0–25.0%</span>
+                <span class="conf-badge" style="background:#6b7280">MODERATE 70%</span>
+                <span class="latency">2495ms</span>
+              </div>
+              <div class="bio-ctx">Sex: male, Height: 192cm, Weight: 92.3kg, BMI: 25.0 · prompt: male</div>
+              <div class="tags"><span class="tag cue">No ab definition</span><span class="tag cue">Slight love handles visible</span><span class="tag cue">Soft midsection</span></div>
+              <div class="tags"><span class="tag lim">Lighting is not ideal</span><span class="tag lim">Subject is wearing pants which obscure lower body fat distribution</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#51</span>
+            <span class="uname">María Carrasco Rocha</span>
+            <span class="umeta">id=3313 · ♀ female · 160cm · 96.5kg · IMC 37.7</span>
+            <span class="gender-chip" style="background:#f472b620;color:#f472b6;border:1px solid #f472b640">♀ female</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/66e8beb3-1e95-4955-af6e-4f0a312d8379.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/512da1fc-6ccd-4904-a3e6-b3ae6b743649.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/22f674cb-cd86-4c57-87cf-c61fbca1ed4a.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">45.0%</span>
+                <span class="bf-range">41.0–49.0%</span>
+                <span class="conf-badge" style="background:#6b7280">HIGH 85%</span>
+                <span class="latency">1932ms</span>
+              </div>
+              <div class="bio-ctx">Sex: female, Height: 160cm, Weight: 96.5kg, BMI: 37.7 · prompt: female</div>
+              <div class="tags"><span class="tag cue">Significant lower body fat distribution (hips and thighs)</span><span class="tag cue">Pronounced curves</span><span class="tag cue">Waist is not well-defined</span><span class="tag cue">Lower abdominal roundness</span><span class="tag cue">Upper arm fullness</span></div>
+              <div class="tags"><span class="tag lim">BMI is very high, which can obscure visual cues and affect fat distribution patterns.</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#52</span>
+            <span class="uname">Mirari Olazabal </span>
+            <span class="umeta">id=3374 · ♀ female · 160cm · 60.6kg · IMC 23.7</span>
+            <span class="gender-chip" style="background:#f472b620;color:#f472b6;border:1px solid #f472b640">♀ female</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/892ae145-af5f-4bf6-9d55-2cca527a5cfb.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/21746a01-53c9-45f9-9e24-791063aea886.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/6d52ff21-7654-461f-9ea4-3b396971099b.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">25.0%</span>
+                <span class="bf-range">21.0–29.0%</span>
+                <span class="conf-badge" style="background:#6b7280">MEDIUM 70%</span>
+                <span class="latency">1209ms</span>
+              </div>
+              <div class="bio-ctx">Sex: female, Height: 160cm, Weight: 60.6kg, BMI: 23.7 · prompt: female</div>
+              <div class="tags"><span class="tag cue">moderate hip/thigh fat</span><span class="tag cue">soft midsection</span><span class="tag cue">waist less defined</span><span class="tag cue">upper-arm fullness</span></div>
+              <div class="tags"><span class="tag lim">image quality</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#53</span>
+            <span class="uname">Mario Castro </span>
+            <span class="umeta">id=3438 · ? ? · ?cm · ?kg</span>
+            <span class="gender-chip" style="background:#f472b620;color:#f472b6;border:1px solid #f472b640">? ?</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"></div>
+            <div class="results-col"><div class="result-card error">Error: 'candidates'</div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#54</span>
+            <span class="uname">Ángel Ortiz</span>
+            <span class="umeta">id=3492 · ♂ male · 183cm · 78.8kg · IMC 23.5</span>
+            <span class="gender-chip" style="background:#60a5fa20;color:#60a5fa;border:1px solid #60a5fa40">♂ male</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/5e1eead5-3341-46c6-a6f3-ffd6f945773f.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/d21d5712-bafe-473f-9e57-ca49b625ad37.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/db215f6c-a4a5-4b32-a77d-3354e1c66c46.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">18.0%</span>
+                <span class="bf-range">15.0–21.0%</span>
+                <span class="conf-badge" style="background:#6b7280">MODERATE 70%</span>
+                <span class="latency">1845ms</span>
+              </div>
+              <div class="bio-ctx">Sex: male, Height: 183cm, Weight: 78.8kg, BMI: 23.5 · prompt: male</div>
+              <div class="tags"><span class="tag cue">Soft ab outline</span><span class="tag cue">Slight love handle fat</span><span class="tag cue">Minimal vascularity</span></div>
+              <div class="tags"><span class="tag lim">Lighting</span><span class="tag lim">Clothing obscures lower torso</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#55</span>
+            <span class="uname">José Antonio Carbonell </span>
+            <span class="umeta">id=3546 · ♂ male · 180cm · 90.15kg · IMC 27.8</span>
+            <span class="gender-chip" style="background:#60a5fa20;color:#60a5fa;border:1px solid #60a5fa40">♂ male</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/79c9d034-a6e2-408f-ab14-6a5c813036e2.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/55de4cd3-87a6-4643-9aca-22f6d2b3a448.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/6d004539-296b-40e2-bb0f-cb366898ddbf.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">23.0%</span>
+                <span class="bf-range">20.0–26.0%</span>
+                <span class="conf-badge" style="background:#6b7280">MODERATE 65%</span>
+                <span class="latency">1712ms</span>
+              </div>
+              <div class="bio-ctx">Sex: male, Height: 180cm, Weight: 90.15kg, BMI: 27.8 · prompt: male</div>
+              <div class="tags"><span class="tag cue">No ab definition</span><span class="tag cue">Slight love handle fat</span><span class="tag cue">Soft outline of obliques</span></div>
+              <div class="tags"><span class="tag lim">Lighting is not ideal</span><span class="tag lim">Image resolution is not optimal</span><span class="tag lim">Subject is not fully facing the camera</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#56</span>
+            <span class="uname">Alejandro Márquez</span>
+            <span class="umeta">id=3606 · ♂ male · 186cm · 120.6kg · IMC 34.9</span>
+            <span class="gender-chip" style="background:#60a5fa20;color:#60a5fa;border:1px solid #60a5fa40">♂ male</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/407cfcd0-671e-4d81-97b7-77cf3d4be218.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/b0b7ceed-a941-458c-bc3d-b5ed45786636.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/905c57e7-ffd7-4fdb-81df-ca3ae13fea19.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">28.0%</span>
+                <span class="bf-range">25.0–31.0%</span>
+                <span class="conf-badge" style="background:#6b7280">MODERATE 70%</span>
+                <span class="latency">2117ms</span>
+              </div>
+              <div class="bio-ctx">Sex: male, Height: 186cm, Weight: 120.6kg, BMI: 34.9 · prompt: male</div>
+              <div class="tags"><span class="tag cue">No ab definition</span><span class="tag cue">Love handles present</span><span class="tag cue">Rounded belly</span></div>
+              <div class="tags"><span class="tag lim">Image quality/lighting</span><span class="tag lim">Pose/angle</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#57</span>
+            <span class="uname">Ana Ogalla Gilbert </span>
+            <span class="umeta">id=3658 · ♀ female · 159cm · 60.5kg · IMC 23.9</span>
+            <span class="gender-chip" style="background:#f472b620;color:#f472b6;border:1px solid #f472b640">♀ female</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/6ef373eb-c813-41e3-b3d0-c3f53b481739.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/f7f7cb58-4b28-4549-a451-89d9317cdccb.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/d07c455b-e65f-4e27-95e3-618223a57739.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">27.0%</span>
+                <span class="bf-range">23.0–31.0%</span>
+                <span class="conf-badge" style="background:#6b7280">MEDIUM 65%</span>
+                <span class="latency">2038ms</span>
+              </div>
+              <div class="bio-ctx">Sex: female, Height: 159cm, Weight: 60.5kg, BMI: 23.9 · prompt: female</div>
+              <div class="tags"><span class="tag cue">moderate hip/thigh fat</span><span class="tag cue">soft midsection</span><span class="tag cue">waist less defined</span><span class="tag cue">rounder lower body</span></div>
+              <div class="tags"><span class="tag lim">lighting</span><span class="tag lim">pose</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#58</span>
+            <span class="uname">Javier Garcia</span>
+            <span class="umeta">id=3713 · ♂ male · 173cm · 73.0kg · IMC 24.4</span>
+            <span class="gender-chip" style="background:#60a5fa20;color:#60a5fa;border:1px solid #60a5fa40">♂ male</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/6c358e9a-6ebf-487c-9d02-d1eaf54bd710.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/48147c09-999e-465d-b42e-8367ba88457c.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/b4039f0c-f330-4312-948f-89a9f512ca7b.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">22.0%</span>
+                <span class="bf-range">19.0–25.0%</span>
+                <span class="conf-badge" style="background:#6b7280">MEDIUM 65%</span>
+                <span class="latency">1748ms</span>
+              </div>
+              <div class="bio-ctx">Sex: male, Height: 173cm, Weight: 73.0kg, BMI: 24.4 · prompt: male</div>
+              <div class="tags"><span class="tag cue">No ab definition</span><span class="tag cue">Slight love handle fat</span></div>
+              <div class="tags"><span class="tag lim">Lighting</span><span class="tag lim">Pose</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#59</span>
+            <span class="uname">Jesús Martínez Amodeo </span>
+            <span class="umeta">id=3770 · ♂ male · 177cm · 77.0kg · IMC 24.6</span>
+            <span class="gender-chip" style="background:#60a5fa20;color:#60a5fa;border:1px solid #60a5fa40">♂ male</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/b2569807-de1f-4c17-b3c5-6d70ef60d436.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/13085621-4344-40eb-9300-8b16b0173319.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/31db5e6d-4e20-4048-8a84-9af9c64f6fa1.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">15.0%</span>
+                <span class="bf-range">12.0–18.0%</span>
+                <span class="conf-badge" style="background:#6b7280">MEDIUM 70%</span>
+                <span class="latency">1576ms</span>
+              </div>
+              <div class="bio-ctx">Sex: male, Height: 177cm, Weight: 77.0kg, BMI: 24.6 · prompt: male</div>
+              <div class="tags"><span class="tag cue">Soft ab outline</span><span class="tag cue">Slight love handle fat</span><span class="tag cue">Some vascularity in arms</span></div>
+              <div class="tags"><span class="tag lim">Lighting is not optimal</span><span class="tag lim">Slight angle distortion from mirror</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#60</span>
+            <span class="uname">Lorena lozano</span>
+            <span class="umeta">id=3830 · ♀ female · 163cm · 64.1kg · IMC 24.1</span>
+            <span class="gender-chip" style="background:#f472b620;color:#f472b6;border:1px solid #f472b640">♀ female</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/39016fea-7058-4791-bd45-06bbd6f5a7c3.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/aa148856-71e4-4d66-bf57-a6ddc9c9c493.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/5edeb5f0-f892-401c-8d7e-b3364bb6f49d.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">28.0%</span>
+                <span class="bf-range">24.0–32.0%</span>
+                <span class="conf-badge" style="background:#6b7280">MEDIUM 65%</span>
+                <span class="latency">1714ms</span>
+              </div>
+              <div class="bio-ctx">Sex: female, Height: 163cm, Weight: 64.1kg, BMI: 24.1 · prompt: female</div>
+              <div class="tags"><span class="tag cue">moderate hip/thigh fat</span><span class="tag cue">soft midsection</span><span class="tag cue">waist less defined</span><span class="tag cue">rounder lower body</span></div>
+              <div class="tags"><span class="tag lim">image quality</span><span class="tag lim">lighting</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#61</span>
+            <span class="uname"> claudia D'onofrio salas </span>
+            <span class="umeta">id=3894 · ♀ female · 153cm · 75.0kg · IMC 32.0</span>
+            <span class="gender-chip" style="background:#f472b620;color:#f472b6;border:1px solid #f472b640">♀ female</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/43e43495-7f15-4d55-b057-b8da789d528e.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/453d34b2-1afd-4604-8ae2-eb2ad7d45f14.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/32d19072-e8fe-4c3d-ba06-670bdbed8d0b.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">37.0%</span>
+                <span class="bf-range">33.0–41.0%</span>
+                <span class="conf-badge" style="background:#6b7280">HIGH 85%</span>
+                <span class="latency">1687ms</span>
+              </div>
+              <div class="bio-ctx">Sex: female, Height: 153cm, Weight: 75.0kg, BMI: 32.0 · prompt: female</div>
+              <div class="tags"><span class="tag cue">rounder lower body</span><span class="tag cue">waist less defined</span><span class="tag cue">significant hip/thigh mass</span></div>
+              <div class="tags"><span class="tag lim">limited view of lower body</span><span class="tag lim">limited view of upper body</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#62</span>
+            <span class="uname">Vanessa Mateo</span>
+            <span class="umeta">id=3954 · ? ? · ?cm · ?kg</span>
+            <span class="gender-chip" style="background:#f472b620;color:#f472b6;border:1px solid #f472b640">? ?</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"></div>
+            <div class="results-col"><div class="result-card error">Error: 'candidates'</div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#63</span>
+            <span class="uname">Bernardo Rodriguez Toro</span>
+            <span class="umeta">id=4047 · ♂ male · 175cm · 70.1kg · IMC 22.9</span>
+            <span class="gender-chip" style="background:#60a5fa20;color:#60a5fa;border:1px solid #60a5fa40">♂ male</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/466d7473-5a31-4a3a-be5e-9d7cab05116f.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/e17573f1-98d3-4e8f-bcad-d9522b3e3347.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/05a8699f-186e-4549-ba5c-a6c3f56e1674.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">14.0%</span>
+                <span class="bf-range">12.0–16.0%</span>
+                <span class="conf-badge" style="background:#6b7280">GOOD 85%</span>
+                <span class="latency">2639ms</span>
+              </div>
+              <div class="bio-ctx">Sex: male, Height: 175cm, Weight: 70.1kg, BMI: 22.9 · prompt: male</div>
+              <div class="tags"><span class="tag cue">Abdominal definition is present, though not sharply etched.</span><span class="tag cue">Slight rounding in the oblique area.</span><span class="tag cue">No significant vascularity visible.</span><span class="tag cue">No deltoid striations.</span><span class="tag cue">Lower back and lats are lean.</span></div>
+              <div class="tags"><span class="tag lim">Lighting is slightly uneven, casting some shadows that obscure fine details.</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#64</span>
+            <span class="uname">Javier Garcia Peña</span>
+            <span class="umeta">id=4102 · ♂ male · 173cm · 68.2kg · IMC 22.8</span>
+            <span class="gender-chip" style="background:#60a5fa20;color:#60a5fa;border:1px solid #60a5fa40">♂ male</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/a9ceb28e-d1de-4f19-8331-11686b4cd656.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/46e4f5dc-68e0-41ed-a409-eb59b78d743d.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/9aefe32f-fcef-42d1-bb11-1305dacb06f8.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">12.0%</span>
+                <span class="bf-range">10.0–15.0%</span>
+                <span class="conf-badge" style="background:#6b7280">HIGH 90%</span>
+                <span class="latency">1529ms</span>
+              </div>
+              <div class="bio-ctx">Sex: male, Height: 173cm, Weight: 68.2kg, BMI: 22.8 · prompt: male</div>
+              <div class="tags"><span class="tag cue">Visible abs</span><span class="tag cue">Oblique definition</span><span class="tag cue">Serratus definition</span><span class="tag cue">Some vascularity</span></div>
+              <div class="tags"><span class="tag lim">Lighting</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#65</span>
+            <span class="uname">isamar garcia </span>
+            <span class="umeta">id=4160 · ♀ female · 152cm · 96.0kg · IMC 41.6</span>
+            <span class="gender-chip" style="background:#f472b620;color:#f472b6;border:1px solid #f472b640">♀ female</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/e74308d7-77c8-4757-bc15-edde60375bf8.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/d1e34655-3195-45ab-a43f-4909f2e93075.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/952da08f-725e-4de0-ae7e-a86f68b65cf4.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">37.0%</span>
+                <span class="bf-range">33.0–41.0%</span>
+                <span class="conf-badge" style="background:#6b7280">HIGH 85%</span>
+                <span class="latency">1624ms</span>
+              </div>
+              <div class="bio-ctx">Sex: female, Height: 152cm, Weight: 96.0kg, BMI: 41.6 · prompt: female</div>
+              <div class="tags"><span class="tag cue">Pronounced curves</span><span class="tag cue">Significant hip and thigh mass</span><span class="tag cue">Lower-ab roundness</span><span class="tag cue">Upper-arm fullness</span><span class="tag cue">Face and neck are not lean</span></div>
+              <div class="tags"><span class="tag lim">BMI is high, making visual assessment of some cues difficult.</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#66</span>
+            <span class="uname">Natividad Salazar</span>
+            <span class="umeta">id=4217 · ♀ female · 161cm · 62.7kg · IMC 24.2</span>
+            <span class="gender-chip" style="background:#f472b620;color:#f472b6;border:1px solid #f472b640">♀ female</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/6e38a12b-be0b-44ed-a2a7-e2968eb5798b.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/90e2f9cf-d867-4519-8c08-6b475b60e39a.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/58cfda03-6ce0-4b6e-9b8a-47fa7a1af2b5.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">27.0%</span>
+                <span class="bf-range">23.0–31.0%</span>
+                <span class="conf-badge" style="background:#6b7280">MEDIUM 65%</span>
+                <span class="latency">1911ms</span>
+              </div>
+              <div class="bio-ctx">Sex: female, Height: 161cm, Weight: 62.7kg, BMI: 24.2 · prompt: female</div>
+              <div class="tags"><span class="tag cue">Soft midsection</span><span class="tag cue">Moderate hip fat</span><span class="tag cue">Moderate thigh fat</span><span class="tag cue">Waist less defined than ideal</span><span class="tag cue">Upper arms show some fullness</span></div>
+              <div class="tags"><span class="tag lim">Image quality</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#67</span>
+            <span class="uname">Tetin fuentes Sanmartín </span>
+            <span class="umeta">id=4277 · ♂ male · 174cm · 64.1kg · IMC 21.2</span>
+            <span class="gender-chip" style="background:#60a5fa20;color:#60a5fa;border:1px solid #60a5fa40">♂ male</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/56a4fc69-ed15-42c1-9036-3215ec304b50.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/252e4ba3-8b88-4edc-ae7d-9f24f9b6c0cf.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/8f124ae9-87d6-4841-92d8-49e228c8c7d0.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">12.0%</span>
+                <span class="bf-range">10.0–15.0%</span>
+                <span class="conf-badge" style="background:#6b7280">HIGH 90%</span>
+                <span class="latency">1777ms</span>
+              </div>
+              <div class="bio-ctx">Sex: male, Height: 174cm, Weight: 64.1kg, BMI: 21.2 · prompt: male</div>
+              <div class="tags"><span class="tag cue">Visible abs</span><span class="tag cue">Slight vascularity in arms</span><span class="tag cue">Defined obliques</span></div>
+              <div class="tags"><span class="tag lim">Lighting</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#68</span>
+            <span class="uname">Miguel Blázquez </span>
+            <span class="umeta">id=4331 · ♂ male · 165cm · 92.2kg · IMC 33.9</span>
+            <span class="gender-chip" style="background:#60a5fa20;color:#60a5fa;border:1px solid #60a5fa40">♂ male</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/b8583fd9-a290-4413-89f0-c1cbeae84095.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/81b3daf7-5ee9-4b4c-a804-e892f8697727.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/472f4130-ac74-4e45-8cd6-f828bf8fbe72.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">25.0%</span>
+                <span class="bf-range">22.0–28.0%</span>
+                <span class="conf-badge" style="background:#6b7280">MODERATE 70%</span>
+                <span class="latency">1615ms</span>
+              </div>
+              <div class="bio-ctx">Sex: male, Height: 165cm, Weight: 92.2kg, BMI: 33.9 · prompt: male</div>
+              <div class="tags"><span class="tag cue">Love handles are visible</span><span class="tag cue">Abdominal definition is not visible</span><span class="tag cue">Slight rounding of the belly</span></div>
+              <div class="tags"><span class="tag lim">Lighting is not ideal</span><span class="tag lim">Image is not full body</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#69</span>
+            <span class="uname">johan del rosario</span>
+            <span class="umeta">id=4395 · ♂ male · 176cm · 105.0kg · IMC 33.9</span>
+            <span class="gender-chip" style="background:#60a5fa20;color:#60a5fa;border:1px solid #60a5fa40">♂ male</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/37cb5ed7-0425-4f3f-987e-c2cd66758aeb.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/30ca4e55-53da-4261-85e2-0bf79f639679.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/4bb20633-0122-4ba4-a005-c7beeb59602a.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">26.0%</span>
+                <span class="bf-range">23.0–29.0%</span>
+                <span class="conf-badge" style="background:#6b7280">MEDIUM 65%</span>
+                <span class="latency">2125ms</span>
+              </div>
+              <div class="bio-ctx">Sex: male, Height: 176cm, Weight: 105.0kg, BMI: 33.9 · prompt: male</div>
+              <div class="tags"><span class="tag cue">No ab definition</span><span class="tag cue">Love handles present</span><span class="tag cue">Slight rounding of belly</span></div>
+              <div class="tags"><span class="tag lim">Image quality/lighting</span><span class="tag lim">Pose/angle</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#70</span>
+            <span class="uname">Raul Gavilá Varani</span>
+            <span class="umeta">id=4452 · ? ? · ?cm · ?kg</span>
+            <span class="gender-chip" style="background:#f472b620;color:#f472b6;border:1px solid #f472b640">? ?</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"></div>
+            <div class="results-col"><div class="result-card error">Error: 'candidates'</div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#71</span>
+            <span class="uname">María Jesús Quintana </span>
+            <span class="umeta">id=4510 · ♀ female · 175cm · 85.0kg · IMC 27.8</span>
+            <span class="gender-chip" style="background:#f472b620;color:#f472b6;border:1px solid #f472b640">♀ female</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/6ae4332b-331c-4c4f-9c78-dabbc04a4265.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/ff57c31e-ae02-4e25-909f-2cec494ecebb.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/8bfb4f7e-2dc7-4eca-aa76-b09cd1641c14.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">30.0%</span>
+                <span class="bf-range">26.0–34.0%</span>
+                <span class="conf-badge" style="background:#6b7280">MEDIUM 65%</span>
+                <span class="latency">1684ms</span>
+              </div>
+              <div class="bio-ctx">Sex: female, Height: 175cm, Weight: 85.0kg, BMI: 27.8 · prompt: female</div>
+              <div class="tags"><span class="tag cue">rounder lower body</span><span class="tag cue">waist less defined</span><span class="tag cue">moderate hip/thigh fat</span><span class="tag cue">upper-arm fullness</span></div>
+              <div class="tags"><span class="tag lim">image quality</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#72</span>
+            <span class="uname">Alvaro otero </span>
+            <span class="umeta">id=4572 · ♂ male · 182cm · 86.6kg · IMC 26.1</span>
+            <span class="gender-chip" style="background:#60a5fa20;color:#60a5fa;border:1px solid #60a5fa40">♂ male</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/9260341e-ff7c-479f-9cae-c4b2f09ce8b2.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/70c382d7-c889-4638-89d3-f6c2ee2716e8.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/acebcbcb-2ddf-4bc7-a237-dc5a4c102166.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">13.0%</span>
+                <span class="bf-range">10.0–16.0%</span>
+                <span class="conf-badge" style="background:#6b7280">HIGH 85%</span>
+                <span class="latency">2618ms</span>
+              </div>
+              <div class="bio-ctx">Sex: male, Height: 182cm, Weight: 86.6kg, BMI: 26.1 · prompt: male</div>
+              <div class="tags"><span class="tag cue">visible abs</span><span class="tag cue">oblique definition</span><span class="tag cue">serratus definition</span><span class="tag cue">some vascularity in arms</span><span class="tag cue">slight love handle fat</span></div>
+              <div class="tags"><span class="tag lim">Lighting is somewhat harsh, creating shadows that obscure fine details.</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#73</span>
+            <span class="uname">Manuel López Alcántara </span>
+            <span class="umeta">id=4629 · ♂ male · 185cm · 87.4kg · IMC 25.5</span>
+            <span class="gender-chip" style="background:#60a5fa20;color:#60a5fa;border:1px solid #60a5fa40">♂ male</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/5cd60588-1303-403c-945b-835199a19634.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/778f78d4-9246-40ec-80fa-63e941c253fe.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/a151c3de-d8ba-4276-81a5-815e7ba3c457.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">22.0%</span>
+                <span class="bf-range">19.0–25.0%</span>
+                <span class="conf-badge" style="background:#6b7280">MODERATE 70%</span>
+                <span class="latency">1307ms</span>
+              </div>
+              <div class="bio-ctx">Sex: male, Height: 185cm, Weight: 87.4kg, BMI: 25.5 · prompt: male</div>
+              <div class="tags"><span class="tag cue">Soft ab outline</span><span class="tag cue">Slight love handles</span><span class="tag cue">No vascularity</span><span class="tag cue">No deltoid striations</span><span class="tag cue">No lower-back definition</span></div>
+              <div class="tags"><span class="tag lim">Lighting</span><span class="tag lim">Image resolution</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#74</span>
+            <span class="uname">Daniel de la calle </span>
+            <span class="umeta">id=4694 · ♂ male · 170cm · 79.6kg · IMC 27.5</span>
+            <span class="gender-chip" style="background:#60a5fa20;color:#60a5fa;border:1px solid #60a5fa40">♂ male</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/a88e5553-f3a5-410b-9971-3b328c16a845.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/0783a3ae-d3af-4cff-aa11-bc83d16c3745.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/f48c4bec-1b9e-4320-b80f-f6a8fc7b7714.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">23.0%</span>
+                <span class="bf-range">20.0–26.0%</span>
+                <span class="conf-badge" style="background:#6b7280">MODERATE 70%</span>
+                <span class="latency">1912ms</span>
+              </div>
+              <div class="bio-ctx">Sex: male, Height: 170cm, Weight: 79.6kg, BMI: 27.5 · prompt: male</div>
+              <div class="tags"><span class="tag cue">no ab definition</span><span class="tag cue">love handles</span></div>
+              <div class="tags"><span class="tag lim">Lighting is not ideal</span><span class="tag lim">Image resolution is not optimal</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#75</span>
+            <span class="uname">Nico cortes Arango </span>
+            <span class="umeta">id=4751 · ♂ male · 170cm · 76.0kg · IMC 26.3</span>
+            <span class="gender-chip" style="background:#60a5fa20;color:#60a5fa;border:1px solid #60a5fa40">♂ male</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/29eb2293-9147-4754-8e49-4cccdefaac89.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/5caf5fdc-b4b3-4706-a884-c88e1f6075c9.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/4ed08d2e-bddb-4edc-82ab-6f66a864995b.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">18.0%</span>
+                <span class="bf-range">15.0–21.0%</span>
+                <span class="conf-badge" style="background:#6b7280">MODERATE 70%</span>
+                <span class="latency">1557ms</span>
+              </div>
+              <div class="bio-ctx">Sex: male, Height: 170cm, Weight: 76.0kg, BMI: 26.3 · prompt: male</div>
+              <div class="tags"><span class="tag cue">Soft ab outline</span><span class="tag cue">Slight love handle fat</span></div>
+              <div class="tags"><span class="tag lim">Lighting is not ideal</span><span class="tag lim">Image is slightly blurry</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#76</span>
+            <span class="uname">Francisco José Castro Pérez </span>
+            <span class="umeta">id=4827 · ♂ male · 173cm · 82.55kg · IMC 27.6</span>
+            <span class="gender-chip" style="background:#60a5fa20;color:#60a5fa;border:1px solid #60a5fa40">♂ male</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/b0d2dca0-6c64-47c5-980e-b62c91101b9f.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/13d0340a-0a73-4d85-93ec-32e7bb1cfb96.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/8c10e065-4241-476e-9a37-498ba2f6cacc.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">22.0%</span>
+                <span class="bf-range">19.0–25.0%</span>
+                <span class="conf-badge" style="background:#6b7280">MODERATE 70%</span>
+                <span class="latency">2227ms</span>
+              </div>
+              <div class="bio-ctx">Sex: male, Height: 173cm, Weight: 82.55kg, BMI: 27.6 · prompt: male</div>
+              <div class="tags"><span class="tag cue">no ab definition</span><span class="tag cue">soft love handles</span><span class="tag cue">slight rounding of belly</span></div>
+              <div class="tags"><span class="tag lim">Lighting is slightly harsh, creating some shadows that obscure finer details.</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#77</span>
+            <span class="uname">lucas nuñez</span>
+            <span class="umeta">id=4890 · ♂ male · 180cm · 69.7kg · IMC 21.5</span>
+            <span class="gender-chip" style="background:#60a5fa20;color:#60a5fa;border:1px solid #60a5fa40">♂ male</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/2a1d84ea-9948-499d-867c-30664c04f7f7.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/43e66d4a-18bf-42de-8729-e71f13ed9657.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/5836ec7d-de6a-46ce-8982-dea3609edb89.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">15.0%</span>
+                <span class="bf-range">12.0–18.0%</span>
+                <span class="conf-badge" style="background:#6b7280">MODERATE 70%</span>
+                <span class="latency">1513ms</span>
+              </div>
+              <div class="bio-ctx">Sex: male, Height: 180cm, Weight: 69.7kg, BMI: 21.5 · prompt: male</div>
+              <div class="tags"><span class="tag cue">Soft ab outline</span><span class="tag cue">Some love handle fat</span><span class="tag cue">Slight vascularity in arms</span></div>
+              <div class="tags"><span class="tag lim">Lighting</span><span class="tag lim">Angle</span><span class="tag lim">Tattoos obscure some muscle definition</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#78</span>
+            <span class="uname">Carlos Núñez Bayón</span>
+            <span class="umeta">id=4953 · ♂ male · 178cm · 87.0kg · IMC 27.5</span>
+            <span class="gender-chip" style="background:#60a5fa20;color:#60a5fa;border:1px solid #60a5fa40">♂ male</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/512c3078-5c9c-4590-9952-8d3892574f2c.heic" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/3a09280a-54ef-4eb7-8886-89ddc749c98f.heic" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/ddd033d0-e5d2-46b4-a45e-0550c7f28029.heic" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">16.0%</span>
+                <span class="bf-range">13.0–19.0%</span>
+                <span class="conf-badge" style="background:#6b7280">MODERATE 70%</span>
+                <span class="latency">1438ms</span>
+              </div>
+              <div class="bio-ctx">Sex: male, Height: 178cm, Weight: 87.0kg, BMI: 27.5 · prompt: male</div>
+              <div class="tags"><span class="tag cue">soft abs outline</span><span class="tag cue">slight love handle fat</span><span class="tag cue">visible deltoids</span><span class="tag cue">some vascularity in arms</span></div>
+              <div class="tags"><span class="tag lim">Lighting is slightly harsh, creating some shadows that obscure fine details.</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#79</span>
+            <span class="uname">Verónica Camacho García</span>
+            <span class="umeta">id=5015 · ♀ female · 169cm · 59.0kg · IMC 20.7</span>
+            <span class="gender-chip" style="background:#f472b620;color:#f472b6;border:1px solid #f472b640">♀ female</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/f86162f7-01c3-4f2d-804e-0066d05c5d48.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/f4d0c937-cbb9-45e0-a422-ce0a8f6b3078.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/aacf700d-3996-4bb7-9c41-ff9cb728bf53.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">17.0%</span>
+                <span class="bf-range">13.0–21.0%</span>
+                <span class="conf-badge" style="background:#6b7280">HIGH 85%</span>
+                <span class="latency">1909ms</span>
+              </div>
+              <div class="bio-ctx">Sex: female, Height: 169cm, Weight: 59.0kg, BMI: 20.7 · prompt: female</div>
+              <div class="tags"><span class="tag cue">visible abs</span><span class="tag cue">defined waist</span><span class="tag cue">lean lower body</span><span class="tag cue">lean upper arms</span><span class="tag cue">lean face/neck</span></div>
+              <div class="tags"></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#80</span>
+            <span class="uname">Anabel Doña</span>
+            <span class="umeta">id=5077 · ♀ female · 182cm · 79.35kg · IMC 24.0</span>
+            <span class="gender-chip" style="background:#f472b620;color:#f472b6;border:1px solid #f472b640">♀ female</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/a8108bbe-252f-436b-b65a-e5a5ab1e2673.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/a067e41b-a908-44d9-bf91-fb81e270dea7.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/7fc8b1a1-81e7-4a39-821a-6752dc8ae28c.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">28.0%</span>
+                <span class="bf-range">24.0–32.0%</span>
+                <span class="conf-badge" style="background:#6b7280">MEDIUM 65%</span>
+                <span class="latency">1903ms</span>
+              </div>
+              <div class="bio-ctx">Sex: female, Height: 182cm, Weight: 79.35kg, BMI: 24.0 · prompt: female</div>
+              <div class="tags"><span class="tag cue">soft midsection</span><span class="tag cue">moderate hip fat</span><span class="tag cue">moderate thigh fat</span><span class="tag cue">waist less defined</span><span class="tag cue">rounder lower body</span></div>
+              <div class="tags"><span class="tag lim">lighting</span><span class="tag lim">image resolution</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#81</span>
+            <span class="uname">Raúl Sánchez Saura </span>
+            <span class="umeta">id=5190 · ♂ male · 184cm · 100.0kg · IMC 29.5</span>
+            <span class="gender-chip" style="background:#60a5fa20;color:#60a5fa;border:1px solid #60a5fa40">♂ male</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/1da7d49a-7a24-4ad9-a19c-36e5b323d8da.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/e22874a6-ae8c-4063-9250-63cec3df53a2.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/a2fb5612-aab0-478b-80cd-8f22493f7965.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">23.0%</span>
+                <span class="bf-range">20.0–26.0%</span>
+                <span class="conf-badge" style="background:#6b7280">MODERATE 70%</span>
+                <span class="latency">2485ms</span>
+              </div>
+              <div class="bio-ctx">Sex: male, Height: 184cm, Weight: 100.0kg, BMI: 29.5 · prompt: male</div>
+              <div class="tags"><span class="tag cue">Slight rounding of the belly</span><span class="tag cue">No ab definition</span><span class="tag cue">Slight love handle fat</span><span class="tag cue">Soft obliques</span></div>
+              <div class="tags"><span class="tag lim">Lighting</span><span class="tag lim">Image resolution</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#82</span>
+            <span class="uname">MONTSERRAT MICOL SANCHEZ </span>
+            <span class="umeta">id=5259 · ♀ female · 169cm · 110.0kg · IMC 38.5</span>
+            <span class="gender-chip" style="background:#f472b620;color:#f472b6;border:1px solid #f472b640">♀ female</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/514ba512-f144-4a27-84aa-0cb3383a12c5.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/5aff6f9b-a333-4aa2-92b9-949fa5f0d6f9.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/01d9d791-b9e9-4005-bb20-6fd0bd0073ff.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">36.0%</span>
+                <span class="bf-range">32.0–40.0%</span>
+                <span class="conf-badge" style="background:#6b7280">HIGH 85%</span>
+                <span class="latency">1858ms</span>
+              </div>
+              <div class="bio-ctx">Sex: female, Height: 169cm, Weight: 110.0kg, BMI: 38.5 · prompt: female</div>
+              <div class="tags"><span class="tag cue">rounder lower body</span><span class="tag cue">waist less defined</span><span class="tag cue">significant hip/thigh mass</span><span class="tag cue">upper-arm fullness</span></div>
+              <div class="tags"><span class="tag lim">image quality</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#83</span>
+            <span class="uname">Juan Carlos Fernández Nieto</span>
+            <span class="umeta">id=5328 · ? ? · ?cm · ?kg</span>
+            <span class="gender-chip" style="background:#f472b620;color:#f472b6;border:1px solid #f472b640">? ?</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"></div>
+            <div class="results-col"><div class="result-card error">Error: 'candidates'</div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#84</span>
+            <span class="uname">Sandra Pedrosa García </span>
+            <span class="umeta">id=5440 · ♀ female · 161cm · 69.3kg · IMC 26.7</span>
+            <span class="gender-chip" style="background:#f472b620;color:#f472b6;border:1px solid #f472b640">♀ female</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/3510cd23-9163-493d-877c-0a730c493d26.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/ebb60650-81d5-4b18-b764-3961138686f9.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/06b0dfb9-e8e6-4561-932d-899b9cc408ad.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">30.0%</span>
+                <span class="bf-range">26.0–34.0%</span>
+                <span class="conf-badge" style="background:#6b7280">MODERATE 65%</span>
+                <span class="latency">1557ms</span>
+              </div>
+              <div class="bio-ctx">Sex: female, Height: 161cm, Weight: 69.3kg, BMI: 26.7 · prompt: female</div>
+              <div class="tags"><span class="tag cue">Soft midsection</span><span class="tag cue">Moderate hip fat</span><span class="tag cue">Moderate thigh fat</span><span class="tag cue">Rounder lower body</span><span class="tag cue">Waist less defined</span></div>
+              <div class="tags"><span class="tag lim">Image quality/lighting</span><span class="tag lim">Pose/angle</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#85</span>
+            <span class="uname">Miguel Antón </span>
+            <span class="umeta">id=5504 · ♂ male · 185cm · 81.9kg · IMC 23.9</span>
+            <span class="gender-chip" style="background:#60a5fa20;color:#60a5fa;border:1px solid #60a5fa40">♂ male</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/64f3cf70-e546-4b2d-8faa-6bc90c32f1a5.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/85e49837-b8e9-4bd1-b649-f8f8fd65c504.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/b5e3363c-17a0-43ff-9601-f30c37ec21fc.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">17.0%</span>
+                <span class="bf-range">14.0–20.0%</span>
+                <span class="conf-badge" style="background:#6b7280">MODERATE 70%</span>
+                <span class="latency">1648ms</span>
+              </div>
+              <div class="bio-ctx">Sex: male, Height: 185cm, Weight: 81.9kg, BMI: 23.9 · prompt: male</div>
+              <div class="tags"><span class="tag cue">Slight abdominal definition visible</span><span class="tag cue">No significant love handles</span><span class="tag cue">No vascularity</span></div>
+              <div class="tags"><span class="tag lim">Lighting is somewhat flat</span><span class="tag lim">No view of lower body or back</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#86</span>
+            <span class="uname">fabiola civiletto</span>
+            <span class="umeta">id=5569 · ♀ female · 162cm · 58.5kg · IMC 22.3</span>
+            <span class="gender-chip" style="background:#f472b620;color:#f472b6;border:1px solid #f472b640">♀ female</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/76dcc0de-3277-4b04-ab7c-53021718a2b3.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/0d081ddd-c77d-4331-8f3d-38211be0cda5.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/e56f910f-35e5-4180-a38d-22c6ed5ef4c3.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">24.0%</span>
+                <span class="bf-range">20.0–28.0%</span>
+                <span class="conf-badge" style="background:#6b7280">MEDIUM 70%</span>
+                <span class="latency">2435ms</span>
+              </div>
+              <div class="bio-ctx">Sex: female, Height: 162cm, Weight: 58.5kg, BMI: 22.3 · prompt: female</div>
+              <div class="tags"><span class="tag cue">Soft midsection</span><span class="tag cue">Moderate hip and thigh fat</span><span class="tag cue">Waist is moderately defined</span><span class="tag cue">Abs not visible</span></div>
+              <div class="tags"><span class="tag lim">Lower body fat distribution not fully visible in this pose</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#87</span>
+            <span class="uname">Estefania ortola</span>
+            <span class="umeta">id=5647 · ♀ female · 157cm · 51.1kg · IMC 20.7</span>
+            <span class="gender-chip" style="background:#f472b620;color:#f472b6;border:1px solid #f472b640">♀ female</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/151755a1-cb33-42a7-8c20-4a0ed2e5c0c5.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/8c5e789b-e5f4-40f2-9c54-a43dfa1c4f74.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/b95a30ee-4a18-45db-b25e-4b3ede963270.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">25%</span>
+                <span class="bf-range">21–29%</span>
+                <span class="conf-badge" style="background:#6b7280">MEDIUM 65%</span>
+                <span class="latency">1966ms</span>
+              </div>
+              <div class="bio-ctx">Sex: female, Height: 157cm, Weight: 51.1kg, BMI: 20.7 · prompt: female</div>
+              <div class="tags"><span class="tag cue">Moderate hip and thigh fat distribution.</span><span class="tag cue">Soft midsection.</span><span class="tag cue">Waist is moderately defined.</span><span class="tag cue">Upper arms show some fullness.</span><span class="tag cue">Abs are not visible.</span></div>
+              <div class="tags"><span class="tag lim">Image quality and lighting could be improved for more precise analysis.</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#88</span>
+            <span class="uname">Killian Pérez </span>
+            <span class="umeta">id=5710 · ♂ male · 189cm · 93.85kg · IMC 26.3</span>
+            <span class="gender-chip" style="background:#60a5fa20;color:#60a5fa;border:1px solid #60a5fa40">♂ male</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/d8ba9b07-fa88-4aed-86df-c27c0932b772.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/1db36a67-8e8b-4148-9655-587b2385b34b.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/a1c8f773-d427-44b1-8b4a-3a5deba8bb08.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">15.0%</span>
+                <span class="bf-range">12.0–18.0%</span>
+                <span class="conf-badge" style="background:#6b7280">MODERATE 70%</span>
+                <span class="latency">1728ms</span>
+              </div>
+              <div class="bio-ctx">Sex: male, Height: 189cm, Weight: 93.85kg, BMI: 26.3 · prompt: male</div>
+              <div class="tags"><span class="tag cue">Soft ab outline visible</span><span class="tag cue">Slight vascularity in arms</span><span class="tag cue">Obliques are somewhat defined</span></div>
+              <div class="tags"><span class="tag lim">Lighting</span><span class="tag lim">Angle</span><span class="tag lim">Tattoo coverage obscures some abdominal detail</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#89</span>
+            <span class="uname">Susana Matia Garcia </span>
+            <span class="umeta">id=5785 · ♀ female · 176cm · 106.0kg · IMC 34.2</span>
+            <span class="gender-chip" style="background:#f472b620;color:#f472b6;border:1px solid #f472b640">♀ female</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/7735aef9-187d-44ba-a43d-c479bd9e79d9.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/c805e5cb-7d29-4c82-b1d3-fb256260cafe.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/20052c6c-6c42-4fbd-85d7-62e78444ca86.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">36.0%</span>
+                <span class="bf-range">32.0–40.0%</span>
+                <span class="conf-badge" style="background:#6b7280">HIGH 85%</span>
+                <span class="latency">2327ms</span>
+              </div>
+              <div class="bio-ctx">Sex: female, Height: 176cm, Weight: 106.0kg, BMI: 34.2 · prompt: female</div>
+              <div class="tags"><span class="tag cue">Lower-ab roundness is present.</span><span class="tag cue">Upper-arm fullness is noticeable.</span><span class="tag cue">Thigh and inner-thigh fat is significant.</span><span class="tag cue">Waist is not well-defined.</span><span class="tag cue">Hip-to-waist ratio indicates higher body fat.</span></div>
+              <div class="tags"><span class="tag lim">BMI is high, which can obscure some visual cues.</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#90</span>
+            <span class="uname">Roxana Izquierdo</span>
+            <span class="umeta">id=5878 · ♀ female · 162cm · 76.0kg · IMC 29.0</span>
+            <span class="gender-chip" style="background:#f472b620;color:#f472b6;border:1px solid #f472b640">♀ female</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/ae2adf29-005f-4071-9a35-70917cb49411.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/7f362afe-b0d6-496a-aac2-d12531987bd1.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/1cf05d84-9dd7-4d2b-8e52-1e37ef186e22.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">30.0%</span>
+                <span class="bf-range">26.0–34.0%</span>
+                <span class="conf-badge" style="background:#6b7280">MEDIUM 65%</span>
+                <span class="latency">1444ms</span>
+              </div>
+              <div class="bio-ctx">Sex: female, Height: 162cm, Weight: 76.0kg, BMI: 29.0 · prompt: female</div>
+              <div class="tags"><span class="tag cue">Soft midsection</span><span class="tag cue">Moderate hip and thigh fat</span><span class="tag cue">Waist less defined</span></div>
+              <div class="tags"><span class="tag lim">Image quality</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#91</span>
+            <span class="uname">Francisco Manuel Vera Rueda </span>
+            <span class="umeta">id=5978 · ♂ male · 160cm · 70.05kg · IMC 27.4</span>
+            <span class="gender-chip" style="background:#60a5fa20;color:#60a5fa;border:1px solid #60a5fa40">♂ male</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/c5beca4f-ca98-4d9b-a975-7fd143cc9656.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/30b0b553-f6a3-443e-b9bd-3fbb48439e7b.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/e4c22e4f-b670-4067-8c3b-e2f2b4e3b679.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">18.0%</span>
+                <span class="bf-range">15.0–21.0%</span>
+                <span class="conf-badge" style="background:#6b7280">MEDIUM 70%</span>
+                <span class="latency">1881ms</span>
+              </div>
+              <div class="bio-ctx">Sex: male, Height: 160cm, Weight: 70.05kg, BMI: 27.4 · prompt: male</div>
+              <div class="tags"><span class="tag cue">Soft ab outline</span><span class="tag cue">Slight love handle fat</span><span class="tag cue">Some vascularity in arms</span></div>
+              <div class="tags"><span class="tag lim">Lighting</span><span class="tag lim">Image resolution</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#92</span>
+            <span class="uname">Omar Bataller Martinez</span>
+            <span class="umeta">id=7450 · ♂ male · 183cm · 111.3kg · IMC 33.2</span>
+            <span class="gender-chip" style="background:#60a5fa20;color:#60a5fa;border:1px solid #60a5fa40">♂ male</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/29324b27-520a-4ed0-9d66-8f4ca4dab782.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/f1c9aebf-dfb1-4884-8ce9-a7f45a2f1701.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/b362e774-8b3e-4215-a2b5-feabc872dea9.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">30.0%</span>
+                <span class="bf-range">27.0–33.0%</span>
+                <span class="conf-badge" style="background:#6b7280">MODERATE 70%</span>
+                <span class="latency">1813ms</span>
+              </div>
+              <div class="bio-ctx">Sex: male, Height: 183cm, Weight: 111.3kg, BMI: 33.2 · prompt: male</div>
+              <div class="tags"><span class="tag cue">Rounded belly</span><span class="tag cue">No ab definition</span><span class="tag cue">Love handles</span></div>
+              <div class="tags"><span class="tag lim">Image quality/lighting</span><span class="tag lim">Pose/angle</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#93</span>
+            <span class="uname">Nacho Lucena</span>
+            <span class="umeta">id=7958 · ♂ male · 178cm · 77.2kg · IMC 24.4</span>
+            <span class="gender-chip" style="background:#60a5fa20;color:#60a5fa;border:1px solid #60a5fa40">♂ male</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/30c87d0a-5e38-475b-b559-0d4e48c6782f.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/9da2f890-7141-4ce0-b08d-687466c418d0.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/75c47a4a-1c04-4fb2-ac89-449963ee1594.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">18.0%</span>
+                <span class="bf-range">15.0–21.0%</span>
+                <span class="conf-badge" style="background:#6b7280">MODERATE 70%</span>
+                <span class="latency">1550ms</span>
+              </div>
+              <div class="bio-ctx">Sex: male, Height: 178cm, Weight: 77.2kg, BMI: 24.4 · prompt: male</div>
+              <div class="tags"><span class="tag cue">Soft ab outline</span><span class="tag cue">Slight love handle fat</span></div>
+              <div class="tags"><span class="tag lim">Lighting is not ideal</span><span class="tag lim">Limited view of lower body</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#94</span>
+            <span class="uname">Sergio Obel</span>
+            <span class="umeta">id=8299 · ♂ male · 180cm · 109.7kg · IMC 33.9</span>
+            <span class="gender-chip" style="background:#60a5fa20;color:#60a5fa;border:1px solid #60a5fa40">♂ male</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/0a6572b1-d16a-4a1a-8fe2-f2ae14c82117.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/00620f20-c817-4298-90b6-5e146d3cb767.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/f0eab563-26ff-43e3-8b6b-9c21125e4656.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">27.0%</span>
+                <span class="bf-range">24.0–30.0%</span>
+                <span class="conf-badge" style="background:#6b7280">MODERATE 70%</span>
+                <span class="latency">2069ms</span>
+              </div>
+              <div class="bio-ctx">Sex: male, Height: 180cm, Weight: 109.7kg, BMI: 33.9 · prompt: male</div>
+              <div class="tags"><span class="tag cue">Love handles</span><span class="tag cue">No ab definition</span><span class="tag cue">Rounded belly</span></div>
+              <div class="tags"><span class="tag lim">Lighting</span><span class="tag lim">Image Angle</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#95</span>
+            <span class="uname">Verónica Asís </span>
+            <span class="umeta">id=8487 · ♀ female · 168cm · 76.0kg · IMC 26.9</span>
+            <span class="gender-chip" style="background:#f472b620;color:#f472b6;border:1px solid #f472b640">♀ female</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/6bfb6c4d-213e-4aaf-abc8-0756f9d3ac9d.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/88055d2d-34e2-4f72-8c6f-ae50b8f1f05c.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/936f22ba-046c-402c-9a09-c4559cfd7695.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">34.0%</span>
+                <span class="bf-range">30.0–38.0%</span>
+                <span class="conf-badge" style="background:#6b7280">MEDIUM 65%</span>
+                <span class="latency">2801ms</span>
+              </div>
+              <div class="bio-ctx">Sex: female, Height: 168cm, Weight: 76.0kg, BMI: 26.9 · prompt: female</div>
+              <div class="tags"><span class="tag cue">rounder lower body</span><span class="tag cue">waist less defined</span><span class="tag cue">significant hip/thigh mass</span><span class="tag cue">upper arm fullness</span></div>
+              <div class="tags"><span class="tag lim">image quality</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#96</span>
+            <span class="uname">Verónica Herrero</span>
+            <span class="umeta">id=8568 · ♀ female · 160cm · 54.5kg · IMC 21.3</span>
+            <span class="gender-chip" style="background:#f472b620;color:#f472b6;border:1px solid #f472b640">♀ female</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/716aa15c-26f3-4cb1-9a4c-3606f8c9eb33.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/2b6ce20b-cb60-4120-841b-16c04ad2e031.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/0d2e4fe4-48d1-4a01-b0bd-ed0b4418bab4.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">24.0%</span>
+                <span class="bf-range">20.0–28.0%</span>
+                <span class="conf-badge" style="background:#6b7280">MEDIUM 70%</span>
+                <span class="latency">1805ms</span>
+              </div>
+              <div class="bio-ctx">Sex: female, Height: 160cm, Weight: 54.5kg, BMI: 21.3 · prompt: female</div>
+              <div class="tags"><span class="tag cue">soft midsection</span><span class="tag cue">moderate hip/thigh fat</span><span class="tag cue">waist less defined than athletic</span><span class="tag cue">upper arms show some fullness</span><span class="tag cue">glutes appear rounded with some fat distribution</span></div>
+              <div class="tags"><span class="tag lim">lighting</span><span class="tag lim">pose</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#97</span>
+            <span class="uname">nieves garcía pacheco</span>
+            <span class="umeta">id=8644 · ♀ female · 160cm · 59.0kg · IMC 23.0</span>
+            <span class="gender-chip" style="background:#f472b620;color:#f472b6;border:1px solid #f472b640">♀ female</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/3b99b86e-ae7a-4fed-9196-4926129a0036.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/8000f782-804a-4ea4-9532-3bd57347ef15.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/aea1498e-26ac-4c3d-85d7-ae433de7fd82.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">28.0%</span>
+                <span class="bf-range">24.0–32.0%</span>
+                <span class="conf-badge" style="background:#6b7280">MEDIUM 65%</span>
+                <span class="latency">1536ms</span>
+              </div>
+              <div class="bio-ctx">Sex: female, Height: 160cm, Weight: 59.0kg, BMI: 23.0 · prompt: female</div>
+              <div class="tags"><span class="tag cue">Moderate hip and thigh fat.</span><span class="tag cue">Lower abdomen is rounded.</span><span class="tag cue">Waist is less defined.</span><span class="tag cue">Upper arms show some fullness.</span><span class="tag cue">Glutes are rounded.</span></div>
+              <div class="tags"><span class="tag lim">Image angle and lighting may obscure subtle details.</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#98</span>
+            <span class="uname">Gema Maqueda Mingo</span>
+            <span class="umeta">id=8724 · ♀ female · 67cm · 80.0kg · IMC 178.2</span>
+            <span class="gender-chip" style="background:#f472b620;color:#f472b6;border:1px solid #f472b640">♀ female</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/df89cd64-a7a2-47dd-ad5d-5c983db258ff.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/7639b589-f91f-4cc8-8a22-e8c8009b3e51.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/559e6114-233a-46e6-bc65-faf07a8e278c.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">30.0%</span>
+                <span class="bf-range">26.0–34.0%</span>
+                <span class="conf-badge" style="background:#6b7280">MEDIUM 65%</span>
+                <span class="latency">1795ms</span>
+              </div>
+              <div class="bio-ctx">Sex: female, Height: 67cm, Weight: 80.0kg, BMI: 178.2 · prompt: female</div>
+              <div class="tags"><span class="tag cue">rounder lower body</span><span class="tag cue">waist less defined</span><span class="tag cue">moderate hip/thigh fat</span><span class="tag cue">upper-arm fullness</span></div>
+              <div class="tags"><span class="tag lim">image quality</span><span class="tag lim">limited view of body</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#99</span>
+            <span class="uname">Joaquín De Miguel Vázquez</span>
+            <span class="umeta">id=8828 · ♂ male · 180cm · 72.2kg · IMC 22.3</span>
+            <span class="gender-chip" style="background:#60a5fa20;color:#60a5fa;border:1px solid #60a5fa40">♂ male</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/98adb562-75f9-430b-a526-38f8e467af22.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/567f1634-7406-4a7f-b8bf-7051f154403e.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/d254cd2f-6cc4-4e65-8c51-ee7221f786bf.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">13.0%</span>
+                <span class="bf-range">10.0–16.0%</span>
+                <span class="conf-badge" style="background:#6b7280">GOOD 85%</span>
+                <span class="latency">1574ms</span>
+              </div>
+              <div class="bio-ctx">Sex: male, Height: 180cm, Weight: 72.2kg, BMI: 22.3 · prompt: male</div>
+              <div class="tags"><span class="tag cue">visible abs</span><span class="tag cue">slight oblique definition</span><span class="tag cue">no love handles</span><span class="tag cue">no vascularity</span></div>
+              <div class="tags"><span class="tag lim">Lighting is not ideal</span><span class="tag lim">Slight angle distortion from mirror</span></div>
+            </div></div>
+          </div>
+        </div>
+        <div class="user-row">
+          <div class="user-header">
+            <span class="num">#100</span>
+            <span class="uname">Efren Benítez Rodríguez </span>
+            <span class="umeta">id=8915 · ♂ male · 187cm · 96.0kg · IMC 27.5</span>
+            <span class="gender-chip" style="background:#60a5fa20;color:#60a5fa;border:1px solid #60a5fa40">♂ male</span>
+          </div>
+          <div class="user-body">
+            <div class="photos-col"><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/b2d2140d-0fc6-4f6d-8899-40d8dd88567e.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/0d90db4f-9cdd-49ec-a1f6-8a421ba9daca.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /><img class="photo" src="https://elmetodo-reviews-pics.s3.amazonaws.com/b5c315ca-8a38-421a-9724-feb8e4bf5b34.jpg" loading="lazy" onerror="this.src='https://placehold.co/110x140?text=no+photo'" /></div>
+            <div class="results-col">
+            <div class="result-card">
+              <div class="result-header">
+                <span class="bf-big">23.0%</span>
+                <span class="bf-range">20.0–26.0%</span>
+                <span class="conf-badge" style="background:#6b7280">MODERATE 70%</span>
+                <span class="latency">2020ms</span>
+              </div>
+              <div class="bio-ctx">Sex: male, Height: 187cm, Weight: 96.0kg, BMI: 27.5 · prompt: male</div>
+              <div class="tags"><span class="tag cue">No ab definition</span><span class="tag cue">Slight love handle fat</span></div>
+              <div class="tags"><span class="tag lim">Lighting</span><span class="tag lim">Pose</span></div>
+            </div></div>
+          </div>
+        </div>
+</div>
+</body>
+</html>

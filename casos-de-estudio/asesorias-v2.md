@@ -2,7 +2,7 @@
 
 **Producto:** El Metodo — tier coached (asesorías personalizadas)
 **Rol:** Product Designer + PM
-**Período:** Abril–Mayo 2026
+**Período:** Abril–Junio 2026
 **Estado:** En curso
 
 ---
@@ -329,27 +329,232 @@ La IA genera un % propuesto en cuanto suben las fotos. El coach ve ese número e
 
 ---
 
-#### Estado de la decisión
+#### Decisión tomada: Opción B — IA + validación del coach
 
-**Pendiente de decisión en reunión de equipo.** Las preguntas abiertas que desbloquean el camino:
+Se elige la Opción B. La IA genera el % propuesto y el coach lo revisa antes de enviarlo al cliente.
 
-1. **Scope:** ¿Para toda la base de usuarios o solo para el tier coached?
-2. **Modelo de negocio:** ¿Feature incluida o servicio de pago (add-on)?
-3. **Capacidad operativa:** Si se elige la Opción B, ¿cuántas revisiones al mes puede revisar el equipo y cuántos minutos cuesta cada una?
+**Flujo definitivo:**
 
-La Opción B tiene mejor alineación con la propuesta de valor del tier coached ("tu coach evalúa tu progreso") y mayor potencial de monetización. Pero no es viable sin definir primero el SLA y la operación. Diseñar los flujos antes de cerrar eso sería construir sobre una premisa no validada.
+```
+Cliente sube fotos
+  → IA calcula % graso automáticamente
+  → Cliente recibe: "Gracias, en 1–2 días te daré el resultado"
+  → Coach revisa en dashboard
+       ├── Primera revisión: contrasta estimación IA con biblioteca de referencia visual
+       └── Revisiones siguientes: contrasta + usa evaluaciones anteriores del cliente
+              para calibrar el número considerando la tendencia
+  → Cliente recibe resultado firmado por el coach
+```
+
+El delay de 1–2 días no es solo operativo — elimina la percepción de automatización y mantiene el valor percibido del tier coached ("mi coach me ha evaluado").
 
 ---
 
-#### Lo que quedó pendiente de diseñar (si se elige Opción B)
+#### Investigación técnica: precisión del modelo de IA
 
-- **Flujo cliente:** pantalla de espera post-revisión + notificación de entrega del resultado
-- **Dashboard coaches:** vista de revisión pendiente, % sugerido por IA, control para confirmar/ajustar/rechazar fotos
-- **SLA visible:** cómo comunicar al cliente cuándo recibirá el resultado y qué pasa si se pasa del plazo
+Para tomar la decisión con datos reales, se realizó un análisis completo de precisión antes de comprometer el flujo. Hallazgos clave que informaron el diseño:
+
+**Sesgo sistemático identificado:**
+- Error medio (MAE): **3.43 pts** sobre 90 fotos de referencia (dataset limpio, rango 8–38%)
+- Sesgo global: **+2.44 pts** — el modelo sobreestima de media
+- El sesgo no es uniforme: sobreestima en personas lean, subestima en personas con más grasa (regresión hacia el centro)
+
+**Sesgo de género crítico:**
+- Mujeres: sesgo **+4.72 pts** (el modelo usa referencias de hombre por defecto)
+- Hombres: sesgo **+1.18 pts**
+- Solución: prompts diferenciados por género (escala Henselmans para hombres, escala distribución femenina para mujeres) → sesgo femenino cae a **+0.89 pts**
+
+**Mejor configuración encontrada (prompt género + corrección bidireccional por tramos):**
+
+| Configuración | MAE | Sesgo | ≤2 pts |
+|---|---|---|---|
+| Prompt universal, sin corrección | 3.43 | +2.44 | 40% |
+| Prompt universal −2.5 flat | 2.69 | −0.06 | 58% |
+| Prompt por género, sin corrección | 2.81 | +0.16 | 48% |
+| Prompt género + tramos bidireccional | **2.10** | ~0 | **65%** |
+
+La corrección bidireccional responde al patrón de regresión hacia el centro: baja las estimaciones lean, sube las estimaciones altas.
+
+**Fotos no evaluables:** el modelo no falla con gracia ante fotos malas (recortadas, de espaldas) — inventa una estimación alta con el mismo formato que una estimación correcta. Solución de producto: clasificar calidad de foto antes de mostrar el resultado, y marcar las estimaciones poco fiables en el dashboard del coach.
+
+---
+
+#### Integración en el flujo de revisión existente (pendiente de confirmar con Inazio y Jorge)
+
+**Hipótesis:** el % graso no requiere un flujo de revisión propio — se integra como un campo más dentro de la revisión quincenal que el coach ya realiza.
+
+El coach ya entra a revisar cada cliente con sus fotos, peso y notas del ciclo. Añadir el % graso supone una comprobación adicional de ~30 segundos en ese mismo contexto: ver la estimación de la IA, compararla con el historial del cliente y ajustarla si lo considera necesario antes de confirmar la revisión.
+
+Esto implica:
+- **Sin SLA nuevo** — usa el mismo plazo que la revisión (1-2 días)
+- **Sin notificación extra** — llega junto con el aviso de revisión pendiente existente
+- **Sin flujo de espera separado** — el cliente ya sabe que espera el resultado de su revisión
+- **El coach es el algoritmo de suavizado** — tiene el criterio y el contexto del cliente para ajustar el número mejor que cualquier regla automática
+
+En el dashboard del coach, dentro de la pantalla de revisión, se necesita:
+- Estimación IA del % graso
+- Histórico de los últimos 2-3 valores del cliente
+- Campo editable para confirmar o ajustar el valor
+- Flag si la foto no es evaluable (recortada, de espaldas)
+
+#### Lo que quedó pendiente de diseñar
+
+- **Dashboard coaches:** campo de % graso dentro de la pantalla de revisión existente → *resuelto en la sección 5*
+- **Flujo cliente:** cómo y cuándo se muestra el resultado en la pantalla de Revisiones
+- **Deploy del endpoint `/run-photo`:** en revisión por dev, pendiente de merge a producción
+
+---
+
+#### Propuesta de hoja de ruta — De Gemini a modelo propio
+
+*Propuesta para presentar a Inazio y Jorge.*
+
+El lanzamiento con Gemini no es el destino — es el punto de partida. Cada revisión que el coach realice genera un ejemplo etiquetado de forma gratuita (foto + % graso validado por un experto). En un mes, eso son ~4.000 ejemplos: suficiente para plantearse entrenar un modelo propio.
+
+```
+AHORA → MES 1 → MES 2–3 → FUTURO
+```
+
+**AHORA — Lanzamiento**
+- Prompts ♂/♀ diferenciados
+- Peso + altura como contexto biométrico
+- Coach ajusta en la revisión existente (sin flujo nuevo)
+- *MAE actual: ~2.1 pts*
+
+**MES 1 — Acumulación de datos**
+- Cada revisión = 1 foto etiquetada con el % validado por el coach
+- ~4.000 ejemplos en el primer mes, coste 0€
+- El workflow de negocio genera el dataset de entrenamiento como subproducto
+
+**MES 2–3 — Fine-tuning**
+- Entrenar un modelo sobre los datos acumulados
+- Coste estimado: ~500€ de GPU
+- Comparar MAE resultante vs. Gemini para decidir si el salto vale
+- *MAE objetivo: ~1.5 pts*
+
+**FUTURO — Modelo propio**
+- Un modelo que replica el criterio específico de Inazio, no el de un modelo genérico
+- Ventaja competitiva difícil de replicar por competidores
+- Sin dependencia de la API de Google
+- *MAE objetivo: ~1.0–1.5 pts*
+
+El argumento clave: ningún competidor tiene un dataset etiquetado por el criterio de un coach específico con cientos de clientes reales. Ese dataset es el moat, y se construye solo con lanzar.
+
+---
+
+### 5. Dashboard del coach: validación del % graso (card + comparador)
+
+**Fecha:** Junio 2026
+**Área:** Dashboard coaches / composición corporal
+
+#### De dónde veníamos
+
+La sección 4 dejó decidido el flujo (IA propone, coach valida) y pendiente su diseño en el dashboard. El primer boceto asumía que habría que crear un bloque nuevo dentro de la revisión. Al revisar la pantalla real del dashboard (`Ficha cliente - revisiones-v3`), el problema se redujo solo:
+
+- El **% GRASO ya existía como card** en la revisión nueva, junto a peso y rendimiento, con un badge de "75% precisión".
+- Las **fotos del cliente están en la misma vista**, justo debajo.
+- Ya existe un **gesto de cierre global ("Mandar cambios")** que envía la revisión al cliente.
+
+Conclusión: no hace falta ninguna pantalla nueva ni botón de confirmación propio. El diseño se reduce a **intervenir la card existente + un overlay de comparación**, y colgar la validación del envío que el coach ya hace.
+
+---
+
+#### Qué decidimos y por qué
+
+**Decisión 1 — La card % GRASO con 4 estados, no un flujo aparte**
+
+| Estado | Qué muestra |
+|---|---|
+| Por validar (default) | Badge ámbar "IA · Por validar", valor pre-rellenado editable, delta, género detectado, acciones Comparar / Editar |
+| Confianza baja | Lo mismo + borde ámbar y los `limiting_factors` visibles ("No se ve el abdomen · Iluminación pobre") |
+| Fotos no evaluables | Estimación **oculta por completo**, aviso con motivo, CTA "Pedir nuevas fotos", escape "Estimar manualmente" |
+| Validado | Badge verde "✓ Validado", valor confirmado, traza de auditoría ("Estimación IA: 34% · ajustada por ti"), sin acciones |
+
+El valor llega pre-rellenado con la estimación IA (corregida por género): el happy path es 1 clic. Así la promesa de "~30 segundos extra por revisión" se cumple — el coste marginal del caso de acuerdo es casi cero.
+
+En el estado "no evaluable" la estimación se oculta, no se atenúa: el research demostró que el modelo inventa números con apariencia fiable ante fotos malas, y un número visible —aunque sea en gris— ancla al coach.
+
+**Decisión 2 — Estado de validación en lugar de "% de precisión"**
+
+El badge "75% precisión" se sustituye por el estado ("IA · Por validar" → "Validado"). Razones:
+
+- La confianza numérica del modelo es **autoevaluación verbalizada, no probabilidad calibrada** — "75%" sugiere "acierta el 75% de las veces" y no significa eso.
+- Entre 72% y 78% el coach no puede actuar distinto; entre "por validar" y "validado" sí.
+- La parte útil de la confianza **se conserva como semáforo con motivos**: el nivel discreto (alta/media/baja) escala visualmente la card, y los `limiting_factors` le dicen al coach *qué* mirar, no solo *cuánto* desconfiar. Eso es lo que induce la revisión exhaustiva cuando hace falta.
+
+**Decisión 3 — El género detectado es dato visible de primer nivel en la card**
+
+El sesgo de género fue el mayor error sistemático del research (+4.72 pts en mujeres con prompt universal). El "♀/♂ detectado" en la card permite al coach detectar de un vistazo cuando la IA clasificó mal — el peor fallo posible se vuelve visible con una palabra.
+
+**Decisión 4 — El comparador se abre ya posicionado, no como galería**
+
+El overlay "Comparar" (biblioteca de referencia visual) tiene una idea central: el coach no busca en una galería — **el comparador se abre ya posicionado en la estimación de la IA**, filtrado por género. Su tarea pasa de "¿cuánto es?" a "¿más arriba o más abajo que esto?", una tarea perceptiva mucho más rápida y fiable.
+
+Mecánica:
+- Foto del cliente **fija a la izquierda** (segmented frontal/lateral/espalda) — la comparación nunca es de memoria.
+- Stepper de % en pasos de 2 pts a la derecha, con fotos de referencia verificadas (dataset 8–38%).
+- El chip donde apunta la IA lleva un **tag "IA"** permanente; el chip seleccionado (oscuro) marca dónde está mirando el coach. Se distingue "lo que dice la máquina" de "lo que estoy evaluando yo", y se ve si el coach se alejó de la estimación.
+- CTA dinámico "Usar X%" vuelca el valor a la card y cierra.
+
+**Decisión 5 — Validar = parte del "Mandar cambios" existente**
+
+Sin botón de confirmación propio. Si la revisión tiene el % graso sin validar, "Mandar cambios" avisa (o bloquea — por decidir con Inazio). La validación se integra en el ritual que el coach ya tiene, que era exactamente la hipótesis de la sección 4.
+
+---
+
+#### Decisión adicional — El rango: de mostrarlo a quitarlo (dos pivotes)
+
+El proceso del rango es un buen ejemplo de matar un elemento propio dos veces:
+
+**v1 — Mostrar el rango de la IA** ("Rango IA 31–36"). Argumentos: expresa la incertidumbre en la unidad de la decisión (pts de grasa, no un % abstracto), reduce el anclaje del número único, y da margen legítimo al coach para ajustar sin sentir que contradice a la máquina.
+
+**Pivote 1 — ¿Es fiable ese rango?** Al auditar la evaluación se descubrió que `range_low`/`range_high` se capturaron en los runs pero **nunca se analizaron**: no hay dato de cobertura. Y los indicios apuntan en contra: los LLMs son sistemáticamente sobreconfiados en su incertidumbre verbalizada, el modelo devuelve rangos típicos de ±2.5 pts mientras el within-2pts real fue 40–65%, y el rango crudo ni siquiera pasa por la corrección por tramos que sí se aplica al punto. Alternativa: rango **empírico** (punto ± MAE medido), calibrado por construcción.
+
+**Pivote 2 — Un rango constante no es información.** Si el rango empírico es siempre ±2, no informa sobre *esta* estimación — informa sobre el sistema. Eso se comunica una vez (onboarding, tooltip en el badge), no en cada card. A partir de la segunda revisión sería ruido. **Se quitó de la card.**
+
+Lo que queda del proceso:
+- El **±2 pts vive en el onboarding** de coaches y como tooltip del badge IA.
+- El **género detectado se queda** en la card — es la parte de aquella línea que sí varía por estimación.
+- **Se persiste `range_low`/`range_high`/`confidence_pct` con cada revisión** junto al valor validado por el coach. Cuando la sample de producción sea suficientemente grande, la calibración del rango IA sale gratis y retroactiva — mismo mecanismo del roadmap (cada validación = ejemplo etiquetado) aplicado a la incertidumbre, no solo al punto. Coste para dev en v1: 3 campos de almacenamiento.
+- **Condición de retorno:** si el rango pasa a ser adaptativo por foto (calibrado con esa sample), vuelve a la card como línea — entonces sí sería información sobre la estimación concreta.
+
+---
+
+#### Estructura final
+
+```
+Pantalla de revisión (existente) — Ficha cliente
+  ├── Card % GRASO (intervenida)
+  │     ├── Badge de estado: IA · Por validar → Validado
+  │     ├── Valor pre-rellenado editable + delta vs revisión anterior
+  │     ├── Género detectado (♀/♂)
+  │     ├── [confianza baja] limiting factors visibles
+  │     ├── [no evaluable] estimación oculta + Pedir nuevas fotos
+  │     └── "Comparar" → Overlay
+  ├── Overlay — Comparar composición
+  │     ├── Foto cliente fija (frontal/lateral/espalda)
+  │     ├── Stepper de % con tag "IA" + fotos de referencia por género
+  │     └── CTA "Usar X%" → vuelca a la card
+  └── "Mandar cambios" (existente) = confirmación de la validación
+```
+
+Detalles de microsemántica: el delta de % graso en verde solo cuando baja (+2% va en rojo — subir grasa no es buena noticia); en estado Validado la card vuelve a ser solo lectura, como peso.
+
+---
+
+#### Lo que quedó pendiente
+
+- **Biblioteca de referencia:** el dataset de ~108 fotos verificadas (8–38%) ya existe como dataset de evaluación; usarlo como biblioteca del comparador requiere un endpoint de lectura filtrado por % y género, y **etiquetar el género** de las fotos (la columna `gender` está mayoritariamente en `unknown`).
+- **Modo horquilla** del comparador (referencia del límite bajo y alto simultáneas) — evaluar si aporta sobre el stepper.
+- Montar card + overlay **en contexto** sobre una copia de la ficha de cliente, con fotos reales del dataset en los placeholders.
+- ¿"Mandar cambios" avisa o bloquea con % sin validar? — decidir con Inazio.
+- Medir la **cobertura del rango IA** cuando exista la sample de producción (los campos ya se persisten desde v1).
 
 ---
 
 ## Materiales
 
-- Figma: (añadir link cuando esté disponible)
-- Docs relacionados: `asesorias/`
+- Figma — pantalla de revisión del dashboard: [Ficha cliente - revisiones-v3](https://www.figma.com/design/629ryw0MF7hzDxIFiZJ5Un/App-Automatica?node-id=4737-39579)
+- Figma — card % GRASO, 4 estados: [propuesta en Rediseño - Junio](https://www.figma.com/design/629ryw0MF7hzDxIFiZJ5Un/App-Automatica?node-id=4769-19948)
+- Figma — overlay comparador: [propuesta en Rediseño - Junio](https://www.figma.com/design/629ryw0MF7hzDxIFiZJ5Un/App-Automatica?node-id=4774-20036)
+- Docs relacionados: `asesorias/`, `asesorias/calculo-%-graso/`, `casos-de-estudio/spec-evaluacion-ia-graso.md`

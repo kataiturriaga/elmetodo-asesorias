@@ -1,0 +1,455 @@
+# Programas consultancy en producción
+
+**Creados el 11/06/2026** — 52 programas (`zones: ["consultancy"]`, IDs 149–200) que wrappean 384 rutinas v2 con `zone=consultancy`. Cada fase = 1 mes = 4 semanas, con 1 rutina por fase.
+
+- 48 programas **Recomposición** (objective 1 / sub_objective 9): 2 géneros × 3 lugares × 2 niveles × 4 opciones de días. Avanzado = 9 meses, principiante = 6 meses.
+- 4 programas **chicos-gym** (sub_objective 2, lote anterior): solo chicos/gimnasio/principiante, 6 meses.
+- Quedaron sin wrappear: 3 rutinas de prueba (1134, 1317, 1368), la duplicada 1324 (idéntica a 1322) y 8 versiones antiguas del lote chicos-gym (22-may, sustituidas por las del 27-may).
+
+## Resumen por programa
+
+Las rutinas van en orden de fase (mes 1 → mes N).
+
+| ID | Programa | Género | Lugar | Nivel | Días/sem | Fases (meses) | Rutinas (en orden de mes) |
+|---|---|---|---|---|---|---|---|
+| 149 | recomposicion-chicas-gimnasio-avanzado-2 dias | Chicas | Gimnasio | Avanzado | 2 | 9 | 1039, 1016, 1020, 1024, 1231, 1235, 1239, 1242, 1247 |
+| 150 | recomposicion-chicas-gimnasio-avanzado-3 dias | Chicas | Gimnasio | Avanzado | 3 | 9 | 1227, 1015, 1019, 1023, 1230, 1234, 1238, 1243, 1246 |
+| 151 | recomposicion-chicas-gimnasio-avanzado-4 dias | Chicas | Gimnasio | Avanzado | 4 | 9 | 1038, 1014, 1018, 1022, 1229, 1233, 1237, 1241, 1245 |
+| 152 | recomposicion-chicas-gimnasio-avanzado-5 dias | Chicas | Gimnasio | Avanzado | 5 | 9 | 1037, 1013, 1017, 1021, 1228, 1232, 1236, 1240, 1244 |
+| 153 | recomposicion-chicas-gimnasio-principiante-2 dias | Chicas | Gimnasio | Principiante | 2 | 6 | 1251, 1257, 1262, 1263, 1265, 1270 |
+| 154 | recomposicion-chicas-gimnasio-principiante-3 dias | Chicas | Gimnasio | Principiante | 3 | 6 | 1250, 1256, 1261, 1258, 1264, 1271 |
+| 155 | recomposicion-chicas-gimnasio-principiante-4 dias | Chicas | Gimnasio | Principiante | 4 | 6 | 1248, 1255, 1260, 1253, 1267, 1268 |
+| 156 | recomposicion-chicas-gimnasio-principiante-5 dias | Chicas | Gimnasio | Principiante | 5 | 6 | 1249, 1254, 1259, 1252, 1266, 1269 |
+| 157 | recomposicion-chicas-solo gomas-avanzado-2 dias | Chicas | Solo gomas | Avanzado | 2 | 9 | 1073, 1082, 1321, 1087, 1327, 1330, 1335, 1339, 1343 |
+| 158 | recomposicion-chicas-solo gomas-avanzado-3 dias | Chicas | Solo gomas | Avanzado | 3 | 9 | 1072, 1081, 1320, 1085, 1326, 1331, 1334, 1338, 1342 |
+| 159 | recomposicion-chicas-solo gomas-avanzado-4 dias | Chicas | Solo gomas | Avanzado | 4 | 9 | 1322, 1065, 1319, 1084, 1325, 1328, 1333, 1337, 1341 |
+| 160 | recomposicion-chicas-solo gomas-avanzado-5 dias | Chicas | Solo gomas | Avanzado | 5 | 9 | 1071, 1064, 1318, 1083, 1323, 1329, 1332, 1336, 1340 |
+| 161 | recomposicion-chicas-solo gomas-principiante-2 dias | Chicas | Solo gomas | Principiante | 2 | 6 | 1347, 1351, 1355, 1359, 1361, 1365 |
+| 162 | recomposicion-chicas-solo gomas-principiante-3 dias | Chicas | Solo gomas | Principiante | 3 | 6 | 1346, 1350, 1354, 1358, 1362, 1367 |
+| 163 | recomposicion-chicas-solo gomas-principiante-4 dias | Chicas | Solo gomas | Principiante | 4 | 6 | 1345, 1349, 1353, 1357, 1360, 1366 |
+| 164 | recomposicion-chicas-solo gomas-principiante-5 dias | Chicas | Solo gomas | Principiante | 5 | 6 | 1344, 1348, 1352, 1356, 1363, 1364 |
+| 165 | recomposicion-chicas-mancuernas y gomas-avanzado-2 dias | Chicas | Mancuernas y gomas | Avanzado | 2 | 9 | 1070, 1054, 1058, 1062, 1274, 1276, 1284, 1288, 1292 |
+| 166 | recomposicion-chicas-mancuernas y gomas-avanzado-3 dias | Chicas | Mancuernas y gomas | Avanzado | 3 | 9 | 1069, 1053, 1057, 1061, 1275, 1277, 1283, 1287, 1291 |
+| 167 | recomposicion-chicas-mancuernas y gomas-avanzado-4 dias | Chicas | Mancuernas y gomas | Avanzado | 4 | 9 | 1272, 1052, 1056, 1060, 1273, 1278, 1282, 1286, 1290 |
+| 168 | recomposicion-chicas-mancuernas y gomas-avanzado-5 dias | Chicas | Mancuernas y gomas | Avanzado | 5 | 9 | 1068, 1051, 1055, 1059, 1280, 1279, 1281, 1285, 1289 |
+| 169 | recomposicion-chicas-mancuernas y gomas-principiante-2 dias | Chicas | Mancuernas y gomas | Principiante | 2 | 6 | 1295, 1300, 1304, 1307, 1309, 1314 |
+| 170 | recomposicion-chicas-mancuernas y gomas-principiante-3 dias | Chicas | Mancuernas y gomas | Principiante | 3 | 6 | 1294, 1299, 1303, 1306, 1312, 1316 |
+| 171 | recomposicion-chicas-mancuernas y gomas-principiante-4 dias | Chicas | Mancuernas y gomas | Principiante | 4 | 6 | 1296, 1298, 1302, 1305, 1310, 1313 |
+| 172 | recomposicion-chicas-mancuernas y gomas-principiante-5 dias | Chicas | Mancuernas y gomas | Principiante | 5 | 6 | 1293, 1297, 1301, 1308, 1311, 1315 |
+| 173 | recomposicion-chicos-gimnasio-avanzado-2 dias | Chicos | Gimnasio | Avanzado | 2 | 9 | 1098, 1108, 1091, 1096, 1093, 1110, 1042, 1026, 1117 |
+| 174 | recomposicion-chicos-gimnasio-avanzado-3 dias | Chicos | Gimnasio | Avanzado | 3 | 9 | 1111, 1106, 1101, 1092, 1094, 1112, 1041, 1025, 1116 |
+| 175 | recomposicion-chicos-gimnasio-avanzado-4 dias | Chicos | Gimnasio | Avanzado | 4 | 9 | 1099, 1107, 1090, 1102, 1097, 1089, 1113, 1044, 1114 |
+| 176 | recomposicion-chicos-gimnasio-avanzado-5 dias | Chicos | Gimnasio | Avanzado | 5 | 9 | 1109, 1088, 1105, 1103, 1095, 1100, 1030, 1043, 1115 |
+| 177 | recomposicion-chicos-gimnasio-principiante-2 dias | Chicos | Gimnasio | Principiante | 2 | 6 | 1008, 1012, 1126, 1127, 1132, 1121 |
+| 178 | recomposicion-chicos-gimnasio-principiante-3 dias | Chicos | Gimnasio | Principiante | 3 | 6 | 1007, 1011, 1124, 1122, 1131, 1120 |
+| 179 | recomposicion-chicos-gimnasio-principiante-4 dias | Chicos | Gimnasio | Principiante | 4 | 6 | 1006, 1010, 1125, 1129, 1133, 1119 |
+| 180 | recomposicion-chicos-gimnasio-principiante-5 dias | Chicos | Gimnasio | Principiante | 5 | 6 | 1005, 1009, 1123, 1128, 1130, 1118 |
+| 181 | recomposicion-chicos-solo gomas-avanzado-2 dias | Chicos | Solo gomas | Avanzado | 2 | 9 | 1036, 1067, 1076, 1080, 1186, 1194, 1188, 1198, 1202 |
+| 182 | recomposicion-chicos-solo gomas-avanzado-3 dias | Chicos | Solo gomas | Avanzado | 3 | 9 | 1035, 1086, 1075, 1079, 1185, 1193, 1190, 1197, 1201 |
+| 183 | recomposicion-chicos-solo gomas-avanzado-4 dias | Chicos | Solo gomas | Avanzado | 4 | 9 | 1034, 1182, 1074, 1078, 1184, 1192, 1189, 1196, 1200 |
+| 184 | recomposicion-chicos-solo gomas-avanzado-5 dias | Chicos | Solo gomas | Avanzado | 5 | 9 | 1033, 1066, 1104, 1077, 1183, 1191, 1187, 1195, 1199 |
+| 185 | recomposicion-chicos-solo gomas-principiante-2 dias | Chicos | Solo gomas | Principiante | 2 | 6 | 1206, 1210, 1213, 1218, 1222, 1225 |
+| 186 | recomposicion-chicos-solo gomas-principiante-3 dias | Chicos | Solo gomas | Principiante | 3 | 6 | 1205, 1209, 1214, 1217, 1221, 1226 |
+| 187 | recomposicion-chicos-solo gomas-principiante-4 dias | Chicos | Solo gomas | Principiante | 4 | 6 | 1204, 1208, 1212, 1216, 1220, 1224 |
+| 188 | recomposicion-chicos-solo gomas-principiante-5 dias | Chicos | Solo gomas | Principiante | 5 | 6 | 1203, 1207, 1211, 1215, 1219, 1223 |
+| 189 | recomposicion-chicos-mancuernas y gomas-avanzado-2 dias | Chicos | Mancuernas y gomas | Avanzado | 2 | 9 | 1032, 1029, 1048, 1141, 1140, 1149, 1143, 1153, 1157 |
+| 190 | recomposicion-chicos-mancuernas y gomas-avanzado-3 dias | Chicos | Mancuernas y gomas | Avanzado | 3 | 9 | 1031, 1040, 1047, 1063, 1139, 1148, 1144, 1152, 1156 |
+| 191 | recomposicion-chicos-mancuernas y gomas-avanzado-4 dias | Chicos | Mancuernas y gomas | Avanzado | 4 | 9 | 1136, 1028, 1046, 1050, 1138, 1147, 1142, 1151, 1155 |
+| 192 | recomposicion-chicos-mancuernas y gomas-avanzado-5 dias | Chicos | Mancuernas y gomas | Avanzado | 5 | 9 | 1135, 1027, 1045, 1049, 1137, 1146, 1145, 1150, 1154 |
+| 193 | recomposicion-chicos-mancuernas y gomas-principiante-2 dias | Chicos | Mancuernas y gomas | Principiante | 2 | 6 | 1161, 1165, 1169, 1172, 1177, 1181 |
+| 194 | recomposicion-chicos-mancuernas y gomas-principiante-3 dias | Chicos | Mancuernas y gomas | Principiante | 3 | 6 | 1160, 1164, 1168, 1171, 1176, 1180 |
+| 195 | recomposicion-chicos-mancuernas y gomas-principiante-4 dias | Chicos | Mancuernas y gomas | Principiante | 4 | 6 | 1159, 1163, 1167, 1173, 1175, 1179 |
+| 196 | recomposicion-chicos-mancuernas y gomas-principiante-5 dias | Chicos | Mancuernas y gomas | Principiante | 5 | 6 | 1158, 1162, 1166, 1170, 1174, 1178 |
+| 197 | chicos-gym-principiante-2 dias | Chicos | Gimnasio | Principiante | 2 | 6 | 1004, 980, 984, 988, 992, 1000 |
+| 198 | chicos-gym-principiante-3 dias | Chicos | Gimnasio | Principiante | 3 | 6 | 1003, 979, 983, 987, 991, 999 |
+| 199 | chicos-gym-principiante-4 dias | Chicos | Gimnasio | Principiante | 4 | 6 | 1002, 978, 982, 986, 990, 998 |
+| 200 | chicos-gym-principiante-5 dias | Chicos | Gimnasio | Principiante | 5 | 6 | 1001, 977, 981, 985, 989, 997 |
+
+## Detalle fase a fase
+
+| Programa ID | Programa | Fase | Nombre de fase | Rutina ID | Semanas |
+|---|---|---|---|---|---|
+| 149 | recomposicion-chicas-gimnasio-avanzado-2 dias | 1 | mes 1 - weider | 1039 | 4 |
+| 149 | recomposicion-chicas-gimnasio-avanzado-2 dias | 2 | mes 2 - empujes y tracciones | 1016 | 4 |
+| 149 | recomposicion-chicas-gimnasio-avanzado-2 dias | 3 | mes 3 - torso pierna | 1020 | 4 |
+| 149 | recomposicion-chicas-gimnasio-avanzado-2 dias | 4 | mes 4 - fullbody descen | 1024 | 4 |
+| 149 | recomposicion-chicas-gimnasio-avanzado-2 dias | 5 | mes 5 - weider | 1231 | 4 |
+| 149 | recomposicion-chicas-gimnasio-avanzado-2 dias | 6 | mes 6 - empujes y tracciones | 1235 | 4 |
+| 149 | recomposicion-chicas-gimnasio-avanzado-2 dias | 7 | mes 7 - torso pierna | 1239 | 4 |
+| 149 | recomposicion-chicas-gimnasio-avanzado-2 dias | 8 | mes 8 - fullbody descen | 1242 | 4 |
+| 149 | recomposicion-chicas-gimnasio-avanzado-2 dias | 9 | mes 9 - weider | 1247 | 4 |
+| 150 | recomposicion-chicas-gimnasio-avanzado-3 dias | 1 | mes 1 - weider | 1227 | 4 |
+| 150 | recomposicion-chicas-gimnasio-avanzado-3 dias | 2 | mes 2 - empujes y tracciones | 1015 | 4 |
+| 150 | recomposicion-chicas-gimnasio-avanzado-3 dias | 3 | mes 3 - torso pierna | 1019 | 4 |
+| 150 | recomposicion-chicas-gimnasio-avanzado-3 dias | 4 | mes 4 - fullbody descen | 1023 | 4 |
+| 150 | recomposicion-chicas-gimnasio-avanzado-3 dias | 5 | mes 5 - weider | 1230 | 4 |
+| 150 | recomposicion-chicas-gimnasio-avanzado-3 dias | 6 | mes 6 - empujes y tracciones | 1234 | 4 |
+| 150 | recomposicion-chicas-gimnasio-avanzado-3 dias | 7 | mes 7 - torso pierna | 1238 | 4 |
+| 150 | recomposicion-chicas-gimnasio-avanzado-3 dias | 8 | mes 8 - fullbody descen | 1243 | 4 |
+| 150 | recomposicion-chicas-gimnasio-avanzado-3 dias | 9 | mes 9 - weider | 1246 | 4 |
+| 151 | recomposicion-chicas-gimnasio-avanzado-4 dias | 1 | mes 1 - weider | 1038 | 4 |
+| 151 | recomposicion-chicas-gimnasio-avanzado-4 dias | 2 | mes 2 - empujes y tracciones | 1014 | 4 |
+| 151 | recomposicion-chicas-gimnasio-avanzado-4 dias | 3 | mes 3 - torso pierna | 1018 | 4 |
+| 151 | recomposicion-chicas-gimnasio-avanzado-4 dias | 4 | mes 4 - fullbody descen | 1022 | 4 |
+| 151 | recomposicion-chicas-gimnasio-avanzado-4 dias | 5 | mes 5 - weider | 1229 | 4 |
+| 151 | recomposicion-chicas-gimnasio-avanzado-4 dias | 6 | mes 6 - empujes y tracciones | 1233 | 4 |
+| 151 | recomposicion-chicas-gimnasio-avanzado-4 dias | 7 | mes 7 - torso pierna | 1237 | 4 |
+| 151 | recomposicion-chicas-gimnasio-avanzado-4 dias | 8 | mes 8 - fullbody descen | 1241 | 4 |
+| 151 | recomposicion-chicas-gimnasio-avanzado-4 dias | 9 | mes 9 - weider | 1245 | 4 |
+| 152 | recomposicion-chicas-gimnasio-avanzado-5 dias | 1 | mes 1 - weider | 1037 | 4 |
+| 152 | recomposicion-chicas-gimnasio-avanzado-5 dias | 2 | mes 2 - empujes y tracciones | 1013 | 4 |
+| 152 | recomposicion-chicas-gimnasio-avanzado-5 dias | 3 | mes 3 - torso pierna | 1017 | 4 |
+| 152 | recomposicion-chicas-gimnasio-avanzado-5 dias | 4 | mes 4 - fullbody descen | 1021 | 4 |
+| 152 | recomposicion-chicas-gimnasio-avanzado-5 dias | 5 | mes 5 - weider | 1228 | 4 |
+| 152 | recomposicion-chicas-gimnasio-avanzado-5 dias | 6 | mes 6 - empujes y tracciones | 1232 | 4 |
+| 152 | recomposicion-chicas-gimnasio-avanzado-5 dias | 7 | mes 7 - torso pierna | 1236 | 4 |
+| 152 | recomposicion-chicas-gimnasio-avanzado-5 dias | 8 | mes 8 - fullbody descen | 1240 | 4 |
+| 152 | recomposicion-chicas-gimnasio-avanzado-5 dias | 9 | mes 9 - weider | 1244 | 4 |
+| 153 | recomposicion-chicas-gimnasio-principiante-2 dias | 1 | mes 1 - weider | 1251 | 4 |
+| 153 | recomposicion-chicas-gimnasio-principiante-2 dias | 2 | mes 2 - empujes y tracciones | 1257 | 4 |
+| 153 | recomposicion-chicas-gimnasio-principiante-2 dias | 3 | mes 3 - torso pierna | 1262 | 4 |
+| 153 | recomposicion-chicas-gimnasio-principiante-2 dias | 4 | mes 4 - fullbody descen | 1263 | 4 |
+| 153 | recomposicion-chicas-gimnasio-principiante-2 dias | 5 | mes 5 - weider | 1265 | 4 |
+| 153 | recomposicion-chicas-gimnasio-principiante-2 dias | 6 | mes 6 - empujes y tracciones | 1270 | 4 |
+| 154 | recomposicion-chicas-gimnasio-principiante-3 dias | 1 | mes 1 - weider | 1250 | 4 |
+| 154 | recomposicion-chicas-gimnasio-principiante-3 dias | 2 | mes 2 - empujes y tracciones | 1256 | 4 |
+| 154 | recomposicion-chicas-gimnasio-principiante-3 dias | 3 | mes 3 - torso pierna | 1261 | 4 |
+| 154 | recomposicion-chicas-gimnasio-principiante-3 dias | 4 | mes 4 - fullbody descen | 1258 | 4 |
+| 154 | recomposicion-chicas-gimnasio-principiante-3 dias | 5 | mes 5 - weider | 1264 | 4 |
+| 154 | recomposicion-chicas-gimnasio-principiante-3 dias | 6 | mes 6 - empujes y tracciones | 1271 | 4 |
+| 155 | recomposicion-chicas-gimnasio-principiante-4 dias | 1 | mes 1 - weider | 1248 | 4 |
+| 155 | recomposicion-chicas-gimnasio-principiante-4 dias | 2 | mes 2 - empujes y tracciones | 1255 | 4 |
+| 155 | recomposicion-chicas-gimnasio-principiante-4 dias | 3 | mes 3 - torso pierna | 1260 | 4 |
+| 155 | recomposicion-chicas-gimnasio-principiante-4 dias | 4 | mes 4 - fullbody descen | 1253 | 4 |
+| 155 | recomposicion-chicas-gimnasio-principiante-4 dias | 5 | mes 5 - weider | 1267 | 4 |
+| 155 | recomposicion-chicas-gimnasio-principiante-4 dias | 6 | mes 6 - empujes y tracciones | 1268 | 4 |
+| 156 | recomposicion-chicas-gimnasio-principiante-5 dias | 1 | mes 1 - weider | 1249 | 4 |
+| 156 | recomposicion-chicas-gimnasio-principiante-5 dias | 2 | mes 2 - empujes y tracciones | 1254 | 4 |
+| 156 | recomposicion-chicas-gimnasio-principiante-5 dias | 3 | mes 3 - torso pierna | 1259 | 4 |
+| 156 | recomposicion-chicas-gimnasio-principiante-5 dias | 4 | mes 4 - fullbody descen | 1252 | 4 |
+| 156 | recomposicion-chicas-gimnasio-principiante-5 dias | 5 | mes 5 - weider | 1266 | 4 |
+| 156 | recomposicion-chicas-gimnasio-principiante-5 dias | 6 | mes 6 - empujes y tracciones | 1269 | 4 |
+| 157 | recomposicion-chicas-solo gomas-avanzado-2 dias | 1 | mes 1 - weider | 1073 | 4 |
+| 157 | recomposicion-chicas-solo gomas-avanzado-2 dias | 2 | mes 2 - empujes y tracciones | 1082 | 4 |
+| 157 | recomposicion-chicas-solo gomas-avanzado-2 dias | 3 | mes 3 - torso pierna | 1321 | 4 |
+| 157 | recomposicion-chicas-solo gomas-avanzado-2 dias | 4 | mes 4 - fullbody descen | 1087 | 4 |
+| 157 | recomposicion-chicas-solo gomas-avanzado-2 dias | 5 | mes 5 - weider | 1327 | 4 |
+| 157 | recomposicion-chicas-solo gomas-avanzado-2 dias | 6 | mes 6 - empujes y tracciones | 1330 | 4 |
+| 157 | recomposicion-chicas-solo gomas-avanzado-2 dias | 7 | mes 7 - torso pierna | 1335 | 4 |
+| 157 | recomposicion-chicas-solo gomas-avanzado-2 dias | 8 | mes 8 - fullbody descen | 1339 | 4 |
+| 157 | recomposicion-chicas-solo gomas-avanzado-2 dias | 9 | mes 9 - weider | 1343 | 4 |
+| 158 | recomposicion-chicas-solo gomas-avanzado-3 dias | 1 | mes 1 - weider | 1072 | 4 |
+| 158 | recomposicion-chicas-solo gomas-avanzado-3 dias | 2 | mes 2 - empujes y tracciones | 1081 | 4 |
+| 158 | recomposicion-chicas-solo gomas-avanzado-3 dias | 3 | mes 3 - torso pierna | 1320 | 4 |
+| 158 | recomposicion-chicas-solo gomas-avanzado-3 dias | 4 | mes 4 - fullbody descen | 1085 | 4 |
+| 158 | recomposicion-chicas-solo gomas-avanzado-3 dias | 5 | mes 5 - weider | 1326 | 4 |
+| 158 | recomposicion-chicas-solo gomas-avanzado-3 dias | 6 | mes 6 - empujes y tracciones | 1331 | 4 |
+| 158 | recomposicion-chicas-solo gomas-avanzado-3 dias | 7 | mes 7 - torso pierna | 1334 | 4 |
+| 158 | recomposicion-chicas-solo gomas-avanzado-3 dias | 8 | mes 8 - fullbody descen | 1338 | 4 |
+| 158 | recomposicion-chicas-solo gomas-avanzado-3 dias | 9 | mes 9 - weider | 1342 | 4 |
+| 159 | recomposicion-chicas-solo gomas-avanzado-4 dias | 1 | mes 1 - weider | 1322 | 4 |
+| 159 | recomposicion-chicas-solo gomas-avanzado-4 dias | 2 | mes 2 - empujes y tracciones | 1065 | 4 |
+| 159 | recomposicion-chicas-solo gomas-avanzado-4 dias | 3 | mes 3 - torso pierna | 1319 | 4 |
+| 159 | recomposicion-chicas-solo gomas-avanzado-4 dias | 4 | mes 4 - fullbody descen | 1084 | 4 |
+| 159 | recomposicion-chicas-solo gomas-avanzado-4 dias | 5 | mes 5 - weider | 1325 | 4 |
+| 159 | recomposicion-chicas-solo gomas-avanzado-4 dias | 6 | mes 6 - empujes y tracciones | 1328 | 4 |
+| 159 | recomposicion-chicas-solo gomas-avanzado-4 dias | 7 | mes 7 - torso pierna | 1333 | 4 |
+| 159 | recomposicion-chicas-solo gomas-avanzado-4 dias | 8 | mes 8 - fullbody descen | 1337 | 4 |
+| 159 | recomposicion-chicas-solo gomas-avanzado-4 dias | 9 | mes 9 - weider | 1341 | 4 |
+| 160 | recomposicion-chicas-solo gomas-avanzado-5 dias | 1 | mes 1 - weider | 1071 | 4 |
+| 160 | recomposicion-chicas-solo gomas-avanzado-5 dias | 2 | mes 2 - empujes y tracciones | 1064 | 4 |
+| 160 | recomposicion-chicas-solo gomas-avanzado-5 dias | 3 | mes 3 - torso pierna | 1318 | 4 |
+| 160 | recomposicion-chicas-solo gomas-avanzado-5 dias | 4 | mes 4 - fullbody descen | 1083 | 4 |
+| 160 | recomposicion-chicas-solo gomas-avanzado-5 dias | 5 | mes 5 - weider | 1323 | 4 |
+| 160 | recomposicion-chicas-solo gomas-avanzado-5 dias | 6 | mes 6 - empujes y tracciones | 1329 | 4 |
+| 160 | recomposicion-chicas-solo gomas-avanzado-5 dias | 7 | mes 7 - torso pierna | 1332 | 4 |
+| 160 | recomposicion-chicas-solo gomas-avanzado-5 dias | 8 | mes 8 - fullbody descen | 1336 | 4 |
+| 160 | recomposicion-chicas-solo gomas-avanzado-5 dias | 9 | mes 9 - weider | 1340 | 4 |
+| 161 | recomposicion-chicas-solo gomas-principiante-2 dias | 1 | mes 1 - weider | 1347 | 4 |
+| 161 | recomposicion-chicas-solo gomas-principiante-2 dias | 2 | mes 2 - empujes y tracciones | 1351 | 4 |
+| 161 | recomposicion-chicas-solo gomas-principiante-2 dias | 3 | mes 3 - torso pierna | 1355 | 4 |
+| 161 | recomposicion-chicas-solo gomas-principiante-2 dias | 4 | mes 4 - fullbody descen | 1359 | 4 |
+| 161 | recomposicion-chicas-solo gomas-principiante-2 dias | 5 | mes 5 - weider | 1361 | 4 |
+| 161 | recomposicion-chicas-solo gomas-principiante-2 dias | 6 | mes 6 - empujes y tracciones | 1365 | 4 |
+| 162 | recomposicion-chicas-solo gomas-principiante-3 dias | 1 | mes 1 - weider | 1346 | 4 |
+| 162 | recomposicion-chicas-solo gomas-principiante-3 dias | 2 | mes 2 - empujes y tracciones | 1350 | 4 |
+| 162 | recomposicion-chicas-solo gomas-principiante-3 dias | 3 | mes 3 - torso pierna | 1354 | 4 |
+| 162 | recomposicion-chicas-solo gomas-principiante-3 dias | 4 | mes 4 - fullbody descen | 1358 | 4 |
+| 162 | recomposicion-chicas-solo gomas-principiante-3 dias | 5 | mes 5 - weider | 1362 | 4 |
+| 162 | recomposicion-chicas-solo gomas-principiante-3 dias | 6 | mes 6 - empujes y tracciones | 1367 | 4 |
+| 163 | recomposicion-chicas-solo gomas-principiante-4 dias | 1 | mes 1 - weider | 1345 | 4 |
+| 163 | recomposicion-chicas-solo gomas-principiante-4 dias | 2 | mes 2 - empujes y tracciones | 1349 | 4 |
+| 163 | recomposicion-chicas-solo gomas-principiante-4 dias | 3 | mes 3 - torso pierna | 1353 | 4 |
+| 163 | recomposicion-chicas-solo gomas-principiante-4 dias | 4 | mes 4 - fullbody descen | 1357 | 4 |
+| 163 | recomposicion-chicas-solo gomas-principiante-4 dias | 5 | mes 5 - weider | 1360 | 4 |
+| 163 | recomposicion-chicas-solo gomas-principiante-4 dias | 6 | mes 6 - empujes y tracciones | 1366 | 4 |
+| 164 | recomposicion-chicas-solo gomas-principiante-5 dias | 1 | mes 1 - weider | 1344 | 4 |
+| 164 | recomposicion-chicas-solo gomas-principiante-5 dias | 2 | mes 2 - empujes y tracciones | 1348 | 4 |
+| 164 | recomposicion-chicas-solo gomas-principiante-5 dias | 3 | mes 3 - torso pierna | 1352 | 4 |
+| 164 | recomposicion-chicas-solo gomas-principiante-5 dias | 4 | mes 4 - fullbody descen | 1356 | 4 |
+| 164 | recomposicion-chicas-solo gomas-principiante-5 dias | 5 | mes 5 - weider | 1363 | 4 |
+| 164 | recomposicion-chicas-solo gomas-principiante-5 dias | 6 | mes 6 - empujes y tracciones | 1364 | 4 |
+| 165 | recomposicion-chicas-mancuernas y gomas-avanzado-2 dias | 1 | mes 1 - weider | 1070 | 4 |
+| 165 | recomposicion-chicas-mancuernas y gomas-avanzado-2 dias | 2 | mes 2 - empujes y tracciones | 1054 | 4 |
+| 165 | recomposicion-chicas-mancuernas y gomas-avanzado-2 dias | 3 | mes 3 - torso pierna | 1058 | 4 |
+| 165 | recomposicion-chicas-mancuernas y gomas-avanzado-2 dias | 4 | mes 4 - fullbody descen | 1062 | 4 |
+| 165 | recomposicion-chicas-mancuernas y gomas-avanzado-2 dias | 5 | mes 5 - weider | 1274 | 4 |
+| 165 | recomposicion-chicas-mancuernas y gomas-avanzado-2 dias | 6 | mes 6 - empujes y tracciones | 1276 | 4 |
+| 165 | recomposicion-chicas-mancuernas y gomas-avanzado-2 dias | 7 | mes 7 - torso pierna | 1284 | 4 |
+| 165 | recomposicion-chicas-mancuernas y gomas-avanzado-2 dias | 8 | mes 8 - fullbody descen | 1288 | 4 |
+| 165 | recomposicion-chicas-mancuernas y gomas-avanzado-2 dias | 9 | mes 9 - weider | 1292 | 4 |
+| 166 | recomposicion-chicas-mancuernas y gomas-avanzado-3 dias | 1 | mes 1 - weider | 1069 | 4 |
+| 166 | recomposicion-chicas-mancuernas y gomas-avanzado-3 dias | 2 | mes 2 - empujes y tracciones | 1053 | 4 |
+| 166 | recomposicion-chicas-mancuernas y gomas-avanzado-3 dias | 3 | mes 3 - torso pierna | 1057 | 4 |
+| 166 | recomposicion-chicas-mancuernas y gomas-avanzado-3 dias | 4 | mes 4 - fullbody descen | 1061 | 4 |
+| 166 | recomposicion-chicas-mancuernas y gomas-avanzado-3 dias | 5 | mes 5 - weider | 1275 | 4 |
+| 166 | recomposicion-chicas-mancuernas y gomas-avanzado-3 dias | 6 | mes 6 - empujes y tracciones | 1277 | 4 |
+| 166 | recomposicion-chicas-mancuernas y gomas-avanzado-3 dias | 7 | mes 7 - torso pierna | 1283 | 4 |
+| 166 | recomposicion-chicas-mancuernas y gomas-avanzado-3 dias | 8 | mes 8 - fullbody descen | 1287 | 4 |
+| 166 | recomposicion-chicas-mancuernas y gomas-avanzado-3 dias | 9 | mes 9 - weider | 1291 | 4 |
+| 167 | recomposicion-chicas-mancuernas y gomas-avanzado-4 dias | 1 | mes 1 - weider | 1272 | 4 |
+| 167 | recomposicion-chicas-mancuernas y gomas-avanzado-4 dias | 2 | mes 2 - empujes y tracciones | 1052 | 4 |
+| 167 | recomposicion-chicas-mancuernas y gomas-avanzado-4 dias | 3 | mes 3 - torso pierna | 1056 | 4 |
+| 167 | recomposicion-chicas-mancuernas y gomas-avanzado-4 dias | 4 | mes 4 - fullbody descen | 1060 | 4 |
+| 167 | recomposicion-chicas-mancuernas y gomas-avanzado-4 dias | 5 | mes 5 - weider | 1273 | 4 |
+| 167 | recomposicion-chicas-mancuernas y gomas-avanzado-4 dias | 6 | mes 6 - empujes y tracciones | 1278 | 4 |
+| 167 | recomposicion-chicas-mancuernas y gomas-avanzado-4 dias | 7 | mes 7 - torso pierna | 1282 | 4 |
+| 167 | recomposicion-chicas-mancuernas y gomas-avanzado-4 dias | 8 | mes 8 - fullbody descen | 1286 | 4 |
+| 167 | recomposicion-chicas-mancuernas y gomas-avanzado-4 dias | 9 | mes 9 - weider | 1290 | 4 |
+| 168 | recomposicion-chicas-mancuernas y gomas-avanzado-5 dias | 1 | mes 1 - weider | 1068 | 4 |
+| 168 | recomposicion-chicas-mancuernas y gomas-avanzado-5 dias | 2 | mes 2 - empujes y tracciones | 1051 | 4 |
+| 168 | recomposicion-chicas-mancuernas y gomas-avanzado-5 dias | 3 | mes 3 - torso pierna | 1055 | 4 |
+| 168 | recomposicion-chicas-mancuernas y gomas-avanzado-5 dias | 4 | mes 4 - fullbody descen | 1059 | 4 |
+| 168 | recomposicion-chicas-mancuernas y gomas-avanzado-5 dias | 5 | mes 5 - weider | 1280 | 4 |
+| 168 | recomposicion-chicas-mancuernas y gomas-avanzado-5 dias | 6 | mes 6 - weider | 1279 | 4 |
+| 168 | recomposicion-chicas-mancuernas y gomas-avanzado-5 dias | 7 | mes 7 - torso pierna | 1281 | 4 |
+| 168 | recomposicion-chicas-mancuernas y gomas-avanzado-5 dias | 8 | mes 8 - fullbody descen | 1285 | 4 |
+| 168 | recomposicion-chicas-mancuernas y gomas-avanzado-5 dias | 9 | mes 9 - weider | 1289 | 4 |
+| 169 | recomposicion-chicas-mancuernas y gomas-principiante-2 dias | 1 | mes 1 - weider | 1295 | 4 |
+| 169 | recomposicion-chicas-mancuernas y gomas-principiante-2 dias | 2 | mes 2 - empujes y tracciones | 1300 | 4 |
+| 169 | recomposicion-chicas-mancuernas y gomas-principiante-2 dias | 3 | mes 3 - torso pierna | 1304 | 4 |
+| 169 | recomposicion-chicas-mancuernas y gomas-principiante-2 dias | 4 | mes 4 - fullbody descen | 1307 | 4 |
+| 169 | recomposicion-chicas-mancuernas y gomas-principiante-2 dias | 5 | mes 5 - weider | 1309 | 4 |
+| 169 | recomposicion-chicas-mancuernas y gomas-principiante-2 dias | 6 | mes 6 - empujes y tracciones | 1314 | 4 |
+| 170 | recomposicion-chicas-mancuernas y gomas-principiante-3 dias | 1 | mes 1 - weider | 1294 | 4 |
+| 170 | recomposicion-chicas-mancuernas y gomas-principiante-3 dias | 2 | mes 2 - empujes y tracciones | 1299 | 4 |
+| 170 | recomposicion-chicas-mancuernas y gomas-principiante-3 dias | 3 | mes 3 - torso pierna | 1303 | 4 |
+| 170 | recomposicion-chicas-mancuernas y gomas-principiante-3 dias | 4 | mes 4 - fullbody descen | 1306 | 4 |
+| 170 | recomposicion-chicas-mancuernas y gomas-principiante-3 dias | 5 | mes 5 - weider | 1312 | 4 |
+| 170 | recomposicion-chicas-mancuernas y gomas-principiante-3 dias | 6 | mes 6 - empujes y tracciones | 1316 | 4 |
+| 171 | recomposicion-chicas-mancuernas y gomas-principiante-4 dias | 1 | mes 1 - weider | 1296 | 4 |
+| 171 | recomposicion-chicas-mancuernas y gomas-principiante-4 dias | 2 | mes 2 - empujes y tracciones | 1298 | 4 |
+| 171 | recomposicion-chicas-mancuernas y gomas-principiante-4 dias | 3 | mes 3 - torso pierna | 1302 | 4 |
+| 171 | recomposicion-chicas-mancuernas y gomas-principiante-4 dias | 4 | mes 4 - fullbody descen | 1305 | 4 |
+| 171 | recomposicion-chicas-mancuernas y gomas-principiante-4 dias | 5 | mes 5 - weider | 1310 | 4 |
+| 171 | recomposicion-chicas-mancuernas y gomas-principiante-4 dias | 6 | mes 6 - empujes y tracciones | 1313 | 4 |
+| 172 | recomposicion-chicas-mancuernas y gomas-principiante-5 dias | 1 | mes 1 - weider | 1293 | 4 |
+| 172 | recomposicion-chicas-mancuernas y gomas-principiante-5 dias | 2 | mes 2 - empujes y tracciones | 1297 | 4 |
+| 172 | recomposicion-chicas-mancuernas y gomas-principiante-5 dias | 3 | mes 3 - torso pierna | 1301 | 4 |
+| 172 | recomposicion-chicas-mancuernas y gomas-principiante-5 dias | 4 | mes 4 - fullbody descen | 1308 | 4 |
+| 172 | recomposicion-chicas-mancuernas y gomas-principiante-5 dias | 5 | mes 5 - weider | 1311 | 4 |
+| 172 | recomposicion-chicas-mancuernas y gomas-principiante-5 dias | 6 | mes 6 - empujes y tracciones | 1315 | 4 |
+| 173 | recomposicion-chicos-gimnasio-avanzado-2 dias | 1 | mes 1 - weider | 1098 | 4 |
+| 173 | recomposicion-chicos-gimnasio-avanzado-2 dias | 2 | mes 2 - empujes y tracciones | 1108 | 4 |
+| 173 | recomposicion-chicos-gimnasio-avanzado-2 dias | 3 | mes 3 - torso pierna | 1091 | 4 |
+| 173 | recomposicion-chicos-gimnasio-avanzado-2 dias | 4 | mes 4 - fullbody descen | 1096 | 4 |
+| 173 | recomposicion-chicos-gimnasio-avanzado-2 dias | 5 | mes 5 - weider | 1093 | 4 |
+| 173 | recomposicion-chicos-gimnasio-avanzado-2 dias | 6 | mes 6 - empujes y tracciones | 1110 | 4 |
+| 173 | recomposicion-chicos-gimnasio-avanzado-2 dias | 7 | mes 7 - torso pierna | 1042 | 4 |
+| 173 | recomposicion-chicos-gimnasio-avanzado-2 dias | 8 | mes 8 - fullbody descen | 1026 | 4 |
+| 173 | recomposicion-chicos-gimnasio-avanzado-2 dias | 9 | mes 9 - weider | 1117 | 4 |
+| 174 | recomposicion-chicos-gimnasio-avanzado-3 dias | 1 | mes 1 - weider | 1111 | 4 |
+| 174 | recomposicion-chicos-gimnasio-avanzado-3 dias | 2 | mes 2 - empujes y tracciones | 1106 | 4 |
+| 174 | recomposicion-chicos-gimnasio-avanzado-3 dias | 3 | mes 3 - torso pierna | 1101 | 4 |
+| 174 | recomposicion-chicos-gimnasio-avanzado-3 dias | 4 | mes 4 - fullbody descen | 1092 | 4 |
+| 174 | recomposicion-chicos-gimnasio-avanzado-3 dias | 5 | mes 5 - weider | 1094 | 4 |
+| 174 | recomposicion-chicos-gimnasio-avanzado-3 dias | 6 | mes 6 - empujes y tracciones | 1112 | 4 |
+| 174 | recomposicion-chicos-gimnasio-avanzado-3 dias | 7 | mes 7 - torso pierna | 1041 | 4 |
+| 174 | recomposicion-chicos-gimnasio-avanzado-3 dias | 8 | mes 8 - fullbody descen | 1025 | 4 |
+| 174 | recomposicion-chicos-gimnasio-avanzado-3 dias | 9 | mes 9 - weider | 1116 | 4 |
+| 175 | recomposicion-chicos-gimnasio-avanzado-4 dias | 1 | mes 1 - weider | 1099 | 4 |
+| 175 | recomposicion-chicos-gimnasio-avanzado-4 dias | 2 | mes 2 - empujes y tracciones | 1107 | 4 |
+| 175 | recomposicion-chicos-gimnasio-avanzado-4 dias | 3 | mes 3 - torso pierna | 1090 | 4 |
+| 175 | recomposicion-chicos-gimnasio-avanzado-4 dias | 4 | mes 4 - fullbody descen | 1102 | 4 |
+| 175 | recomposicion-chicos-gimnasio-avanzado-4 dias | 5 | mes 5 - weider | 1097 | 4 |
+| 175 | recomposicion-chicos-gimnasio-avanzado-4 dias | 6 | mes 6 - empujes y tracciones | 1089 | 4 |
+| 175 | recomposicion-chicos-gimnasio-avanzado-4 dias | 7 | mes 7 - torso pierna | 1113 | 4 |
+| 175 | recomposicion-chicos-gimnasio-avanzado-4 dias | 8 | mes 8 - fullbody descen | 1044 | 4 |
+| 175 | recomposicion-chicos-gimnasio-avanzado-4 dias | 9 | mes 9 - weider | 1114 | 4 |
+| 176 | recomposicion-chicos-gimnasio-avanzado-5 dias | 1 | mes 1 - weider | 1109 | 4 |
+| 176 | recomposicion-chicos-gimnasio-avanzado-5 dias | 2 | mes 2 - empujes y tracciones | 1088 | 4 |
+| 176 | recomposicion-chicos-gimnasio-avanzado-5 dias | 3 | mes 3 - torso pierna | 1105 | 4 |
+| 176 | recomposicion-chicos-gimnasio-avanzado-5 dias | 4 | mes 4 - fullbody descen | 1103 | 4 |
+| 176 | recomposicion-chicos-gimnasio-avanzado-5 dias | 5 | mes 5 - weider | 1095 | 4 |
+| 176 | recomposicion-chicos-gimnasio-avanzado-5 dias | 6 | mes 6 - empujes y tracciones | 1100 | 4 |
+| 176 | recomposicion-chicos-gimnasio-avanzado-5 dias | 7 | mes 7 - torso pierna | 1030 | 4 |
+| 176 | recomposicion-chicos-gimnasio-avanzado-5 dias | 8 | mes 8 - fullbody descen | 1043 | 4 |
+| 176 | recomposicion-chicos-gimnasio-avanzado-5 dias | 9 | mes 9 - weider | 1115 | 4 |
+| 177 | recomposicion-chicos-gimnasio-principiante-2 dias | 1 | mes 1 - weider | 1008 | 4 |
+| 177 | recomposicion-chicos-gimnasio-principiante-2 dias | 2 | mes 2 - empujes y tracciones | 1012 | 4 |
+| 177 | recomposicion-chicos-gimnasio-principiante-2 dias | 3 | mes 3 - torso pierna | 1126 | 4 |
+| 177 | recomposicion-chicos-gimnasio-principiante-2 dias | 4 | mes 4 - fullbody descen | 1127 | 4 |
+| 177 | recomposicion-chicos-gimnasio-principiante-2 dias | 5 | mes 5 - weider | 1132 | 4 |
+| 177 | recomposicion-chicos-gimnasio-principiante-2 dias | 6 | mes 6 - weider | 1121 | 4 |
+| 178 | recomposicion-chicos-gimnasio-principiante-3 dias | 1 | mes 1 - weider | 1007 | 4 |
+| 178 | recomposicion-chicos-gimnasio-principiante-3 dias | 2 | mes 2 - empujes y tracciones | 1011 | 4 |
+| 178 | recomposicion-chicos-gimnasio-principiante-3 dias | 3 | mes 3 - torso pierna | 1124 | 4 |
+| 178 | recomposicion-chicos-gimnasio-principiante-3 dias | 4 | mes 4 - fullbody descen | 1122 | 4 |
+| 178 | recomposicion-chicos-gimnasio-principiante-3 dias | 5 | mes 5 - weider | 1131 | 4 |
+| 178 | recomposicion-chicos-gimnasio-principiante-3 dias | 6 | mes 6 - weider | 1120 | 4 |
+| 179 | recomposicion-chicos-gimnasio-principiante-4 dias | 1 | mes 1 - weider | 1006 | 4 |
+| 179 | recomposicion-chicos-gimnasio-principiante-4 dias | 2 | mes 2 - empujes y tracciones | 1010 | 4 |
+| 179 | recomposicion-chicos-gimnasio-principiante-4 dias | 3 | mes 3 - torso pierna | 1125 | 4 |
+| 179 | recomposicion-chicos-gimnasio-principiante-4 dias | 4 | mes 4 - fullbody descen | 1129 | 4 |
+| 179 | recomposicion-chicos-gimnasio-principiante-4 dias | 5 | mes 5 - weider | 1133 | 4 |
+| 179 | recomposicion-chicos-gimnasio-principiante-4 dias | 6 | mes 6 - weider | 1119 | 4 |
+| 180 | recomposicion-chicos-gimnasio-principiante-5 dias | 1 | mes 1 - weider | 1005 | 4 |
+| 180 | recomposicion-chicos-gimnasio-principiante-5 dias | 2 | mes 2 - empujes y tracciones | 1009 | 4 |
+| 180 | recomposicion-chicos-gimnasio-principiante-5 dias | 3 | mes 3 - torso pierna | 1123 | 4 |
+| 180 | recomposicion-chicos-gimnasio-principiante-5 dias | 4 | mes 4 - fullbody descen | 1128 | 4 |
+| 180 | recomposicion-chicos-gimnasio-principiante-5 dias | 5 | mes 5 - weider | 1130 | 4 |
+| 180 | recomposicion-chicos-gimnasio-principiante-5 dias | 6 | mes 6 - weider | 1118 | 4 |
+| 181 | recomposicion-chicos-solo gomas-avanzado-2 dias | 1 | mes 1 - weider | 1036 | 4 |
+| 181 | recomposicion-chicos-solo gomas-avanzado-2 dias | 2 | mes 2 - empujes y tracciones | 1067 | 4 |
+| 181 | recomposicion-chicos-solo gomas-avanzado-2 dias | 3 | mes 3 - torso pierna | 1076 | 4 |
+| 181 | recomposicion-chicos-solo gomas-avanzado-2 dias | 4 | mes 4 - fullbody descen | 1080 | 4 |
+| 181 | recomposicion-chicos-solo gomas-avanzado-2 dias | 5 | mes 5 - weider | 1186 | 4 |
+| 181 | recomposicion-chicos-solo gomas-avanzado-2 dias | 6 | mes 6 - empujes y tracciones | 1194 | 4 |
+| 181 | recomposicion-chicos-solo gomas-avanzado-2 dias | 7 | mes 7 - torso pierna | 1188 | 4 |
+| 181 | recomposicion-chicos-solo gomas-avanzado-2 dias | 8 | mes 8 - fullbody descen | 1198 | 4 |
+| 181 | recomposicion-chicos-solo gomas-avanzado-2 dias | 9 | mes 9 - weider | 1202 | 4 |
+| 182 | recomposicion-chicos-solo gomas-avanzado-3 dias | 1 | mes 1 - weider | 1035 | 4 |
+| 182 | recomposicion-chicos-solo gomas-avanzado-3 dias | 2 | mes 2 - empujes y tracciones | 1086 | 4 |
+| 182 | recomposicion-chicos-solo gomas-avanzado-3 dias | 3 | mes 3 - torso pierna | 1075 | 4 |
+| 182 | recomposicion-chicos-solo gomas-avanzado-3 dias | 4 | mes 4 - fullbody descen | 1079 | 4 |
+| 182 | recomposicion-chicos-solo gomas-avanzado-3 dias | 5 | mes 5 - weider | 1185 | 4 |
+| 182 | recomposicion-chicos-solo gomas-avanzado-3 dias | 6 | mes 6 - empujes y tracciones | 1193 | 4 |
+| 182 | recomposicion-chicos-solo gomas-avanzado-3 dias | 7 | mes 7 - torso pierna | 1190 | 4 |
+| 182 | recomposicion-chicos-solo gomas-avanzado-3 dias | 8 | mes 8 - fullbody descen | 1197 | 4 |
+| 182 | recomposicion-chicos-solo gomas-avanzado-3 dias | 9 | mes 9 - weider | 1201 | 4 |
+| 183 | recomposicion-chicos-solo gomas-avanzado-4 dias | 1 | mes 1 - weider | 1034 | 4 |
+| 183 | recomposicion-chicos-solo gomas-avanzado-4 dias | 2 | mes 2 - empujes y tracciones | 1182 | 4 |
+| 183 | recomposicion-chicos-solo gomas-avanzado-4 dias | 3 | mes 3 - torso pierna | 1074 | 4 |
+| 183 | recomposicion-chicos-solo gomas-avanzado-4 dias | 4 | mes 4 - fullbody descen | 1078 | 4 |
+| 183 | recomposicion-chicos-solo gomas-avanzado-4 dias | 5 | mes 5 - weider | 1184 | 4 |
+| 183 | recomposicion-chicos-solo gomas-avanzado-4 dias | 6 | mes 6 - empujes y tracciones | 1192 | 4 |
+| 183 | recomposicion-chicos-solo gomas-avanzado-4 dias | 7 | mes 7 - torso pierna | 1189 | 4 |
+| 183 | recomposicion-chicos-solo gomas-avanzado-4 dias | 8 | mes 8 - fullbody descen | 1196 | 4 |
+| 183 | recomposicion-chicos-solo gomas-avanzado-4 dias | 9 | mes 9 - weider | 1200 | 4 |
+| 184 | recomposicion-chicos-solo gomas-avanzado-5 dias | 1 | mes 1 - weider | 1033 | 4 |
+| 184 | recomposicion-chicos-solo gomas-avanzado-5 dias | 2 | mes 2 - empujes y tracciones | 1066 | 4 |
+| 184 | recomposicion-chicos-solo gomas-avanzado-5 dias | 3 | mes 3 - torso pierna | 1104 | 4 |
+| 184 | recomposicion-chicos-solo gomas-avanzado-5 dias | 4 | mes 4 - fullbody descen | 1077 | 4 |
+| 184 | recomposicion-chicos-solo gomas-avanzado-5 dias | 5 | mes 5 - weider | 1183 | 4 |
+| 184 | recomposicion-chicos-solo gomas-avanzado-5 dias | 6 | mes 6 - empujes y tracciones | 1191 | 4 |
+| 184 | recomposicion-chicos-solo gomas-avanzado-5 dias | 7 | mes 7 - torso pierna | 1187 | 4 |
+| 184 | recomposicion-chicos-solo gomas-avanzado-5 dias | 8 | mes 8 - fullbody descen | 1195 | 4 |
+| 184 | recomposicion-chicos-solo gomas-avanzado-5 dias | 9 | mes 9 - weider | 1199 | 4 |
+| 185 | recomposicion-chicos-solo gomas-principiante-2 dias | 1 | mes 1 - weider | 1206 | 4 |
+| 185 | recomposicion-chicos-solo gomas-principiante-2 dias | 2 | mes 2 - empujes y tracciones | 1210 | 4 |
+| 185 | recomposicion-chicos-solo gomas-principiante-2 dias | 3 | mes 3 - torso pierna | 1213 | 4 |
+| 185 | recomposicion-chicos-solo gomas-principiante-2 dias | 4 | mes 4 - fullbody descen | 1218 | 4 |
+| 185 | recomposicion-chicos-solo gomas-principiante-2 dias | 5 | mes 5 - weider | 1222 | 4 |
+| 185 | recomposicion-chicos-solo gomas-principiante-2 dias | 6 | mes 6 - weider | 1225 | 4 |
+| 186 | recomposicion-chicos-solo gomas-principiante-3 dias | 1 | mes 1 - weider | 1205 | 4 |
+| 186 | recomposicion-chicos-solo gomas-principiante-3 dias | 2 | mes 2 - empujes y tracciones | 1209 | 4 |
+| 186 | recomposicion-chicos-solo gomas-principiante-3 dias | 3 | mes 3 - torso pierna | 1214 | 4 |
+| 186 | recomposicion-chicos-solo gomas-principiante-3 dias | 4 | mes 4 - fullbody descen | 1217 | 4 |
+| 186 | recomposicion-chicos-solo gomas-principiante-3 dias | 5 | mes 5 - weider | 1221 | 4 |
+| 186 | recomposicion-chicos-solo gomas-principiante-3 dias | 6 | mes 6 - weider | 1226 | 4 |
+| 187 | recomposicion-chicos-solo gomas-principiante-4 dias | 1 | mes 1 - weider | 1204 | 4 |
+| 187 | recomposicion-chicos-solo gomas-principiante-4 dias | 2 | mes 2 - empujes y tracciones | 1208 | 4 |
+| 187 | recomposicion-chicos-solo gomas-principiante-4 dias | 3 | mes 3 - torso pierna | 1212 | 4 |
+| 187 | recomposicion-chicos-solo gomas-principiante-4 dias | 4 | mes 4 - fullbody descen | 1216 | 4 |
+| 187 | recomposicion-chicos-solo gomas-principiante-4 dias | 5 | mes 5 - weider | 1220 | 4 |
+| 187 | recomposicion-chicos-solo gomas-principiante-4 dias | 6 | mes 6 - weider | 1224 | 4 |
+| 188 | recomposicion-chicos-solo gomas-principiante-5 dias | 1 | mes 1 - weider | 1203 | 4 |
+| 188 | recomposicion-chicos-solo gomas-principiante-5 dias | 2 | mes 2 - empujes y tracciones | 1207 | 4 |
+| 188 | recomposicion-chicos-solo gomas-principiante-5 dias | 3 | mes 3 - torso pierna | 1211 | 4 |
+| 188 | recomposicion-chicos-solo gomas-principiante-5 dias | 4 | mes 4 - fullbody descen | 1215 | 4 |
+| 188 | recomposicion-chicos-solo gomas-principiante-5 dias | 5 | mes 5 - weider | 1219 | 4 |
+| 188 | recomposicion-chicos-solo gomas-principiante-5 dias | 6 | mes 6 - weider | 1223 | 4 |
+| 189 | recomposicion-chicos-mancuernas y gomas-avanzado-2 dias | 1 | mes 1 - weider | 1032 | 4 |
+| 189 | recomposicion-chicos-mancuernas y gomas-avanzado-2 dias | 2 | mes 2 - empujes y tracciones | 1029 | 4 |
+| 189 | recomposicion-chicos-mancuernas y gomas-avanzado-2 dias | 3 | mes 3 - torso pierna | 1048 | 4 |
+| 189 | recomposicion-chicos-mancuernas y gomas-avanzado-2 dias | 4 | mes 4 - fullbody descen | 1141 | 4 |
+| 189 | recomposicion-chicos-mancuernas y gomas-avanzado-2 dias | 5 | mes 5 - weider | 1140 | 4 |
+| 189 | recomposicion-chicos-mancuernas y gomas-avanzado-2 dias | 6 | mes 6 - empujes y tracciones | 1149 | 4 |
+| 189 | recomposicion-chicos-mancuernas y gomas-avanzado-2 dias | 7 | mes 7 - torso pierna | 1143 | 4 |
+| 189 | recomposicion-chicos-mancuernas y gomas-avanzado-2 dias | 8 | mes 8 - fullbody descen | 1153 | 4 |
+| 189 | recomposicion-chicos-mancuernas y gomas-avanzado-2 dias | 9 | mes 9 - weider | 1157 | 4 |
+| 190 | recomposicion-chicos-mancuernas y gomas-avanzado-3 dias | 1 | mes 1 - weider | 1031 | 4 |
+| 190 | recomposicion-chicos-mancuernas y gomas-avanzado-3 dias | 2 | mes 2 - empujes y tracciones | 1040 | 4 |
+| 190 | recomposicion-chicos-mancuernas y gomas-avanzado-3 dias | 3 | mes 3 - torso pierna | 1047 | 4 |
+| 190 | recomposicion-chicos-mancuernas y gomas-avanzado-3 dias | 4 | mes 4 - fullbody descen | 1063 | 4 |
+| 190 | recomposicion-chicos-mancuernas y gomas-avanzado-3 dias | 5 | mes 5 - weider | 1139 | 4 |
+| 190 | recomposicion-chicos-mancuernas y gomas-avanzado-3 dias | 6 | mes 6 - empujes y tracciones | 1148 | 4 |
+| 190 | recomposicion-chicos-mancuernas y gomas-avanzado-3 dias | 7 | mes 7 - torso pierna | 1144 | 4 |
+| 190 | recomposicion-chicos-mancuernas y gomas-avanzado-3 dias | 8 | mes 8 - fullbody descen | 1152 | 4 |
+| 190 | recomposicion-chicos-mancuernas y gomas-avanzado-3 dias | 9 | mes 9 - weider | 1156 | 4 |
+| 191 | recomposicion-chicos-mancuernas y gomas-avanzado-4 dias | 1 | mes 1 - weider | 1136 | 4 |
+| 191 | recomposicion-chicos-mancuernas y gomas-avanzado-4 dias | 2 | mes 2 - empujes y tracciones | 1028 | 4 |
+| 191 | recomposicion-chicos-mancuernas y gomas-avanzado-4 dias | 3 | mes 3 - torso pierna | 1046 | 4 |
+| 191 | recomposicion-chicos-mancuernas y gomas-avanzado-4 dias | 4 | mes 4 - fullbody descen | 1050 | 4 |
+| 191 | recomposicion-chicos-mancuernas y gomas-avanzado-4 dias | 5 | mes 5 - weider | 1138 | 4 |
+| 191 | recomposicion-chicos-mancuernas y gomas-avanzado-4 dias | 6 | mes 6 - empujes y tracciones | 1147 | 4 |
+| 191 | recomposicion-chicos-mancuernas y gomas-avanzado-4 dias | 7 | mes 7 - torso pierna | 1142 | 4 |
+| 191 | recomposicion-chicos-mancuernas y gomas-avanzado-4 dias | 8 | mes 8 - fullbody descen | 1151 | 4 |
+| 191 | recomposicion-chicos-mancuernas y gomas-avanzado-4 dias | 9 | mes 9 - weider | 1155 | 4 |
+| 192 | recomposicion-chicos-mancuernas y gomas-avanzado-5 dias | 1 | mes 1 - weider | 1135 | 4 |
+| 192 | recomposicion-chicos-mancuernas y gomas-avanzado-5 dias | 2 | mes 2 - empujes y tracciones | 1027 | 4 |
+| 192 | recomposicion-chicos-mancuernas y gomas-avanzado-5 dias | 3 | mes 3 - torso pierna | 1045 | 4 |
+| 192 | recomposicion-chicos-mancuernas y gomas-avanzado-5 dias | 4 | mes 4 - fullbody descen | 1049 | 4 |
+| 192 | recomposicion-chicos-mancuernas y gomas-avanzado-5 dias | 5 | mes 5 - weider | 1137 | 4 |
+| 192 | recomposicion-chicos-mancuernas y gomas-avanzado-5 dias | 6 | mes 6 - empujes y tracciones | 1146 | 4 |
+| 192 | recomposicion-chicos-mancuernas y gomas-avanzado-5 dias | 7 | mes 7 - torso pierna | 1145 | 4 |
+| 192 | recomposicion-chicos-mancuernas y gomas-avanzado-5 dias | 8 | mes 8 - fullbody descen | 1150 | 4 |
+| 192 | recomposicion-chicos-mancuernas y gomas-avanzado-5 dias | 9 | mes 9 - weider | 1154 | 4 |
+| 193 | recomposicion-chicos-mancuernas y gomas-principiante-2 dias | 1 | mes 1 - weider | 1161 | 4 |
+| 193 | recomposicion-chicos-mancuernas y gomas-principiante-2 dias | 2 | mes 2 - empujes y tracciones | 1165 | 4 |
+| 193 | recomposicion-chicos-mancuernas y gomas-principiante-2 dias | 3 | mes 3 - torso pierna | 1169 | 4 |
+| 193 | recomposicion-chicos-mancuernas y gomas-principiante-2 dias | 4 | mes 4 - fullbody descen | 1172 | 4 |
+| 193 | recomposicion-chicos-mancuernas y gomas-principiante-2 dias | 5 | mes 5 - weider | 1177 | 4 |
+| 193 | recomposicion-chicos-mancuernas y gomas-principiante-2 dias | 6 | mes 6 - weider | 1181 | 4 |
+| 194 | recomposicion-chicos-mancuernas y gomas-principiante-3 dias | 1 | mes 1 - weider | 1160 | 4 |
+| 194 | recomposicion-chicos-mancuernas y gomas-principiante-3 dias | 2 | mes 2 - empujes y tracciones | 1164 | 4 |
+| 194 | recomposicion-chicos-mancuernas y gomas-principiante-3 dias | 3 | mes 3 - torso pierna | 1168 | 4 |
+| 194 | recomposicion-chicos-mancuernas y gomas-principiante-3 dias | 4 | mes 4 - fullbody descen | 1171 | 4 |
+| 194 | recomposicion-chicos-mancuernas y gomas-principiante-3 dias | 5 | mes 5 - weider | 1176 | 4 |
+| 194 | recomposicion-chicos-mancuernas y gomas-principiante-3 dias | 6 | mes 6 - weider | 1180 | 4 |
+| 195 | recomposicion-chicos-mancuernas y gomas-principiante-4 dias | 1 | mes 1 - weider | 1159 | 4 |
+| 195 | recomposicion-chicos-mancuernas y gomas-principiante-4 dias | 2 | mes 2 - empujes y tracciones | 1163 | 4 |
+| 195 | recomposicion-chicos-mancuernas y gomas-principiante-4 dias | 3 | mes 3 - torso pierna | 1167 | 4 |
+| 195 | recomposicion-chicos-mancuernas y gomas-principiante-4 dias | 4 | mes 4 - fullbody descen | 1173 | 4 |
+| 195 | recomposicion-chicos-mancuernas y gomas-principiante-4 dias | 5 | mes 5 - weider | 1175 | 4 |
+| 195 | recomposicion-chicos-mancuernas y gomas-principiante-4 dias | 6 | mes 6 - weider | 1179 | 4 |
+| 196 | recomposicion-chicos-mancuernas y gomas-principiante-5 dias | 1 | mes 1 - weider | 1158 | 4 |
+| 196 | recomposicion-chicos-mancuernas y gomas-principiante-5 dias | 2 | mes 2 - empujes y tracciones | 1162 | 4 |
+| 196 | recomposicion-chicos-mancuernas y gomas-principiante-5 dias | 3 | mes 3 - torso pierna | 1166 | 4 |
+| 196 | recomposicion-chicos-mancuernas y gomas-principiante-5 dias | 4 | mes 4 - fullbody descen | 1170 | 4 |
+| 196 | recomposicion-chicos-mancuernas y gomas-principiante-5 dias | 5 | mes 5 - weider | 1174 | 4 |
+| 196 | recomposicion-chicos-mancuernas y gomas-principiante-5 dias | 6 | mes 6 - weider | 1178 | 4 |
+| 197 | chicos-gym-principiante-2 dias | 1 | mes 1 | 1004 | 4 |
+| 197 | chicos-gym-principiante-2 dias | 2 | mes 2 | 980 | 4 |
+| 197 | chicos-gym-principiante-2 dias | 3 | mes 3 | 984 | 4 |
+| 197 | chicos-gym-principiante-2 dias | 4 | mes 4 | 988 | 4 |
+| 197 | chicos-gym-principiante-2 dias | 5 | mes 5 | 992 | 4 |
+| 197 | chicos-gym-principiante-2 dias | 6 | mes 6 | 1000 | 4 |
+| 198 | chicos-gym-principiante-3 dias | 1 | mes 1 | 1003 | 4 |
+| 198 | chicos-gym-principiante-3 dias | 2 | mes 2 | 979 | 4 |
+| 198 | chicos-gym-principiante-3 dias | 3 | mes 3 | 983 | 4 |
+| 198 | chicos-gym-principiante-3 dias | 4 | mes 4 | 987 | 4 |
+| 198 | chicos-gym-principiante-3 dias | 5 | mes 5 | 991 | 4 |
+| 198 | chicos-gym-principiante-3 dias | 6 | mes 6 | 999 | 4 |
+| 199 | chicos-gym-principiante-4 dias | 1 | mes 1 | 1002 | 4 |
+| 199 | chicos-gym-principiante-4 dias | 2 | mes 2 | 978 | 4 |
+| 199 | chicos-gym-principiante-4 dias | 3 | mes 3 | 982 | 4 |
+| 199 | chicos-gym-principiante-4 dias | 4 | mes 4 | 986 | 4 |
+| 199 | chicos-gym-principiante-4 dias | 5 | mes 5 | 990 | 4 |
+| 199 | chicos-gym-principiante-4 dias | 6 | mes 6 | 998 | 4 |
+| 200 | chicos-gym-principiante-5 dias | 1 | mes 1 | 1001 | 4 |
+| 200 | chicos-gym-principiante-5 dias | 2 | mes 2 | 977 | 4 |
+| 200 | chicos-gym-principiante-5 dias | 3 | mes 3 | 981 | 4 |
+| 200 | chicos-gym-principiante-5 dias | 4 | mes 4 | 985 | 4 |
+| 200 | chicos-gym-principiante-5 dias | 5 | mes 5 | 989 | 4 |
+| 200 | chicos-gym-principiante-5 dias | 6 | mes 6 | 997 | 4 |
