@@ -552,9 +552,114 @@ Detalles de microsemántica: el delta de % graso en verde solo cuando baja (+2% 
 
 ---
 
+### 6. Top bar de la ficha de cliente: centralización de acciones
+
+**Fecha:** Junio 2026
+**Área:** Dashboard coaches / arquitectura de información
+
+#### De dónde veníamos
+
+El top bar de la ficha de cliente (`Ficha cliente - revisiones-v3`) tenía cuatro acciones, ya mezclando dos tipos distintos:
+
+- **Ver paneles:** Cuestionario, Notas
+- **Acciones:** Mandar cambios (primaria), Siguiente cliente (navegación)
+
+Sobre esa barra había que **añadir cuatro acciones más** sin que reventara: pausar cliente, cancelar cliente, generar comparativa de progreso (el [Generador de Cambios](../dashboard/generador-de-cambios.md)) y cambiar la modalidad de suscripción (dieta / entreno / completo).
+
+El problema de fondo no era de espacio sino de **arquitectura de información**: la barra estaba a punto de mezclar cinco tipos de acción con jerarquías y riesgos muy distintos, tratándolos todos por igual. Meter ocho botones en fila habría saturado la barra y, peor, habría expuesto acciones destructivas (cancelar) al mismo nivel visual que un toggle de panel.
+
+---
+
+#### Qué decidimos y por qué
+
+**Decisión 1 — Jerarquizar por frecuencia y riesgo, no por "todo visible"**
+
+Se clasificaron las acciones en cinco grupos y se les asignó nivel de jerarquía según cuán frecuentes y cuán peligrosas son:
+
+| Tipo | Acciones | Frecuencia | Riesgo | Destino |
+|---|---|---|---|---|
+| Ver paneles | Cuestionario, Notas | Alta | Nulo | Visibles (toggle) |
+| Acción primaria | Mandar cambios | Altísima | Bajo | Botón primario lleno |
+| Generar / compartir | Generar comparativa | Media | Nulo | Menú "Acciones" |
+| Ciclo de vida / config | Cambiar modalidad, Pausar, Cancelar | Baja | Alto (cancelar) | Menú "Acciones" |
+| Navegación de cola | Siguiente cliente | Alta | Nulo | Aislada a la derecha |
+
+La regla: lo frecuente y seguro se ve siempre; lo raro, de gestión o destructivo se repliega en un overflow para no saturar y evitar el clic accidental.
+
+**Decisión 2 — Un único menú "Acciones ▾" para todo lo no-primario**
+
+Se evaluaron tres patrones: (a) comparativa visible + kebab `⋮` solo para gestión, (b) un único menú "Acciones" etiquetado con todo lo secundario, (c) todo como botones sueltos. Se eligió **(b)**: un solo punto de entrada, etiquetado con palabra (no un kebab anónimo), que agrupa comparativa + cambiar modalidad + pausar + cancelar. Más limpio y predecible que repartir las acciones entre la barra y un icono. El coste asumido: "Generar comparativa" pierde algo de descubribilidad respecto a tenerlo como botón propio — se acepta a cambio de una barra que no crece cada vez que aparece una acción nueva.
+
+El menú se ordena por intención y seguridad: generar arriba, gestión en medio, **destructivo (Cancelar) abajo, aislado por divisor y en rojo** (`#E64E4E`).
+
+**Decisión 3 — Chip de modalidad + estado bajo el nombre**
+
+Al volverse la modalidad y el estado cosas que el coach puede *cambiar* desde el menú, la ficha necesita *mostrarlos* de un vistazo. Se añadieron dos chips bajo el nombre del cliente: modalidad (`Completo`) y estado (`● Activo`). El menú es el control; los chips son el espejo de ese estado. Sin ese espejo, el coach cambiaría algo a ciegas.
+
+**Decisión 4 — "Cambiar modalidad" como nombre, no "Cambiar plan"**
+
+Las opciones dieta / entreno / completo son modalidades del servicio. Se evitó "Cambiar plan" porque en contexto fitness "plan" se lee como *plan de entrenamiento* y chocaría con "Mandar cambios" (que justamente edita ese plan). El ítem muestra la modalidad actual como sub-label para dar contexto.
+
+**Decisión 5 — Ítems contextuales según estado**
+
+Las acciones de ciclo de vida no son estáticas: si el cliente está pausado, `Pausar` se convierte en `Reanudar`; si está cancelado, el estado pasa a gris/rojo y el menú ofrece `Reactivar`. La acción refleja el estado actual en lugar de ofrecer siempre la misma etiqueta.
+
+**Decisión 6 — "Siguiente cliente" aislada como navegación de cola**
+
+"Siguiente cliente" no es una acción *sobre* el cliente sino navegación de la cola de trabajo del coach. Se separó del bloque de acciones con un divisor vertical para reforzar que es de otra naturaleza.
+
+---
+
+#### Estructura final
+
+```
+Top bar (una fila)
+  ← │ [Avatar] Nombre              │ Email │ N Tlf │ [Cuestionario][Notas] │ [Acciones ▾] [Mandar cambios] │ [Siguiente cliente]
+        Modalidad · ● Estado
+
+Menú "Acciones ▾" (abierto)
+  ├── Generar comparativa
+  ├── Cambiar modalidad — {modalidad actual}
+  ├── Pausar cliente            (→ Reanudar si pausado)
+  ──────────────────────────────
+  └── Cancelar cliente          (rojo, destructivo)
+```
+
+Se montó como propuesta v4 en Figma sobre una copia desvinculada del header real (estilo, tokens y componentes heredados del original), sin tocar la ficha en producción.
+
+---
+
+#### Decisión adicional — "Cambiar modalidad": acordeón inline, no submenú
+
+"Cambiar modalidad" (dieta / entreno / completo) necesitaba un selector dentro del menú. Se evaluaron tres patrones:
+
+- **Submenú flyout** — rápido, pero frágil: un flyout no lleva el mismo *gap* que el menú raíz (el gap rompe el "puente" del cursor y lo cierra al moverse en diagonal), es problemático en táctil, y permite cambiar una **suscripción de pago** con un clic accidental sin confirmación.
+- **Modal de confirmación** — el más seguro para una acción con impacto de facturación, pero saca al coach del flujo del menú.
+- **Acordeón inline** (elegido) — el ítem se expande dentro del propio menú mostrando las 3 modalidades, con la activa marcada (check), empujando Pausar/Cancelar hacia abajo.
+
+Se eligió el **acordeón** porque esquiva por completo el problema del gap del flyout (no hay segunda capa flotante), es robusto en táctil, y mantiene al coach en un único contexto. Regla fijada: **máximo un nivel de profundidad** y un solo acordeón abierto a la vez.
+
+**Modelado en el design system** (el matiz que evita deuda): el "abierto/cerrado" **no** es un valor más del eje `State` del `Nav/MenuItem` — se modela como un **boolean `Expanded`** independiente, porque es ortogonal a la interacción (un ítem puede estar *expandido* y con *hover* a la vez; meterlo en `State` impide esa combinación y multiplica variants). Las modalidades son un componente distinto (`Nav/SubMenuItem` con boolean `Active`), que en código mapea a `role="menuitemradio"` + `aria-checked`, frente al `role="menuitem"` de las acciones. El revelado de las opciones es composición del menú, no estado del ítem: el item solo sabe hacia dónde apunta su chevron.
+
+---
+
+#### Lo que quedó pendiente
+
+- **Variantes de estado** del top bar y del menú: Pausado (`Reanudar`) y Cancelado (`Reactivar` + estado en gris/rojo).
+- **Modal de confirmación de "Cancelar cliente"** — acción destructiva sin paso de confirmación todavía.
+- **Comportamiento de "Generar comparativa"** ante datos insuficientes (< 2 revisiones o sin foto frontal) — el menú lanza el flujo, pero los estados de error viven en el [spec del generador](../dashboard/generador-de-cambios.md).
+- **¿Cuestionario / Notas como segmented toggle conectado** en vez de dos botones sueltos? — pendiente de decidir.
+- **Hover states** de los ítems del menú.
+
+---
+
 ## Materiales
 
 - Figma — pantalla de revisión del dashboard: [Ficha cliente - revisiones-v3](https://www.figma.com/design/629ryw0MF7hzDxIFiZJ5Un/App-Automatica?node-id=4737-39579)
+- Figma — top bar v4, acciones centralizadas (exploración): [Propuesta — Top bar v4](https://www.figma.com/design/629ryw0MF7hzDxIFiZJ5Un/App-Automatica?node-id=4817-118253)
+- Figma (Dashboard - DS) — patrón con componentes reales: [Top bar — Menú Acciones (acordeón)](https://www.figma.com/design/E6H45ej75HO6fL2SOnQNL5/Dashboard---DS?node-id=142-14509)
+- Figma (Dashboard - DS) — spec del componente: [Nav/MenuItem · Spec](https://www.figma.com/design/E6H45ej75HO6fL2SOnQNL5/Dashboard---DS?node-id=142-14315)
+- Figma (Dashboard - DS) — comportamiento del patrón (interacción · teclado · a11y): [Menú Acciones — Comportamiento](https://www.figma.com/design/E6H45ej75HO6fL2SOnQNL5/Dashboard---DS?node-id=142-14914)
 - Figma — card % GRASO, 4 estados: [propuesta en Rediseño - Junio](https://www.figma.com/design/629ryw0MF7hzDxIFiZJ5Un/App-Automatica?node-id=4769-19948)
 - Figma — overlay comparador: [propuesta en Rediseño - Junio](https://www.figma.com/design/629ryw0MF7hzDxIFiZJ5Un/App-Automatica?node-id=4774-20036)
 - Docs relacionados: `asesorias/`, `asesorias/calculo-%-graso/`, `casos-de-estudio/spec-evaluacion-ia-graso.md`
