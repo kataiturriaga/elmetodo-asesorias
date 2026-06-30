@@ -1,6 +1,8 @@
-# Plan técnico — GPS y Wearables (asesorías V2)
+# Plan técnico COMPLETO (multi-plataforma) — GPS y Wearables (asesorías V2)
 
 > **Nota:** Este es un plan de valoración técnica, no un plan de implementación final. El objetivo es acotar complejidad, dependencias y estimaciones de tiempo antes de comprometer recursos. Los flujos de UI están fuera de scope (pendientes de Figma).
+
+> **⚠️ Versión COMPLETA — referencia, no la recomendada.** Este documento contiene las integraciones directas con **Strava + Garmin + Polar**. Para V1 se decidió ir **solo con Strava** (que como agregador ya cubre Garmin/Polar/Coros/etc. vía auto-sync), evitando la aprobación de Garmin y dos integraciones extra. La versión recomendada y acotada está en [`2026-06-30-gps-wearables-plan-tecnico.md`](2026-06-30-gps-wearables-plan-tecnico.md). Este archivo se conserva por si en el futuro hace falta API directa de fabricante (p. ej. sueño/HRV, que Strava no expone).
 
 **Repos afectados:** `elmetodo_ff_asesorias` (rama `feat/asesorias-v2-flow`) · `elmetodo_api`
 **Coordinación necesaria:** Carles (app Flutter) para contratos de API y ubicación de nuevos features
@@ -31,7 +33,7 @@ Lo que **ya existe y solapa parcialmente** (⚠️ ver sección "Reconciliación
 Lo que **no existe:**
 
 - Paquete GPS (`geolocator` o similar)
-- SDK / cliente OAuth para Strava (agregador de wearables — ver Subsistema 3)
+- SDKs / clientes OAuth para Strava, Garmin Connect, Polar
 - Modelo backend para sesiones de actividad con ruta GPS, ritmo y HR (el `Activity` actual es solo logging manual, sin ruta ni tracking en vivo)
 - Webhooks de terceros en el backend (existe `app/api/routes/webhooks/` con `apple.py` y `google.py` como patrón a seguir)
 
@@ -91,14 +93,15 @@ DELETE /api/mobile/workout-sessions/{id}
 
 El núcleo compartido es un modelo **`WorkoutSession`** en el backend (nombre provisional — ver "Reconciliación con `activities`") que unifica:
 - Sesiones GPS grabadas en la app
-- Actividades importadas de Strava (que a su vez agrega Garmin, Polar, Apple Watch, etc. — ver Subsistema 3)
+- Actividades importadas de Strava / Garmin / Polar
 
 Todos los datos fluyen hacia ese modelo. El cliente los ve en la app (historial de sesiones). El coach los ve en el dashboard (scope futuro).
 
 ```
 App (GPS tracker)  ──POST /workout-sessions──►  WorkoutSession (backend)
 Strava webhook     ──normaliza ───────────────►      "
-(Garmin/Polar/Apple Watch → Strava → llegan por la vía de arriba)
+Garmin webhook     ──normaliza ───────────────►      "
+Polar webhook      ──normaliza ───────────────►      "
 ```
 
 ---
@@ -182,7 +185,7 @@ DELETE /api/mobile/workout-sessions/{id}    # Borrar (solo el propio usuario)
 
 - `route_points` como JSONB: simple para V1. Una carrera de 60 min a 1 punto/seg = 3.600 puntos × ~60 bytes = ~216 KB por sesión. Aceptable. Si crece: mover a tabla separada o comprimir.
 - `source` como string libre permite añadir nuevas plataformas sin migración.
-- `external_id` + índice único `(user_id, source, external_id)` evita duplicados al importar de Strava.
+- `external_id` + índice único `(user_id, source, external_id)` evita duplicados al importar de Strava/Garmin.
 
 #### Tests mínimos necesarios
 
@@ -383,46 +386,26 @@ Con 3.600 puntos (60 min a 1/seg), renderizar la polilínea completa en cada fra
 
 ---
 
-### Subsistema 3 — Integración con Strava (agregador de wearables)
+### Subsistema 3 — Integraciones con plataformas de wearables
 
-**Estimación:** 6–8 días
-**Proceso de aprobación:** Ninguno para desarrollo. Para producción: API Rate Limits, Terms of Service (no revender datos). Sin aprobación especial requerida.
-**Documentación:** [developers.strava.com](https://developers.strava.com)
+**Estimación total: 15–25 días** (varía mucho por plataforma y proceso de aprobación)
 
-#### Por qué solo Strava (decisión de scope V1)
+Esta es la parte más compleja y con más incertidumbre externa. Se divide en 3 plataformas.
 
-Strava **no es un wearable, es un agregador**: Garmin, Polar, Coros, Suunto, Wahoo, Apple Watch, Fitbit, etc. sincronizan automáticamente con Strava. Con **una sola integración** recibimos datos de actividad de cualquier dispositivo que el usuario ya tenga conectado a Strava, sin integrar cada fabricante por separado.
-
-```
-Garmin  ─┐
-Polar   ─┤
-Coros   ─┼──auto-sync──►  Strava  ──(1 integración)──►  El Método (WorkoutSession)
-Apple W ─┤
-Wahoo   ─┘
-```
-
-Esto evita el peor bloqueante del proyecto (la aprobación de la Garmin Health API, 2–8 semanas) y dos integraciones extra. **Lo que Strava-only NO cubre** y queda fuera de scope V1:
-- Usuarios sin cuenta de Strava o que no han conectado su reloj a Strava.
-- Métricas de salud pasiva (sueño, HRV, recuperación) — Strava no las expone; requerirían API directa de fabricante.
-
-> La integración directa con Garmin/Polar (API de fabricante) está documentada como referencia en [`2026-06-30-gps-wearables-plan-tecnico-completo.md`](2026-06-30-gps-wearables-plan-tecnico-completo.md), por si en el futuro hace falta sueño/HRV o cubrir usuarios sin Strava.
-
-#### Arquitectura general
+#### Arquitectura general (igual para las tres)
 
 ```
 Usuario en app ──► OAuth2 flow (webview) ──► Backend guarda tokens
-Backend ──► Registra webhook en Strava
-Strava ──► POST webhook al backend cuando hay actividad nueva
-Backend ──► Llama API Strava, descarga datos, normaliza ──► WorkoutSession
+Backend ──► Registra webhook en plataforma
+Plataforma ──► POST webhook al backend cuando hay actividad nueva
+Backend ──► Llama API plataforma, descarga datos, normaliza ──► WorkoutSession
 ```
 
 El backend actúa como intermediario: guarda tokens OAuth, recibe webhooks, importa y normaliza. La app solo necesita:
 1. Iniciar el flujo OAuth (abrir URL en webview)
 2. Listar las actividades importadas (ya son `WorkoutSession` normales)
 
-#### Archivos backend para la conexión OAuth
-
-El modelo `WearableConnection` se mantiene genérico (campo `platform`) para no cerrar la puerta a futuras integraciones, aunque en V1 solo se use con `"strava"`.
+#### Archivos backend compartidos para las tres integraciones
 
 | Archivo | Responsabilidad |
 |---------|----------------|
@@ -437,7 +420,7 @@ class WearableConnection(Base):
 
     id              = Column(Integer, primary_key=True)
     user_id         = Column(Integer, ForeignKey("users.id"), nullable=False)
-    platform        = Column(String(50), nullable=False)  # V1: "strava" (genérico para el futuro)
+    platform        = Column(String(50), nullable=False)  # "strava"|"garmin"|"polar"
     access_token    = Column(Text, nullable=False)
     refresh_token   = Column(Text, nullable=True)
     token_expires_at = Column(TIMESTAMP(timezone=True), nullable=True)
@@ -451,7 +434,15 @@ class WearableConnection(Base):
     )
 ```
 
-#### Qué proporciona Strava
+---
+
+#### Plataforma 3A — Strava
+
+**Estimación:** 6–8 días
+**Proceso de aprobación:** Ninguno para desarrollo. Para producción: API Rate Limits, Terms of Service (no revender datos). Sin aprobación especial requerida.
+**Documentación:** [developers.strava.com](https://developers.strava.com)
+
+##### Qué proporciona Strava
 - Actividades: running, cycling, swimming, etc. con GPS route, HR, cadencia, potencia
 - Webhook: push cuando el usuario crea/modifica una actividad
 - Rate limit: 100 req/15min, 1000 req/día (gratuito)
@@ -508,9 +499,50 @@ Strava devuelve rutas como polyline codificado (Google Polyline Algorithm) — h
 
 ---
 
-#### Flutter: pantalla de conexión
+#### Plataforma 3B — Garmin Connect
 
-La app necesita una sola pantalla de configuración para conectar/desconectar Strava:
+**Estimación:** 8–12 días (desarrollo) + **tiempo de aprobación de API: 2–8 semanas** (variable, fuera de control)
+**⚠️ Bloqueante mayor:** Garmin Health API requiere partnership y aprobación de Garmin. No se puede usar en producción sin que Garmin apruebe la aplicación. El proceso implica rellenar un formulario describiendo el caso de uso y esperar revisión manual.
+
+**Alternativa inmediata:** Garmin sincroniza con Apple Health (iOS) y Google Fit/Health Connect (Android). Los datos ya llegan por el paquete `health` que está instalado. Si el usuario tiene un Garmin y sincroniza con el teléfono, los pasos y calorías ya fluyen. La ruta GPS y la frecuencia cardíaca **no** fluyen por esta vía.
+
+##### Dos vías posibles
+
+| Vía | Qué datos | Proceso | Tiempo |
+|-----|-----------|---------|--------|
+| Health/HealthKit (ya existe) | Pasos, calorías, distancia diaria | Ninguno | Ya funciona |
+| Garmin Health API (directa) | Todo: HR, ruta, actividades completas, sueño, HRV | Aprobación Garmin | 2–8 semanas aprobación + 2 semanas dev |
+
+**Recomendación:** Diferir la integración directa con Garmin hasta tener aprobación. Priorizar Strava (que Garmin también puede sincronizar automáticamente si el usuario lo configura).
+
+##### Proceso si se decide implementar
+
+1. Registrar cuenta de developer en [developer.garmin.com/health-api](https://developer.garmin.com/health-api)
+2. Solicitar acceso a la API (formulario con descripción de la app y número de usuarios esperados)
+3. Garmin aprueba → proporciona `Consumer Key` + `Consumer Secret`
+4. Flujo OAuth 1.0a (Garmin usa OAuth 1.0, no 2.0 — requiere firma HMAC-SHA1)
+5. Webhook: Garmin envía actividades en formato FIT (binario propietario) — necesita `fitdecode` Python para parsear
+
+---
+
+#### Plataforma 3C — Polar
+
+**Estimación:** 5–7 días
+**Proceso de aprobación:** Registro gratuito en [flow.polar.com/oauth2](https://flow.polar.com/oauth2). Acceso inmediato para desarrollo. Para producción: solicitud de "production access" (menos restrictivo que Garmin, típicamente en días).
+
+##### Qué proporciona Polar AccessLink API v3
+- Actividades con HR, GPS, calorías, distancia
+- Sueño + recuperación (Recovery Pro, Nightly Recharge)
+- Webhook: notificación push de nueva actividad
+- OAuth 2.0 estándar
+
+##### Normalización similar a Strava — adaptar activity endpoint response a `WorkoutSession`
+
+---
+
+#### Flutter: pantalla de conexión de wearables
+
+Independientemente de la plataforma, la app necesita una sola pantalla de configuración:
 
 ```
 ┌────────────────────────────────┐
@@ -518,11 +550,12 @@ La app necesita una sola pantalla de configuración para conectar/desconectar St
 ├────────────────────────────────┤
 │  [Strava]        ● Conectado   │
 │  Desconectar                   │
-│                                │
-│  Conecta tu reloj (Garmin,     │
-│  Polar, Apple Watch…) a Strava │
-│  y tus entrenos aparecerán     │
-│  aquí automáticamente.         │
+├────────────────────────────────┤
+│  [Garmin]        ○ No conectado│
+│  Conectar                      │
+├────────────────────────────────┤
+│  [Polar]         ○ No conectado│
+│  Conectar                      │
 └────────────────────────────────┘
 ```
 
@@ -542,106 +575,12 @@ El flujo OAuth se abre con `url_launcher` (ya en pubspec) o `webview_flutter` (y
 | **0 — Backend WorkoutSession** | Modelo, migraciones, 4 endpoints REST, tests (+decisión A/B `activities`) | **2–3 días** | — |
 | **1 — GPS métricas (sin mapa)** | `geolocator`, permisos, GpsTrackingService, providers, guardar en backend | **4–5 días** | Sub. 0 |
 | **2 — GPS mapa de ruta** | `flutter_map`, RouteMapWidget, overlay métricas, historial con mapa | **+5–7 días** | Sub. 1 |
-| **3 — Strava (agregador)** | OAuth2, webhook, normalización, pantalla conexión | **6–8 días** | Sub. 0 |
+| **3A — Strava** | OAuth2, webhook, normalización, pantalla conexión | **6–8 días** | Sub. 0 |
+| **3B — Garmin** | OAuth 1.0a, FIT parsing, webhook, normalización | **8–12 días** + **2–8 sem aprobación** | Sub. 0 |
+| **3C — Polar** | OAuth2, webhook, normalización | **5–7 días** | Sub. 0 |
 
 **GPS completo (Sub 0+1+2):** ~3 semanas
-**Wearables vía Strava (Sub 0+3):** ~1.5–2 semanas, sin bloqueantes externos
-**Todo (GPS + Strava):** ~4–5 semanas
-
-> Garmin/Polar directos quedan fuera de scope V1 (cubiertos por Strava como agregador). Estimación de referencia en [`...-completo.md`](2026-06-30-gps-wearables-plan-tecnico-completo.md): +13–19 días + 2–8 semanas de aprobación Garmin.
-
----
-
-## Casuísticas GPS — tres niveles de alcance
-
-Hay dos ejes **independientes** que hay que no mezclar:
-
-- **Eje 1: background tracking** (pantalla bloqueada) — **caro de retrofitear** si no se hace desde el principio, porque cambia el núcleo de cómo vive el tracking.
-- **Eje 2: mapa** — **barato de añadir después**, es aditivo sobre los datos que ya guardas.
-
-La consecuencia: **las tres casuísticas incluyen background desde el día 1**. Lo que varía entre ellas es únicamente cuándo y cómo entra el mapa. Un foreground-only sin background (wakelock + "no bloquees la pantalla") es una solución chapucera en cualquiera de los tres niveles y no se contempla.
-
-> **Sobre el coste de tiles del mapa:** `flutter_map` es el widget, no el servidor. Para producción hay que contratar un proveedor de tiles (MapTiler, Stadia, etc.). Con ~4.000 usuarios y mapa solo en historial el coste es bajo (probablemente tier gratuito o ~$20–50/mes). Con mapa en vivo durante la carrera sube a ~$50–250/mes. El OSM público prohíbe uso comercial a escala.
-
----
-
-### 🔴 Casuística 1 — Mínima (recomendada para V1)
-
-Solo números: distancia, ritmo, duración. Sin mapa en ningún momento. La base técnica es completa (background + datos guardados), la UI es intencionalmente austera para validar primero si el usuario usa el GPS antes de invertir en el mapa.
-
-**Incluye:**
-- Background tracking capaz desde el día 1: foreground service Android + Background Mode iOS (pantalla bloqueada: sigue grabando)
-- Métricas core en vivo durante la carrera: distancia, ritmo actual, tiempo transcurrido
-- Pausa/reanudar manual
-- Resumen post-sesión: distancia total, duración, ritmo medio, velocidad media
-- Historial como lista de sesiones con números (sin mapa)
-- **`route_points` guardados en backend igualmente** — la ruta no se muestra pero se almacena, así cuando se añada el mapa en fase 2 las sesiones antiguas ya tienen datos para pintar
-
-**Deja fuera:** mapa (en ningún punto), splits por km, desnivel, FC, compartir, auto-pausa.
-
-| | |
-|---|---|
-| **Estimación** | **8–11 días** (~2 semanas) — los 2–3 días extra sobre la mínima foreground-only son el background nativo |
-| **Coste tiles/mes** | **$0** — sin mapa, sin tiles |
-| **Riesgo principal** | Review de Apple por `NSLocationAlways`; testing de batería en dispositivo real |
-
----
-
-### 🟡 Casuística 2 — Intermedia
-
-Añade el mapa al historial: después de terminar la carrera puedes ver tu ruta. Durante la carrera sigues viendo solo números (sin mapa en vivo).
-
-**Incluye todo lo de la Mínima, más:**
-- Mapa con ruta en el **resumen post-sesión** y en el **historial** (estático, no en vivo)
-- `flutter_map` + tile provider (MapTiler/Stadia) con caché de tiles en dispositivo
-- Marcadores de inicio/fin, polilínea de la ruta
-- Splits básicos por km en el resumen
-
-**Deja fuera:** mapa en vivo durante la carrera, desnivel, FC, compartir, auto-pausa.
-
-| | |
-|---|---|
-| **Estimación** | **+4–5 días sobre la Mínima → 12–16 días total** (~2.5–3 semanas) |
-| **Coste tiles/mes** | **Bajo** — mapa solo al revisar; probablemente tier gratis o ~$20–50/mes a 4k users |
-| **Riesgo principal** | Coste de tiles si el volumen crece; elección del proveedor de tiles |
-
----
-
-### 🟢 Casuística 3 — Completa
-
-La experiencia tipo Strava: el mapa te sigue en vivo durante la carrera, ves la ruta trazándose en tiempo real.
-
-**Incluye todo lo de la Intermedia, más:**
-- Mapa en **vivo durante la carrera** (sigue la posición en tiempo real, tile streaming)
-- Métricas enriquecidas: splits por km, desnivel acumulado, overlay de FC (si hay wearable)
-- Auto-pausa (detecta paradas en semáforos)
-- Tarjeta de compartir post-sesión (reutilizando `transformation_share_service` ya en el repo)
-
-**Deja fuera:** nada relevante de GPS.
-
-| | |
-|---|---|
-| **Estimación** | **+5–7 días sobre la Intermedia → 17–23 días total** (~3.5–4.5 semanas) |
-| **Coste tiles/mes** | **~$50–250/mes** — el mapa en vivo es lo que dispara el consumo de tiles |
-| **Riesgo principal** | Rendimiento del mapa en vivo (decimación de puntos, batería); coste de tiles |
-
----
-
-### Comparativa
-
-| | Mínima 🔴 | Intermedia 🟡 | Completa 🟢 |
-|---|---|---|---|
-| Background (pantalla bloqueada) | ✅ | ✅ | ✅ |
-| Mapa en historial | ❌ | ✅ | ✅ |
-| Mapa en vivo durante la carrera | ❌ | ❌ | ✅ |
-| Splits / desnivel / FC | ❌ | splits básicos | ✅ |
-| Auto-pausa | ❌ | ❌ | ✅ |
-| Compartir | ❌ | ❌ | ✅ |
-| `route_points` guardados | ✅ | ✅ | ✅ |
-| **Estimación** | **8–11 d** | **12–16 d** | **17–23 d** |
-| **Coste tiles/mes** | $0 | ~tier gratis | ~$50–250 |
-
-**Recomendación:** empezar por la **Mínima** — construye el background bien desde el día 1 (el único componente caro de retrofitear), guarda `route_points` en backend, y difiere el mapa. El salto de Mínima → Intermedia son solo 4–5 días adicionales y cero refactor.
+**Wearables completo (Sub 0+3A+3B+3C):** ~4–6 semanas de desarrollo + tiempo de aprobación Garmin
 
 ---
 
@@ -651,37 +590,36 @@ La experiencia tipo Strava: el mapa te sigue en vivo durante la carrera, ves la 
 
 | Riesgo | Probabilidad | Impacto | Mitigación |
 |--------|-------------|---------|------------|
-| Apple rechaza `NSLocationAlways` en App Store review | Media | Alto | Justificación clara en la review: "grabación de entrenamiento con pantalla bloqueada". Patrón establecido en apps de fitness (Strava, Nike Run Club). Preparar capturas del flujo de permisos |
-| Android mata el foreground service en dispositivos agresivos (Xiaomi, Huawei) | Media | Alto | Testing en dispositivos problemáticos; guía en-app de exempciones de batería; usar `WorkManager` como fallback |
-| Usuario no tiene Strava o no conectó su reloj → no llegan actividades | Media | Medio | El tracking GPS propio funciona sin Strava; Strava es complemento, no único origen. Comunicar en la pantalla de conexión |
-| `route_points` JSONB crece en sesiones largas | Baja | Bajo | Decimación de puntos antes de guardar (1 punto cada 10m mínimo) |
-| Rate limits de Strava (1.000 req/día) con muchos usuarios | Media | Medio | Procesar webhooks async con Celery; cachear |
+| Apple rechaza permiso `NSLocationAlways` en App Store review | Media | Alto | Diseñar el MVP con `WhenInUse` (pantalla no se bloquea durante el entreno); añadir `Always` solo si la UX lo requiere y con justificación clara |
+| Android mata el tracking en background sin foreground service | Alta | Alto | Para MVP: avisar al usuario que no bloquee pantalla. Para V2: añadir `flutter_background_service` (~2 días extra) |
+| Garmin aprobación de API tarda más de lo esperado | Alta | Medio | Diferir Garmin; priorizar Strava (Garmin → Strava sync ya funciona para muchos usuarios) |
+| `route_points` JSONB crece mucho con sesiones largas | Baja | Bajo | Decimación de puntos antes de guardar (filtrar a 1 punto cada 10m) |
+| Rate limits de Strava (1000 req/día) con muchos usuarios | Media | Medio | Cachear respuestas, procesar webhooks async con Celery |
 
 ### Decisiones abiertas que hay que tomar antes de implementar
 
-1. **¿Qué casuística GPS para V1?** Recomendada: Mínima 🔴 (background desde día 1, mapa en fase 2).
-2. **¿Extender `activities` o crear `WorkoutSession`? (Opción A vs B)** — decisión de Carles. Bloquea el Subsistema 0.
-3. **¿Dónde vive el feature en la arquitectura de Carles?** Feature `workout_session` en `lib/v2/features/workout_session/`; Carles decide si el tracking se integra en la pantalla de entreno existente o es flujo separado.
-4. **Proveedor de tiles** (solo relevante si se entra en Casuística 2 o 3): MapTiler, Stadia Maps o Protomaps self-hosted. Decidir antes de implementar el mapa.
-5. **Frecuencia de muestreo GPS:** 1 punto/segundo (estándar) vs. por distancia mínima (~5–10m, mejor batería). Impacta tamaño de `route_points` y duración de batería.
+1. **¿Background tracking en el MVP?** Define si añadir el foreground service Android o advertir al usuario.
+2. **¿`flutter_map` o `google_maps_flutter`?** Ver arriba.
+3. **¿Qué plataformas de wearables en V1?** Recomendación: solo Strava. Garmin vía Strava sync ya cubre la mayoría de usuarios de Garmin.
+4. **¿Extender `activities` o crear `WorkoutSession`? (Opción A vs B)** — decisión de Carles, ver sección "Reconciliación con `activities`". Bloquea el Subsistema 0.
+5. **¿Dónde vive el feature en la arquitectura de Carles?** Asumiendo Opción B, el feature `workout_session` va en `lib/v2/features/workout_session/`, pero Carles debe decidir si el tracking activo se integra en la pantalla de entreno existente o es un flujo separado.
+6. **Frecuencia de muestreo GPS:** 1 punto/segundo (estándar) vs. por distancia mínima (mejor batería). Impacta tamaño de `route_points`.
 
 ---
 
-## Orden de implementación recomendado (asumiendo Casuística 1 Mínima para V1)
+## Orden de implementación recomendado
 
 ```
-Semana 1:     Subsistema 0 (backend WorkoutSession)
-              + Decisión A/B con Carles
+Semana 1–2:   Subsistema 0 (backend) + Subsistema 1 (GPS métricas, sin mapa)
+              → Validar con usuarios: ¿quieren el mapa o solo las métricas?
 
-Semana 2:     Subsistema 1 (GPS tracking service con background desde el día 1)
-              → UI mínima: pantalla de carrera con números + historial como lista
+Semana 3:     Subsistema 2 (mapa) — solo si el feedback lo confirma
 
-Paralelo con semanas 1–2:
+Paralelo con semanas 1–3:
+              Solicitar acceso Garmin (empieza el reloj de aprobación)
               Registrar app en Strava Developer Portal
 
-Semana 3:     Subsistema 3 (Strava)
-
-Fase 2 (cuando el feedback lo confirme):
-              Subsistema 2 (mapa en historial, Casuística 2) — +4–5 días, cero refactor
-              Casuística 3 (mapa en vivo) si se valida la necesidad — +5–7 días adicionales
+Semana 3–4:   Subsistema 3A (Strava)
+Semana 5–6:   Subsistema 3C (Polar)
+Cuando llegue aprobación Garmin: Subsistema 3B
 ```
