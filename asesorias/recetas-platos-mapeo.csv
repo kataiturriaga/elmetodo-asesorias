@@ -1,0 +1,251 @@
+recipe_id,recipe_name,meal_type,dish_id,dish_name
+26,Tagine de pollo con aceitunas y limón,dinner,44,Alitas de pollo con patatas
+30,Bol de cereales con leche entera,breakfast,18,Leche con cereales
+31,Barrita de proteínas con fruta,snack,5,Barrita de proteínas
+32,Barrita de cereales con café,breakfast,99,Barrita de cereales
+33,Bol de cereales con leche entera,breakfast,18,Leche con cereales
+34,Yogur griego con cereales crujientes,breakfast,16,Yogur con cereales
+35,Yogur griego con fruta fresca,breakfast,19,Yogur con fruta
+36,Yogur griego con frutos secos tostados,breakfast,17,Yogur con frutos secos
+37,Yogur griego con virutas de chocolate negro,snack,59,Yogur con chocolate
+38,Yogur griego con granola baja en azúcar,breakfast,56,Yogur con granola
+39,Yogur griego con galletas Digestive,snack,71,Yogur con galletas
+40,Yogur griego con barrita de proteínas troceada,snack,5,Barrita de proteínas
+41,Yogur griego con frutos secos y miel,breakfast,119,Yogur con frutos secos y miel
+42,Yogur griego con Kit Kat troceado,snack,127,Yogur y Kit Kat
+43,Pudding de proteínas de chocolate,snack,50,Pudding proteínas
+44,Bol de fruta con frutos secos variados,snack,22,Fruta con frutos secos
+45,Smoothie de plátano y proteína,breakfast,20,Smoothie
+46,Smoothie de frutas rojas y yogur,breakfast,20,Smoothie
+47,Porridge de avena con frutos rojos y proteína,breakfast,25,Porridge de avena
+48,Pincho de jamón serrano o lomo en el bar,snack,7,Pincho de Jamón o lomo (Bar)
+49,Pincho de tortilla de patata en el bar,snack,6,Pincho de tortilla (Bar)
+50,Pincho de bar variado,snack,117,Pincho de (Bar) - General
+51,Pan tumaca con jamón serrano,breakfast,46,Rebanada de pan con Jamón serrano
+52,Pan tumaca con Tempeh especiado,breakfast,105,Pan tumaca de Tempeh
+53,Bocata de jamón serrano con tomate,breakfast,3,Bocata de Jamón serrano
+54,Bocata de jamón york con queso fundido,breakfast,49,Bocata jamón york y queso
+55,Bocata de lomo con queso manchego,lunch,108,Bocata lomo y queso
+56,Bocata de lomo con queso y pimiento asado,lunch,108,Bocata lomo y queso
+57,Bocata de Tempeh caramelizado con tomate,lunch,92,Bocata de Tempeh
+58,Rebanada de pan con jamón serrano y tomate,breakfast,46,Rebanada de pan con Jamón serrano
+59,Tostada de jamón serrano y philadelphia,breakfast,120,Rebanada con Jamón serrano y philadelphia
+60,Tostada de pavo con philadelphia,breakfast,121,Rebanada con pavo y philadelphia
+61,Tostada de bacon con queso fundido,breakfast,130,Rebanada con bacon y queso
+62,"Tostada de bacon, queso y huevo",breakfast,130,Rebanada con bacon y queso
+63,"Rebanadas con pavo, jamón york y queso",breakfast,57,"Rebanadas con jamón york, pavo, pollo y queso"
+64,Rebanadas de pan con jamón serrano y tomate,breakfast,60,Rebanadas de pan con Jamón serrano
+65,Tortas con jamón serrano y tomate,snack,8,Tortas con jamón serrano
+66,Tortas de arroz con Tempeh caramelizado,snack,81,Tortas de arroz con Tempeh
+67,Tortas de arroz con pavo y queso light,snack,51,Tortas de arroz con pavo
+68,Lays con jamón serrano y queso,snack,38,Lays con Jamón
+69,Lays con tofu frito y salsa soja,snack,91,Lays con Tofu
+70,Porridge de avena con plátano y miel,breakfast,25,Porridge de avena
+71,Pan tumaca clásico con aceite y sal,breakfast,43,Pan tumaca
+72,Bocata de jamón serrano con aguacate,breakfast,3,Bocata de Jamón serrano
+73,Bocata de jamón york con aguacate y rúcula,breakfast,72,Bocata jamón york y aguacate
+74,Bocata de jamón york con aguacate y huevo,breakfast,72,Bocata jamón york y aguacate
+75,Bocata de jamón york con queso y mostaza,breakfast,49,Bocata jamón york y queso
+76,Bocata de pollo asado con queso y lechuga,lunch,109,Bocata de pollo y queso
+77,Bocata de pollo marinado con queso y aguacate,lunch,109,Bocata de pollo y queso
+78,Bocata de tofu especiado con lechuga y tomate,lunch,84,Bocata de Tofu
+79,Bocata de tofu con aguacate y mostaza,lunch,84,Bocata de Tofu
+80,Bocata de Tempeh con queso y pimiento,lunch,92,Bocata de Tempeh
+81,Rebanada de pan con jamón serrano y aguacate,breakfast,122,Rebanada con jamón serrano y aguacate
+82,"Tostada de jamón serrano, philadelphia y rúcula",breakfast,120,Rebanada con Jamón serrano y philadelphia
+83,Tostada de jamón serrano con aguacate aplastado,breakfast,122,Rebanada con jamón serrano y aguacate
+84,"Tostada de pavo, philadelphia y pepino",breakfast,121,Rebanada con pavo y philadelphia
+85,Tostada de pavo con aguacate y lima,breakfast,132,Rebanada con pavo y aguacate
+86,Tostada de tofu con tomate y aguacate,breakfast,74,Rebanada con tofu
+87,Tostada de tofu con espinacas y sésamo,breakfast,74,Rebanada con tofu
+88,Tostada de Tempeh con tomate y orégano,breakfast,88,Rebanada con Tempeh
+89,Tostada de Tempeh con pimiento y cebolla,breakfast,88,Rebanada con Tempeh
+90,"Rebanadas con jamón york, pollo y aguacate",breakfast,57,"Rebanadas con jamón york, pavo, pollo y queso"
+91,"Rebanadas con huevo, pavo y queso",breakfast,123,"Rebanadas de pan con huevo, pavo y queso"
+92,"Rebanadas con huevo poché, pavo y queso light",breakfast,123,"Rebanadas de pan con huevo, pavo y queso"
+93,Rebanadas de pan con huevos revueltos,breakfast,52,Rebanadas de pan con huevos
+94,Rebanadas de pan con huevos al plato,breakfast,52,Rebanadas de pan con huevos
+95,Sandwich de jamón york y queso a la plancha,breakfast,2,Sandwich de jamón y queso
+96,"Sandwich de jamón york, queso y tomate",breakfast,2,Sandwich de jamón y queso
+97,Sandwich de jamón serrano con tomate y rúcula,breakfast,101,Sandwich de jamón serrano
+98,Sandwich caliente de jamón serrano y queso,breakfast,101,Sandwich de jamón serrano
+99,Sandwich de tofu con queso vegano y lechuga,lunch,78,Sandwich Tofu y Queso
+100,Sandwich de tofu con aguacate y sriracha,lunch,78,Sandwich Tofu y Queso
+101,Sandwich de Tempeh asado con mostaza y pepino,lunch,100,Sandwich de Tempeh
+102,Sandwich de Tempeh con aguacate y zanahoria,lunch,100,Sandwich de Tempeh
+103,"Tortas con jamón serrano, queso y aguacate",snack,8,Tortas con jamón serrano
+104,Tortas con tofu especiado y aguacate,snack,98,Tortas con tofu y aguacate
+105,Tortas con crema de aguacate y tomate cherry,snack,98,Tortas con tofu y aguacate
+106,Tortas de arroz con Tempeh y queso fresco,snack,81,Tortas de arroz con Tempeh
+107,Tortas de arroz con Tofu crujiente y aguacate,snack,98,Tortas con tofu y aguacate
+108,Tortas de arroz con Seitán y pimiento asado,snack,75,Tortas de arroz con Tofu o Seitán
+109,"Tortas de arroz con pavo, aguacate y tomate",snack,51,Tortas de arroz con pavo
+110,Tortitas dulces de avena y plátano,breakfast,36,Tortitas dulces
+111,Tortitas de proteína con frutos rojos,breakfast,36,Tortitas dulces
+112,Tortitas dulces con chocolate y fruta,breakfast,36,Tortitas dulces
+113,Tortitas saladas de avena con jamón y queso,breakfast,37,Tortitas saladas
+114,Tortitas saladas con espinacas y feta,breakfast,37,Tortitas saladas
+115,Tortitas saladas veganas de garbanzo y zanahoria,breakfast,137,Tortitas Saladas Veganas
+116,Tortitas saladas veganas de espinacas y tofu,breakfast,137,Tortitas Saladas Veganas
+117,Huevos fritos con bacón crujiente,breakfast,1,Huevos con bacón
+118,Revuelto de huevos con bacón y cebollino,breakfast,1,Huevos con bacón
+119,Tostada de aguacate con huevo poché,breakfast,68,Huevos con aguacate
+120,Huevos revueltos con aguacate y tomate cherry,breakfast,68,Huevos con aguacate
+121,"Bowl de huevos, bacón y aguacate",breakfast,126,Huevos con bacon y aguacate
+122,"Huevos revueltos con bacón, aguacate y feta",breakfast,126,Huevos con bacon y aguacate
+123,Huevos rotos con jamón serrano y patatas,lunch,67,Huevos con jamón serrano
+124,Revuelto de huevos con jamón serrano y pimiento,breakfast,67,Huevos con jamón serrano
+125,Revuelto de huevos con pavo y espinacas,breakfast,48,Huevos con pavo
+126,Huevos fritos con pavo y tomate cherry,breakfast,48,Huevos con pavo
+127,Huevos al plato con queso fundido,breakfast,95,Huevos con queso
+128,Revuelto de huevos con queso y tomate,breakfast,95,Huevos con queso
+129,Huevos fritos con patatas al horno,lunch,62,Huevos con patatas
+130,Huevos rotos con patatas fritas y pimentón,lunch,62,Huevos con patatas
+131,Huevos rotos con patatas y pavo,lunch,114,Huevos con patatas y pavo
+132,Revuelto de huevos con patata y pavo al pimentón,breakfast,114,Huevos con patatas y pavo
+133,Revuelto de huevos con gulas y patatas,lunch,104,Huevos con gulas y patatas
+134,Huevos al ajillo con gulas,lunch,104,Huevos con gulas y patatas
+135,Huevos rotos clásicos con jamón serrano,lunch,67,Huevos con jamón serrano
+136,Huevos rotos con jamón y pimiento asado,lunch,107,Huevos rotos con Jamón
+137,Revuelto vegano de tofu y espinacas,breakfast,83,Huevos con Tofu
+138,Tofu revuelto con pimiento y cebolla,breakfast,83,Huevos con Tofu
+139,Bowl de huevos revueltos con Tempeh crujiente,breakfast,103,Huevos con Tempeh
+140,Tempeh especiado con huevos fritos,breakfast,103,Huevos con Tempeh
+141,Tortilla española de Heura y queso,lunch,90,Tortilla Heura y Queso
+142,Tortilla de Heura especiada con queso al estilo tex-mex,lunch,90,Tortilla Heura y Queso
+143,Tortilla francesa de jamón york y queso,breakfast,40,Tortilla de jamón y queso
+144,Tortilla enrollada de jamón serrano y queso manchego,breakfast,40,Tortilla de jamón y queso
+145,Tortilla de patata clásica con cebolla,lunch,39,Tortilla de patata
+146,Tortilla de patata sin cebolla al estilo madrileño,lunch,39,Tortilla de patata
+147,Tortilla de patata rellena de queso y pimiento,lunch,39,Tortilla de patata
+148,Arroz a la cubana clásico,lunch,10,Arroz a la cubana
+149,Arroz a la cubana con plátano frito,lunch,10,Arroz a la cubana
+150,Arroz con pollo al estilo casero,lunch,55,Arroz con pollo
+151,Arroz con pollo al curry,lunch,55,Arroz con pollo
+152,Arroz con pollo y champiñones,lunch,55,Arroz con pollo
+153,Arroz con pavo y verduras de temporada,lunch,66,Arroz con pavo
+154,Arroz con pavo al pimentón ahumado,lunch,66,Arroz con pavo
+155,Arroz con ternera en salsa española,lunch,58,Arroz con ternera
+156,Arroz con ternera picada y champiñones,lunch,58,Arroz con ternera
+157,Arroz con ternera estilo bulgogi,lunch,58,Arroz con ternera
+158,Arroz con ternera en salsa de tomate,lunch,58,Arroz con ternera
+159,Pasta con ternera a la bolognesa express,lunch,54,Pasta con ternera
+160,Arroz con solomillo de cerdo al romero,lunch,125,Arroz con solomillo de cerdo o pavo
+161,Arroz con solomillo de pavo al pimentón,lunch,125,Arroz con solomillo de cerdo o pavo
+162,Arroz con alitas de pollo al ajillo,lunch,110,Arroz con alitas de pollo
+163,Arroz con alitas crujientes al horno,lunch,110,Arroz con alitas de pollo
+164,Arroz con burgers de pollo y verduras,lunch,111,Arroz con burgers de pollo
+165,Arroz con burgers de pollo especiadas al pimentón,lunch,111,Arroz con burgers de pollo
+166,Arroz con burgers de ternera en salsa de tomate,lunch,112,Arroz con burgers de ternera
+167,Arroz con burgers de ternera al horno con queso,lunch,112,Arroz con burgers de ternera
+168,Arroz con Tempeh al sofrito de tomate,lunch,86,Arroz con Tempeh
+169,Arroz con Tempeh estilo asiático,lunch,86,Arroz con Tempeh
+170,Bowl de arroz con Tempeh caramelizado y aguacate,lunch,86,Arroz con Tempeh
+171,Arroz con tofu frito y salsa teriyaki casera,lunch,89,Arroz con Tofu
+172,Arroz con tofu al wok de verduras,lunch,85,Tofu con verduras
+173,Bowl de arroz con tofu marinado y edamame,lunch,89,Arroz con Tofu
+174,Arroz con Heura especiada y huevo frito,lunch,136,Arroz con heura y huevos
+175,Arroz caldoso con Heura y huevo,lunch,136,Arroz con heura y huevos
+176,Arroz con burgers veganas en salsa de tomate,lunch,112,Arroz con burgers de ternera
+177,Bowl de arroz con burger vegana y kimchi,lunch,79,Burger Vegana
+178,Pasta a la boloñesa clásica,lunch,14,Pasta bolognesa
+179,Pasta boloñesa con champiñones y vino tinto,lunch,14,Pasta bolognesa
+180,Pasta boloñesa ligera con ternera magra y albahaca,lunch,54,Pasta con ternera
+181,Pasta carbonara tradicional italiana,lunch,15,Pasta carbonara
+182,Pasta carbonara con guisantes y pavo,lunch,15,Pasta carbonara
+183,Pasta con pollo y gulas al ajillo,lunch,65,Pasta con pollo-Gulas
+184,"Pasta con pollo, gulas y tomate cherry",lunch,65,Pasta con pollo-Gulas
+185,Pasta con ternera en salsa napolitana,lunch,54,Pasta con ternera
+186,Pasta con ternera salteada y pesto de albahaca,lunch,54,Pasta con ternera
+187,Pasta con Tempeh en salsa de tomate y albahaca,lunch,96,Pasta con tempeh
+188,Pasta con Tempeh al pesto vegano,lunch,96,Pasta con tempeh
+189,Pasta con tofu en salsa cremosa de tomate,lunch,77,Pasta con Tofu
+190,Pasta con tofu al wok de verduras y soja,lunch,85,Tofu con verduras
+191,Pasta con solomillo de cerdo a la mostaza,lunch,131,Pasta con solomillo de cerdo o pavo
+192,Pasta con solomillo de pavo y champiñones,lunch,131,Pasta con solomillo de cerdo o pavo
+193,Pasta con burger de ternera desmigada en salsa,lunch,133,Pasta con Burger ternera
+194,Pasta con burger de ternera y queso al horno,lunch,133,Pasta con Burger ternera
+195,Gnocchis con pollo al pesto de albahaca,lunch,64,Gnocchis con pollo
+196,Gnocchis con pollo en salsa cremosa de tomate,lunch,64,Gnocchis con pollo
+197,Gnocchis a la plancha con pollo y espinacas,lunch,64,Gnocchis con pollo
+198,Gnocchis con ternera en salsa de tomate y albahaca,lunch,113,Gnocchis con ternera
+199,Gnocchis con ternera picada y queso gratinado,lunch,113,Gnocchis con ternera
+200,Gnocchis con Tempeh en salsa de tomate,lunch,87,Gnocchis con Tempeh
+201,Gnocchis con Tempeh a la plancha y espinacas,lunch,87,Gnocchis con Tempeh
+202,Gnocchis con tofu frito y salsa de tomate cherry,lunch,102,Gnocchis con Tofu
+203,Gnocchis con tofu en salsa de mostaza y nata,lunch,102,Gnocchis con Tofu
+204,Pollo con patatas al horno a las finas hierbas,lunch,35,Pollo con patatas
+205,Pollo con patatas en salsa a la española,lunch,35,Pollo con patatas
+206,Pollo crujiente con patatas al limón,lunch,35,Pollo con patatas
+207,Pollo salteado con verduras al estilo chino,lunch,34,Pollo con verduras
+208,Pollo al horno con verduras mediterráneas,lunch,34,Pollo con verduras
+209,Pollo con verduras en salsa de curry,lunch,34,Pollo con verduras
+210,Ternera con patatas al horno,lunch,47,Ternera con patatas
+211,Estofado de ternera con patatas,lunch,47,Ternera con patatas
+212,Ternera salteada con verduras y salsa teriyaki,lunch,69,Ternera con verduras
+213,Ternera con verduras de temporada al horno,lunch,69,Ternera con verduras
+214,Solomillo de cerdo con verduras a la plancha,lunch,70,Solomillo con verduras
+215,Solomillo de pavo con verduras al curry,lunch,70,Solomillo con verduras
+216,Solomillo de cerdo con patatas rústicas,lunch,61,Solomillo de cerdo o pavo con patatas
+217,Solomillo de pavo con patatas y salsa de mostaza,lunch,61,Solomillo de cerdo o pavo con patatas
+218,Entrecot a la plancha con patatas al horno,lunch,30,Entrecot
+219,Entrecot con mantequilla de hierbas y ensalada,lunch,30,Entrecot
+220,Entrecot a la pimienta con verduras salteadas,lunch,30,Entrecot
+221,Ensalada completa con pollo a la plancha,lunch,41,Ensalada
+222,Ensalada mediterránea con atún y huevo duro,lunch,41,Ensalada
+223,Ensalada de pollo crujiente con mango y aguacate,lunch,41,Ensalada
+224,Ensalada de pasta con pollo y pesto,lunch,42,Ensalada de pasta
+225,Ensalada de pasta fría con atún y vegetales,lunch,42,Ensalada de pasta
+226,Ensalada de pasta con mozzarella y tomate cherry,lunch,42,Ensalada de pasta
+227,Ensalada de rulo de cabra con nueces y miel,lunch,124,Ensalada de rulo de cabra
+228,Ensalada tibia de rulo de cabra con manzana y canela,lunch,124,Ensalada de rulo de cabra
+229,Poke bowl de salmón clásico,lunch,63,Poke Bowl
+230,Poke bowl de atún con aguacate y mango,lunch,63,Poke Bowl
+231,Poke bowl de pollo a la plancha con teriyaki,lunch,63,Poke Bowl
+232,Poke bowl vegano de tofu marinado,lunch,138,Poke Bowl Vegano
+233,Poke bowl vegano de tempeh con kimchi,lunch,138,Poke Bowl Vegano
+234,"Poke bowl vegano con aguacate, mango y edamame",lunch,138,Poke Bowl Vegano
+235,Alitas de pollo al horno con patatas rústicas,lunch,44,Alitas de pollo con patatas
+236,Alitas BBQ con patatas fritas al horno,lunch,44,Alitas de pollo con patatas
+237,Alitas picantes con patatas y yogur de ajo,lunch,44,Alitas de pollo con patatas
+238,Burger de ternera clásica con cheddar,lunch,23,Burger
+239,Burger de pollo a la plancha con aguacate,lunch,23,Burger
+240,Burger de ternera magra con champiñones salteados,lunch,129,Burger de ternera con patatas
+241,Burger vegana con guacamole y jalapeños,lunch,79,Burger Vegana
+242,Burger vegana de Heura con cheddar y sriracha,lunch,79,Burger Vegana
+243,Burger de tofu marinado con patatas al horno,lunch,97,Burger de Tofu con patatas
+244,Burger de Heura con patatas y salsa de mostaza,lunch,129,Burger de ternera con patatas
+245,Burger de ternera con patatas y cheddar derretido,lunch,129,Burger de ternera con patatas
+246,Doble burger de ternera magra con patatas picantes,lunch,129,Burger de ternera con patatas
+247,Burrito de pollo con guacamole,lunch,27,Burrito
+248,Burrito de ternera picada con jalapeños,lunch,27,Burrito
+249,Burrito vegano de tofu y frijoles negros,lunch,27,Burrito
+250,Burrito bowl de pollo con arroz y guacamole,lunch,26,Burrito bowl
+251,Burrito bowl de ternera picada con cheddar,lunch,26,Burrito bowl
+252,Fajitas de pollo clásicas con pimientos tricolor,lunch,24,Fajitas
+253,Fajitas de ternera picada con guacamole,lunch,24,Fajitas
+254,Fajitas de pollo con salsa de yogur y cilantro,lunch,24,Fajitas
+255,Fajitas veganas de tofu y pimientos asados,lunch,80,Fajitas Veganas
+256,Fajitas veganas de Heura con salsa de cilantro,lunch,80,Fajitas Veganas
+257,Kebab clásico con carne especiada y salsa yogur,lunch,115,Kebab
+258,Kebab picante con sriracha y vegetales frescos,lunch,115,Kebab
+259,Tacos de pollo con pico de gallo,lunch,118,Tacos
+260,Tacos de ternera especiada con guacamole,lunch,118,Tacos
+261,Pizza fit de pollo con mozzarella y albahaca,lunch,28,Pizza fit
+262,Pizza fit de verduras mediterráneas,lunch,28,Pizza fit
+263,Pizza fit de salmón y aguacate,lunch,28,Pizza fit
+264,Mini pizzas fit de pollo con mozzarella,snack,29,Mini pizzas fit
+265,Mini pizzas fit de verduras y queso light,snack,29,Mini pizzas fit
+266,Mini pizza de pan con mozzarella y tomate,snack,128,Mini Pizza de pan
+267,Mini pizza de pan con pollo y pimiento,snack,128,Mini Pizza de pan
+268,Palmera de chocolate como snack,snack,116,Palmera de chocolate
+269,Seitán salteado con verduras al wok,lunch,94,Seitán con verduras
+270,Seitán con verduras en salsa de tomate y hierbas,lunch,94,Seitán con verduras
+271,Tempeh glaseado al horno con patatas al limón,lunch,82,Tempeh con patatas
+272,Tempeh salteado con patatas y pimentón,lunch,82,Tempeh con patatas
+273,Tempeh salteado con verduras al estilo asiático,lunch,93,Tempeh con verduras
+274,Tempeh con verduras en salsa de curry,lunch,93,Tempeh con verduras
+275,Tofu firme salteado con verduras y soja,lunch,85,Tofu con verduras
+276,Tofu al horno con verduras mediterráneas,lunch,85,Tofu con verduras
+277,Tofu crujiente con patatas bravas veganas,lunch,76,Tofu o Seitán con patatas
+278,Seitán al horno con patatas y romero,lunch,76,Tofu o Seitán con patatas

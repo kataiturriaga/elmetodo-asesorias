@@ -2,14 +2,16 @@
 
 **Fecha:** 11/06/2026 · **Alcance:** las 396 rutinas con `zone=consultancy` (vía API dashboard, `training-days` de cada una).
 
-## ✅ Estado: CORREGIDO (11/06/2026)
+## ✅ Estado: CORREGIDO (11/06/2026) · 6 restantes RESUELTAS (19/06/2026)
 
-Se aplicó la corrección vía `PATCH` (posición = mínima posición de los miembros) y se re-auditaron las 396 rutinas: **1.133 de 1.139 superseries quedaron en su posición correcta**. Las 6 restantes están en días con posiciones duplicadas (dato ambiguo de origen) y requieren revisión manual del coach:
+Se aplicó la corrección vía `PATCH` (posición = mínima posición de los miembros) y se re-auditaron las 396 rutinas: **1.133 de 1.139 superseries quedaron en su posición correcta**. Las 6 restantes estaban en días con posiciones duplicadas (dato ambiguo de origen) y requerían decisión manual:
 
-| Rutina | Días | Superseries pendientes |
-|---|---|---|
-| 1021 — RECOMPOSICION-CHICAS-GIMNASIO-FULLBODY DESCEN-MES 4-AVANZADO-5 DIAS | 1, 2, 3, 4, 5 | pos=4 con otro ítem también en 4 (miembros en 5) |
-| 1027 — RECOMPOSICION-CHICOS-MANCUERNAS Y GOMAS-EMPUJES Y TRACCIONES-MES 2-AVANZADO-5 DIAS | 2 | pos=5 con miembros en 1 (posiciones solapadas) |
+| Rutina | Días | Superseries pendientes | Estado |
+|---|---|---|---|
+| 1021 — RECOMPOSICION-CHICAS-GIMNASIO-FULLBODY DESCEN-MES 4-AVANZADO-5 DIAS | 1, 2, 3, 4, 5 | pos=4 con otro ítem también en 4 (miembros en 5) | ✅ resuelto 19/06 |
+| 1027 — RECOMPOSICION-CHICOS-MANCUERNAS Y GOMAS-EMPUJES Y TRACCIONES-MES 2-AVANZADO-5 DIAS | 2 | pos=5 con miembros en 1 (posiciones solapadas) | ✅ resuelto 19/06 |
+
+Las 6 se corrigieron el 19/06/2026 (17 `PATCH`, día limpio 1–N en los 10 días). Criterio de orden y detalle en [rutinas-que-comprobar.md](../rutinas-que-comprobar.md).
 
 El resto del documento refleja el diagnóstico original previo a la corrección.
 

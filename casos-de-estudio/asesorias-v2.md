@@ -653,6 +653,136 @@ Se eligió el **acordeón** porque esquiva por completo el problema del gap del 
 
 ---
 
+### 7. Captura del teléfono en el onboarding: una llave que no se puede nombrar
+
+**Fecha:** Junio 2026
+**Área:** Onboarding / activación del cliente de asesoría
+
+#### De dónde veníamos
+
+El onboarding del tier coached reutiliza el cuestionario (registro → secciones B/C/D → cierre). En ningún punto se pedía el teléfono. El problema: el coach necesita el número para identificar, dentro de la base de datos global de usuarios, **cuál de los recién registrados es suyo**. La venta ocurre fuera de la app (WhatsApp, normalmente), así que el teléfono es la **única llave de emparejamiento** entre esa conversación de venta y la cuenta que se crea después.
+
+La tensión no era *dónde* meter un campo, sino una restricción de producto que lo contaminaba todo: **al cliente se le hace ver que Inazio lo lleva personalmente, y no se le dice que hay coaches detrás**. Eso convierte el camino obvio —pedir el teléfono "para vincularte con tu coach"— en algo prohibido: revelaría el backstage multi-coach y rompería la propuesta de valor percibida (el seguimiento personal de Inazio). Había que pedir un dato de matching B2B2C **sin nombrar nunca el motivo real**.
+
+---
+
+#### Qué decidimos y por qué
+
+**Decisión 1 — Dentro de "Datos físicos", no en pantalla propia ni en el registro**
+
+El registro (`SingUp`) es compartido con free/suscriptor —no todos los que se registran son coached— y, además, el login social (Google/Apple) ni siquiera pasa por un formulario. Colgar el teléfono del cuestionario coached lo acota al usuario correcto sin duplicar pantallas. Se descartó una **pantalla dedicada** tipo "vincula tu cuenta": resolvía bien el "porqué" pero solo a costa de romper la ilusión y sumar fricción.
+
+**Decisión 2 — El framing se apoya en el WhatsApp (lo más delicado)**
+
+Como no se puede mencionar al coach, la justificación se ancla en algo verdadero desde el punto de vista del cliente: **ya habló con "El Método" por WhatsApp antes de comprar**. Pedirle *ese mismo número* hace tres cosas a la vez: (a) justifica el dato sin sonar a CRM, (b) mantiene la filosofía de seguimiento personal, y (c) garantiza que el número introducido es el que el coach ya tiene → el match funciona. El copy hace el trabajo: *"El mismo número con el que nos escribiste por WhatsApp."* El "porqué" real (matching) queda invisible; el "porqué" que ve el cliente (seguimiento) es coherente con la marca.
+
+**Decisión 3 — Solo validar formato, sin OTP**
+
+Se evaluó verificación por **OTP/SMS** (descartada: añade pantalla, fricción y coste, y solo garantiza que el número *es real*, no que sea *el que el coach tiene*) y **confirmación del coach en el dashboard**. Se eligió validación de formato a secas, asumiendo el riesgo de match fallido a cambio de cero fricción —con la mitigación trasladada al dashboard (ver pendientes).
+
+**Decisión 4 — El teléfono como única llave, sin código de coach**
+
+Se valoró un **código/enlace del coach** (match determinista, sin ambigüedad), pero se descartó: requería infra nueva y el teléfono ya es el handle natural de la venta. Se acepta que todo el emparejamiento depende de que el número coincida.
+
+**Decisión 5 — Variante A (campo simple) sobre B (campo con contexto)**
+
+Se diseñaron dos versiones: **A**, un campo más al final de Datos físicos con un helper de una línea; y **B**, con un bloque de contexto verde ("Tu seguimiento es personal — te escribiremos por WhatsApp…"). Se eligió **A**: el helper ya carga toda la justificación necesaria, y B sobrecargaba con un callout una pantalla cuyo foco es —y debe seguir siendo— los datos físicos. Menos es más cuando el dato es secundario al propósito de la pantalla.
+
+---
+
+#### Estructura final
+
+```
+B2 — Datos físicos  (paso 2 de 10)
+  Tus datos físicos
+  Los usamos para calcular tu metabolismo
+  ──────────────────────────────
+  Fecha de nacimiento   [ DD/MM/AAAA            ]
+  Altura (cm)           [ 165                   ]  Indícalo en centímetros
+  Peso (kg)             [ 70                    ]  Indícalo en kilogramos
+  Teléfono              [ +34 600 00 00 00      ]  El mismo número con el que
+                                                   nos escribiste por WhatsApp.
+  ──────────────────────────────
+  [ Anterior ]                         [ Siguiente → ]
+```
+
+Montado como propuesta A/B sobre una copia de la pantalla real (tokens y componentes heredados del original), sin tocar el onboarding en producción.
+
+---
+
+#### Lo que quedó pendiente
+
+- **Selector de prefijo de país** → guardar el número normalizado (E.164). Ahora el "+34" va escrito en el placeholder; un selector real evita que "mismo número, formato distinto" no haga match.
+- **Estado de error de formato** inline antes de "Siguiente".
+- **Match difuso en el dashboard** por los últimos 9 dígitos (ignorando espacios/prefijo), para amortiguar el riesgo de la validación solo-formato.
+- **Bug de copy heredado** en `SingUp/email`: el tercer campo, etiquetado "CI", muestra el placeholder "Introduce una contraseña" (debería ser confirmar contraseña).
+
+---
+
+### 8. Recetas personalizadas por opción de dieta
+
+**Fecha:** Junio 2026  
+**Área:** Dieta / personalización del cliente de asesoría
+
+#### De dónde veníamos
+
+La dieta del cliente se estructura como `Comida → Opción` (ej.: "arroz con carne y verduras", con 200 g de carne picada, verdura al gusto y arroz). Queríamos enriquecer cada opción con **recetas** que enseñen a cocinar el plato, no solo a listar ingredientes.
+
+El problema es que una receta, tal como existe en el sistema, es un objeto con **cantidades absolutas y predeterminadas** (180 g de tofu, 3 patatas…) desconectadas de lo que el cliente tiene en su opción. Asociar una receta genérica a una opción producía dos desajustes:
+
+**1. Conjunto de ingredientes distinto.** La receta podía traer ingredientes que la opción no tiene (la "paella de carne" añade marisco) u omitir alguno que sí tiene.
+
+**2. Cantidades distintas.** La receta usaba aproximaciones, no la porción real del cliente.
+
+Mirando el modelo de datos, la receta tiene dos secciones con naturaleza muy distinta:
+- **Ingredientes** — estructurados (`ingredient_id · cantidad · unidad · modo`). Editables.
+- **Pasos** — texto plano (`título · contenido`). La prosa nombra los ingredientes ("marina el seitán en soja"), pero **ningún campo liga un paso a un `ingredient_id`**.
+
+La consecuencia: si quitas un ingrediente de la lista, no hay forma automática de quitarlo de los pasos. El texto queda huérfano.
+
+#### Qué decidimos y por qué
+
+**Decisión 1 — La receta se construye desde los `ingredient_id` de la opción, no se reutiliza una genérica**
+
+En vez de asociar recetas preexistentes y reconciliarlas a posteriori, las recetas se arman sobre el mismo vocabulario de ingredientes que usa la opción. Así el match es **por construcción**: el conjunto coincide y nunca hay que retirar un ingrediente de los pasos. El caso "la receta trae arroz que la opción no tiene" desaparece porque no se mete arroz de entrada.
+
+**Decisión 2 — Personalizar solo lo barato y seguro: las cantidades**
+
+Al revisar los pasos reales, las cantidades **casi nunca se repiten en la prosa** ("Saltea el pollo", "Añade garam masala") — sí los tiempos y temperaturas, que no dependen de la opción. Por tanto sobreescribir 180 g → 200 g en la lista de ingredientes **no contradice ningún paso**. Delimitamos el alcance: se personalizan cantidades (seguro), no el conjunto de ingredientes en los pasos (rompe la prosa).
+
+**Decisión 3 — Modelo de asociación plato como capa intermedia**
+
+La opción apunta a un **Plato** (`dish`), y el plato agrupa varias recetas (`Dish ⇄ Recetas`, muchos-a-muchos). El plato da variedad ("varios platos con los mismos productos para que no sea monótono") y desacopla la receta de la opción concreta.
+
+**Decisión 4 — Carga inicial: mapeo de 250 recetas borrador sobre 126 platos**
+
+Se generó el catálogo de recetas (una/varias por plato con sentido) y se mapearon por nombre, corrigiendo a mano los platos de nombre genérico (Burger, Tacos, Kebab, Entrecot…) donde el match automático fallaba. Resultado aplicado en producción: **249 recetas publicadas y asociadas a 123 de 126 platos** (≈2 recetas/plato). Para publicar, cada receta necesitaba imagen + etiqueta + nutrición; se usó la **foto del propio plato** como hero, etiqueta por tipo de comida y nutrición placeholder (no se muestra en la app). Quedaron 3 platos combo/duplicados heredando de sus hermanos y 1 receta incompleta sin publicar.
+
+**Decisión 5 — Pasar las cantidades de la opción a los ingredientes de la receta (join por `ingredient_id`)**
+
+El dato necesario **ya existe en producción** para los clientes en Diets V2. Los ingredientes estructurados de la opción no viajan en el payload de la dieta (ahí solo van el texto de `ingredients` + `dish_id`), sino en una tabla aparte, `OptionIngredient`, consultable en `/api/ingredients/options/{option_id}/ingredients`. Cada fila trae `ingredient_id`, cantidad en dos formatos (`override_quantity_unit` "60 gr" y `override_quantity_portion` "1/4 Vaso de") y los grupos de elección (`is_choice_group` / `choice_group_id`) que en texto eran "(300 gr Patata) o (300 gr Boniato)".
+
+Como `ingredient_id` es el mismo en `OptionIngredient` y en `RecipeIngredient`, la personalización es un **join directo**: por cada ingrediente de la receta, se busca el mismo `ingredient_id` en la opción del cliente y se usa su cantidad. No hay reconciliación difusa ni parsing de texto. Esta es la implementación que se pasó a desarrollo (Carles).
+
+#### Estructura final
+
+```
+Opción de dieta
+  └── dish_id → Plato
+        └── Recetas asociadas (1..n)
+              ├── Ingredientes  → cantidades sobreescritas desde la opción
+              └── Pasos (texto) → técnica de la receta, sin tocar
+```
+
+#### Lo que quedó pendiente
+
+- **Dietas viejas y plantillas master** que siguen en texto libre (sin `OptionIngredient`) — no se benefician del join hasta migrarse. Los clientes activos en Diets V2 ya tienen los ingredientes estructurados.
+- **Elegir formato de cantidad** a mostrar en la receta — `unit` ("60 gr") vs `portion` ("1/4 Vaso de"), o ambos con un toggle Raciones/Unidades.
+- **Pasos que mencionan sustituciones o "al gusto"** que la prosa no refleja — caso inverso, menos grave, sin resolver.
+- **Nutrición real** en lugar del placeholder, si llega a mostrarse en la app.
+
+---
+
 ## Materiales
 
 - Figma — pantalla de revisión del dashboard: [Ficha cliente - revisiones-v3](https://www.figma.com/design/629ryw0MF7hzDxIFiZJ5Un/App-Automatica?node-id=4737-39579)
@@ -662,4 +792,7 @@ Se eligió el **acordeón** porque esquiva por completo el problema del gap del 
 - Figma (Dashboard - DS) — comportamiento del patrón (interacción · teclado · a11y): [Menú Acciones — Comportamiento](https://www.figma.com/design/E6H45ej75HO6fL2SOnQNL5/Dashboard---DS?node-id=142-14914)
 - Figma — card % GRASO, 4 estados: [propuesta en Rediseño - Junio](https://www.figma.com/design/629ryw0MF7hzDxIFiZJ5Un/App-Automatica?node-id=4769-19948)
 - Figma — overlay comparador: [propuesta en Rediseño - Junio](https://www.figma.com/design/629ryw0MF7hzDxIFiZJ5Un/App-Automatica?node-id=4774-20036)
+- Figma — onboarding coached (cuestionario v2): [Onboarding/questionario v2](https://www.figma.com/design/629ryw0MF7hzDxIFiZJ5Un/App-Automatica?node-id=4441-154303)
+- Figma — campo teléfono en Datos físicos, variantes A/B (exploración): [propuesta](https://www.figma.com/design/629ryw0MF7hzDxIFiZJ5Un/App-Automatica?node-id=4881-385230)
+- Figma — variante elegida (A · campo simple): [B2 — Datos físicos + Teléfono](https://www.figma.com/design/629ryw0MF7hzDxIFiZJ5Un/App-Automatica?node-id=4881-385231)
 - Docs relacionados: `asesorias/`, `asesorias/calculo-%-graso/`, `casos-de-estudio/spec-evaluacion-ia-graso.md`

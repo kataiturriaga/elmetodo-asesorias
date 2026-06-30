@@ -1,0 +1,759 @@
+{
+ "note": "pre-fix snapshot of superset/exercise positions",
+ "routines": {
+  "1021": [
+   {
+    "day_id": 4115,
+    "day_order": 1,
+    "name": "Glúteo-Hombro-Pecho",
+    "exercises": [
+     {
+      "row_id": 22271,
+      "exercise_id": 83,
+      "position": 1,
+      "superset_v2_id": null
+     },
+     {
+      "row_id": 22270,
+      "exercise_id": 261,
+      "position": 2,
+      "superset_v2_id": null
+     },
+     {
+      "row_id": 22266,
+      "exercise_id": 65,
+      "position": 3,
+      "superset_v2_id": 1073
+     },
+     {
+      "row_id": 22267,
+      "exercise_id": 467,
+      "position": 4,
+      "superset_v2_id": 1073
+     },
+     {
+      "row_id": 22268,
+      "exercise_id": 21,
+      "position": 5,
+      "superset_v2_id": 1074
+     },
+     {
+      "row_id": 22272,
+      "exercise_id": 128,
+      "position": 5,
+      "superset_v2_id": null
+     },
+     {
+      "row_id": 22273,
+      "exercise_id": 135,
+      "position": 6,
+      "superset_v2_id": null
+     },
+     {
+      "row_id": 22269,
+      "exercise_id": 429,
+      "position": 6,
+      "superset_v2_id": 1074
+     }
+    ],
+    "supersets": [
+     {
+      "id": 1073,
+      "position": 3,
+      "members": [
+       {
+        "row_id": 22266,
+        "exercise_id": 65,
+        "position": 3
+       },
+       {
+        "row_id": 22267,
+        "exercise_id": 467,
+        "position": 4
+       }
+      ]
+     },
+     {
+      "id": 1074,
+      "position": 4,
+      "members": [
+       {
+        "row_id": 22268,
+        "exercise_id": 21,
+        "position": 5
+       },
+       {
+        "row_id": 22269,
+        "exercise_id": 429,
+        "position": 6
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "day_id": 4116,
+    "day_order": 2,
+    "name": "Pecho-Hombro-Glúteo",
+    "exercises": [
+     {
+      "row_id": 22278,
+      "exercise_id": 280,
+      "position": 1,
+      "superset_v2_id": null
+     },
+     {
+      "row_id": 22279,
+      "exercise_id": 229,
+      "position": 2,
+      "superset_v2_id": null
+     },
+     {
+      "row_id": 22274,
+      "exercise_id": 135,
+      "position": 3,
+      "superset_v2_id": 1075
+     },
+     {
+      "row_id": 22275,
+      "exercise_id": 347,
+      "position": 4,
+      "superset_v2_id": 1075
+     },
+     {
+      "row_id": 22276,
+      "exercise_id": 211,
+      "position": 5,
+      "superset_v2_id": 1076
+     },
+     {
+      "row_id": 22280,
+      "exercise_id": 377,
+      "position": 5,
+      "superset_v2_id": null
+     },
+     {
+      "row_id": 22277,
+      "exercise_id": 583,
+      "position": 6,
+      "superset_v2_id": 1076
+     },
+     {
+      "row_id": 22281,
+      "exercise_id": 79,
+      "position": 6,
+      "superset_v2_id": null
+     }
+    ],
+    "supersets": [
+     {
+      "id": 1075,
+      "position": 3,
+      "members": [
+       {
+        "row_id": 22274,
+        "exercise_id": 135,
+        "position": 3
+       },
+       {
+        "row_id": 22275,
+        "exercise_id": 347,
+        "position": 4
+       }
+      ]
+     },
+     {
+      "id": 1076,
+      "position": 4,
+      "members": [
+       {
+        "row_id": 22276,
+        "exercise_id": 211,
+        "position": 5
+       },
+       {
+        "row_id": 22277,
+        "exercise_id": 583,
+        "position": 6
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "day_id": 4117,
+    "day_order": 3,
+    "name": "Glúteo-Espalda",
+    "exercises": [
+     {
+      "row_id": 22286,
+      "exercise_id": 220,
+      "position": 1,
+      "superset_v2_id": null
+     },
+     {
+      "row_id": 22287,
+      "exercise_id": 601,
+      "position": 2,
+      "superset_v2_id": null
+     },
+     {
+      "row_id": 22282,
+      "exercise_id": 65,
+      "position": 3,
+      "superset_v2_id": 1077
+     },
+     {
+      "row_id": 22283,
+      "exercise_id": 599,
+      "position": 4,
+      "superset_v2_id": 1077
+     },
+     {
+      "row_id": 22288,
+      "exercise_id": 312,
+      "position": 5,
+      "superset_v2_id": null
+     },
+     {
+      "row_id": 22284,
+      "exercise_id": 123,
+      "position": 5,
+      "superset_v2_id": 1078
+     },
+     {
+      "row_id": 22289,
+      "exercise_id": 162,
+      "position": 6,
+      "superset_v2_id": null
+     },
+     {
+      "row_id": 22285,
+      "exercise_id": 209,
+      "position": 6,
+      "superset_v2_id": 1078
+     }
+    ],
+    "supersets": [
+     {
+      "id": 1077,
+      "position": 3,
+      "members": [
+       {
+        "row_id": 22282,
+        "exercise_id": 65,
+        "position": 3
+       },
+       {
+        "row_id": 22283,
+        "exercise_id": 599,
+        "position": 4
+       }
+      ]
+     },
+     {
+      "id": 1078,
+      "position": 4,
+      "members": [
+       {
+        "row_id": 22284,
+        "exercise_id": 123,
+        "position": 5
+       },
+       {
+        "row_id": 22285,
+        "exercise_id": 209,
+        "position": 6
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "day_id": 4118,
+    "day_order": 4,
+    "name": "Espalda-Bíceps-Glúteo",
+    "exercises": [
+     {
+      "row_id": 22295,
+      "exercise_id": 594,
+      "position": 1,
+      "superset_v2_id": null
+     },
+     {
+      "row_id": 22294,
+      "exercise_id": 324,
+      "position": 2,
+      "superset_v2_id": null
+     },
+     {
+      "row_id": 22290,
+      "exercise_id": 113,
+      "position": 3,
+      "superset_v2_id": 1079
+     },
+     {
+      "row_id": 22291,
+      "exercise_id": 339,
+      "position": 4,
+      "superset_v2_id": 1079
+     },
+     {
+      "row_id": 22296,
+      "exercise_id": 158,
+      "position": 5,
+      "superset_v2_id": null
+     },
+     {
+      "row_id": 22292,
+      "exercise_id": 20,
+      "position": 5,
+      "superset_v2_id": 1080
+     },
+     {
+      "row_id": 22297,
+      "exercise_id": 514,
+      "position": 6,
+      "superset_v2_id": null
+     },
+     {
+      "row_id": 22293,
+      "exercise_id": 237,
+      "position": 6,
+      "superset_v2_id": 1080
+     }
+    ],
+    "supersets": [
+     {
+      "id": 1079,
+      "position": 3,
+      "members": [
+       {
+        "row_id": 22290,
+        "exercise_id": 113,
+        "position": 3
+       },
+       {
+        "row_id": 22291,
+        "exercise_id": 339,
+        "position": 4
+       }
+      ]
+     },
+     {
+      "id": 1080,
+      "position": 4,
+      "members": [
+       {
+        "row_id": 22292,
+        "exercise_id": 20,
+        "position": 5
+       },
+       {
+        "row_id": 22293,
+        "exercise_id": 237,
+        "position": 6
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "day_id": 4119,
+    "day_order": 5,
+    "name": "Pierna Completa",
+    "exercises": [
+     {
+      "row_id": 22302,
+      "exercise_id": 123,
+      "position": 1,
+      "superset_v2_id": null
+     },
+     {
+      "row_id": 22303,
+      "exercise_id": 275,
+      "position": 2,
+      "superset_v2_id": null
+     },
+     {
+      "row_id": 22298,
+      "exercise_id": 381,
+      "position": 3,
+      "superset_v2_id": 1081
+     },
+     {
+      "row_id": 22299,
+      "exercise_id": 600,
+      "position": 4,
+      "superset_v2_id": 1081
+     },
+     {
+      "row_id": 22300,
+      "exercise_id": 321,
+      "position": 5,
+      "superset_v2_id": 1082
+     },
+     {
+      "row_id": 22304,
+      "exercise_id": 409,
+      "position": 5,
+      "superset_v2_id": null
+     },
+     {
+      "row_id": 22305,
+      "exercise_id": 595,
+      "position": 6,
+      "superset_v2_id": null
+     },
+     {
+      "row_id": 22301,
+      "exercise_id": 599,
+      "position": 6,
+      "superset_v2_id": 1082
+     }
+    ],
+    "supersets": [
+     {
+      "id": 1081,
+      "position": 3,
+      "members": [
+       {
+        "row_id": 22298,
+        "exercise_id": 381,
+        "position": 3
+       },
+       {
+        "row_id": 22299,
+        "exercise_id": 600,
+        "position": 4
+       }
+      ]
+     },
+     {
+      "id": 1082,
+      "position": 4,
+      "members": [
+       {
+        "row_id": 22300,
+        "exercise_id": 321,
+        "position": 5
+       },
+       {
+        "row_id": 22301,
+        "exercise_id": 599,
+        "position": 6
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "1027": [
+   {
+    "day_id": 4134,
+    "day_order": 1,
+    "name": "Hombro-Pecho-Tríceps",
+    "exercises": [
+     {
+      "row_id": 22418,
+      "exercise_id": 332,
+      "position": 1,
+      "superset_v2_id": null
+     },
+     {
+      "row_id": 22419,
+      "exercise_id": 531,
+      "position": 2,
+      "superset_v2_id": null
+     },
+     {
+      "row_id": 22420,
+      "exercise_id": 405,
+      "position": 3,
+      "superset_v2_id": null
+     },
+     {
+      "row_id": 22421,
+      "exercise_id": 421,
+      "position": 4,
+      "superset_v2_id": null
+     },
+     {
+      "row_id": 22416,
+      "exercise_id": 180,
+      "position": 5,
+      "superset_v2_id": 1109
+     },
+     {
+      "row_id": 22417,
+      "exercise_id": 528,
+      "position": 6,
+      "superset_v2_id": 1109
+     }
+    ],
+    "supersets": [
+     {
+      "id": 1109,
+      "position": 5,
+      "members": [
+       {
+        "row_id": 22416,
+        "exercise_id": 180,
+        "position": 5
+       },
+       {
+        "row_id": 22417,
+        "exercise_id": 528,
+        "position": 6
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "day_id": 4135,
+    "day_order": 2,
+    "name": "Espalda-Bíceps-Posterior",
+    "exercises": [
+     {
+      "row_id": 22424,
+      "exercise_id": 598,
+      "position": 1,
+      "superset_v2_id": null
+     },
+     {
+      "row_id": 22423,
+      "exercise_id": 571,
+      "position": 1,
+      "superset_v2_id": 1110
+     },
+     {
+      "row_id": 22422,
+      "exercise_id": 243,
+      "position": 2,
+      "superset_v2_id": 1110
+     },
+     {
+      "row_id": 22425,
+      "exercise_id": 462,
+      "position": 2,
+      "superset_v2_id": null
+     },
+     {
+      "row_id": 22426,
+      "exercise_id": 357,
+      "position": 3,
+      "superset_v2_id": null
+     },
+     {
+      "row_id": 22427,
+      "exercise_id": 491,
+      "position": 4,
+      "superset_v2_id": null
+     }
+    ],
+    "supersets": [
+     {
+      "id": 1110,
+      "position": 5,
+      "members": [
+       {
+        "row_id": 22423,
+        "exercise_id": 571,
+        "position": 1
+       },
+       {
+        "row_id": 22422,
+        "exercise_id": 243,
+        "position": 2
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "day_id": 4136,
+    "day_order": 3,
+    "name": "Pierna",
+    "exercises": [
+     {
+      "row_id": 22430,
+      "exercise_id": 469,
+      "position": 1,
+      "superset_v2_id": null
+     },
+     {
+      "row_id": 22431,
+      "exercise_id": 60,
+      "position": 2,
+      "superset_v2_id": null
+     },
+     {
+      "row_id": 22432,
+      "exercise_id": 119,
+      "position": 3,
+      "superset_v2_id": null
+     },
+     {
+      "row_id": 22433,
+      "exercise_id": 611,
+      "position": 4,
+      "superset_v2_id": null
+     },
+     {
+      "row_id": 22428,
+      "exercise_id": 508,
+      "position": 5,
+      "superset_v2_id": 1111
+     },
+     {
+      "row_id": 22429,
+      "exercise_id": 517,
+      "position": 6,
+      "superset_v2_id": 1111
+     }
+    ],
+    "supersets": [
+     {
+      "id": 1111,
+      "position": 5,
+      "members": [
+       {
+        "row_id": 22428,
+        "exercise_id": 508,
+        "position": 5
+       },
+       {
+        "row_id": 22429,
+        "exercise_id": 517,
+        "position": 6
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "day_id": 4137,
+    "day_order": 4,
+    "name": "Hombro-Pecho-Tríceps",
+    "exercises": [
+     {
+      "row_id": 22436,
+      "exercise_id": 90,
+      "position": 1,
+      "superset_v2_id": null
+     },
+     {
+      "row_id": 22437,
+      "exercise_id": 37,
+      "position": 2,
+      "superset_v2_id": null
+     },
+     {
+      "row_id": 22438,
+      "exercise_id": 369,
+      "position": 3,
+      "superset_v2_id": null
+     },
+     {
+      "row_id": 22439,
+      "exercise_id": 297,
+      "position": 4,
+      "superset_v2_id": null
+     },
+     {
+      "row_id": 22434,
+      "exercise_id": 449,
+      "position": 5,
+      "superset_v2_id": 1112
+     },
+     {
+      "row_id": 22435,
+      "exercise_id": 605,
+      "position": 6,
+      "superset_v2_id": 1112
+     }
+    ],
+    "supersets": [
+     {
+      "id": 1112,
+      "position": 5,
+      "members": [
+       {
+        "row_id": 22434,
+        "exercise_id": 449,
+        "position": 5
+       },
+       {
+        "row_id": 22435,
+        "exercise_id": 605,
+        "position": 6
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "day_id": 4138,
+    "day_order": 5,
+    "name": "Espalda-Bíceps-Posterior",
+    "exercises": [
+     {
+      "row_id": 22442,
+      "exercise_id": 491,
+      "position": 1,
+      "superset_v2_id": null
+     },
+     {
+      "row_id": 22443,
+      "exercise_id": 448,
+      "position": 2,
+      "superset_v2_id": null
+     },
+     {
+      "row_id": 22444,
+      "exercise_id": 57,
+      "position": 3,
+      "superset_v2_id": null
+     },
+     {
+      "row_id": 22445,
+      "exercise_id": 554,
+      "position": 4,
+      "superset_v2_id": null
+     },
+     {
+      "row_id": 22440,
+      "exercise_id": 225,
+      "position": 5,
+      "superset_v2_id": 1113
+     },
+     {
+      "row_id": 22441,
+      "exercise_id": 335,
+      "position": 6,
+      "superset_v2_id": 1113
+     }
+    ],
+    "supersets": [
+     {
+      "id": 1113,
+      "position": 5,
+      "members": [
+       {
+        "row_id": 22440,
+        "exercise_id": 225,
+        "position": 5
+       },
+       {
+        "row_id": 22441,
+        "exercise_id": 335,
+        "position": 6
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ }
+}
