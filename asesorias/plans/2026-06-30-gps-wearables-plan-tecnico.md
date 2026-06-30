@@ -149,7 +149,7 @@ def test_delete_session_removes_from_db()
 
 ### Subsistema 1 — Flutter GPS: métricas en tiempo real (sin mapa)
 
-**Estimación:** ~2 días
+**Estimación:** ~1 semana
 **Prerequisito:** Subsistema 0
 
 Esto es la versión mínima: grabar la sesión con GPS para calcular distancia, ritmo y velocidad sin mostrar mapa. Es el MVP más rápido de validar con usuarios.
@@ -289,7 +289,7 @@ test('resumeTracking resumes emitting points')
 
 ### Subsistema 2 — Flutter GPS: mapa de ruta
 
-**Estimación:** ~2 días adicionales sobre Subsistema 1
+**Estimación:** ~1 semana adicional sobre Subsistema 1
 **Prerequisito:** Subsistema 1
 
 Añade visualización de la ruta grabada sobre un mapa (vista en tiempo real durante la sesión + vista en el historial).
@@ -336,7 +336,7 @@ Con 3.600 puntos (60 min a 1/seg), renderizar la polilínea completa en cada fra
 
 ### Subsistema 3 — Integración con Strava (agregador de wearables)
 
-**Estimación:** ~2 días
+**Estimación:** ~1 semana
 **Proceso de aprobación:** Ninguno para desarrollo. Para producción: API Rate Limits, Terms of Service (no revender datos). Sin aprobación especial requerida.
 **Documentación:** [developers.strava.com](https://developers.strava.com)
 
@@ -488,7 +488,7 @@ El flujo OAuth se abre con `url_launcher` (ya en pubspec) o `webview_flutter` (y
 
 ### Subsistema 4 — Ejecución guiada por plan (Runna-like)
 
-**Estimación:** ~2 días Flutter + 0.5 día backend
+**Estimación:** ~1 semana
 **Prerequisito:** Subsistemas 0 y 1
 **Objetivo:** Convertir la sesión GPS en la ejecución del plan asignado por el coach. El usuario sabe en qué paso del workout está, cuánto le queda y si va al ritmo objetivo. Al terminar, el sistema compara real vs. planificado paso a paso.
 
@@ -702,7 +702,7 @@ Solo números: distancia, ritmo, duración. Sin mapa en ningún momento. La base
 
 | | |
 |---|---|
-| **Estimación** | **~3 días** |
+| **Estimación** | **~1 semana** |
 | **Coste tiles/mes** | **$0** — sin mapa, sin tiles |
 | **Riesgo principal** | Review de Apple por `NSLocationAlways`; testing de batería en dispositivo real |
 
@@ -722,7 +722,7 @@ Añade el mapa al historial: después de terminar la carrera puedes ver tu ruta.
 
 | | |
 |---|---|
-| **Estimación** | **~5 días total** — +2 días sobre la Mínima |
+| **Estimación** | **~2 semanas total** — +1 semana sobre la Mínima |
 | **Coste tiles/mes** | **Bajo** — mapa solo al revisar; probablemente tier gratis o ~$20–50/mes a 4k users |
 | **Riesgo principal** | Coste de tiles si el volumen crece; elección del proveedor de tiles |
 
@@ -742,7 +742,7 @@ La experiencia tipo Strava: el mapa te sigue en vivo durante la carrera, ves la 
 
 | | |
 |---|---|
-| **Estimación** | **~7 días total** — +2 días sobre la Intermedia |
+| **Estimación** | **~3 semanas total** — +1 semana sobre la Intermedia |
 | **Coste tiles/mes** | **~$50–250/mes** — el mapa en vivo es lo que dispara el consumo de tiles |
 | **Riesgo principal** | Rendimiento del mapa en vivo (decimación de puntos, batería); coste de tiles |
 
@@ -759,10 +759,10 @@ La experiencia tipo Strava: el mapa te sigue en vivo durante la carrera, ves la 
 | Auto-pausa | ❌ | ❌ | ✅ |
 | Compartir | ❌ | ❌ | ✅ |
 | `route_points` guardados | ✅ | ✅ | ✅ |
-| **Estimación** | **~3 días** | **~5 días** | **~7 días** |
+| **Estimación** | **~1 semana** | **~2 semanas** | **~3 semanas** |
 | **Coste tiles/mes** | $0 | ~tier gratis | ~$50–250 |
 
-**Recomendación:** empezar por la **Mínima** — construye el background bien desde el día 1 (el único componente caro de retrofitear), guarda `route_points` en backend, y difiere el mapa. El salto de Mínima → Intermedia son solo 4–5 días adicionales y cero refactor.
+**Recomendación:** empezar por la **Mínima** — construye el background bien desde el día 1 (el único componente caro de retrofitear), guarda `route_points` en backend, y difiere el mapa. El salto de Mínima → Intermedia es ~1 semana adicional y cero refactor.
 
 ---
 
