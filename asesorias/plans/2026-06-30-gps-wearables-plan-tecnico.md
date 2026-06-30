@@ -2,6 +2,7 @@
 
 > **Nota:** Este es un plan de valoración técnica, no un plan de implementación final. El objetivo es acotar complejidad, dependencias y estimaciones de tiempo antes de comprometer recursos. Los flujos de UI están fuera de scope (pendientes de Figma).
 
+
 **Repos afectados:** `elmetodo_ff_asesorias` (rama `feat/asesorias-v2-flow`) · `elmetodo_api`
 **Coordinación necesaria:** Carles (app Flutter) para contratos de API y ubicación de nuevos features
 **Última actualización:** 2026-06-30
@@ -20,76 +21,18 @@ Lo que ya existe y **no hay que construir:**
 | `permission_handler: ^11.3.1` | `pubspec.yaml` |
 | Patrón clean architecture: data/domain/presentation + Riverpod + Freezed + Dio | Todo `lib/v2/` |
 
-Lo que **ya existe y solapa parcialmente** (⚠️ ver sección "Reconciliación con `activities`"):
-
-| Qué | Dónde |
-|-----|-------|
-| Modelo `Activity` (logging manual: `activity_type`, `duration_minutes`, `calories_burned`, `distance_km`, `notes`, `activity_date`) | `app/models/activity.py` |
-| Router de actividades manuales montado en **`prefix="/activities"`** → `/api/mobile/activities/` | `app/api/router.py:145` |
-| Feature de actividades en la app (logging manual, `activity_log_item`, `pending_activities_service`) | `lib/v2/auto/features/activities/` |
-
 Lo que **no existe:**
 
 - Paquete GPS (`geolocator` o similar)
 - SDK / cliente OAuth para Strava (agregador de wearables — ver Subsistema 3)
-- Modelo backend para sesiones de actividad con ruta GPS, ritmo y HR (el `Activity` actual es solo logging manual, sin ruta ni tracking en vivo)
+- Modelo backend para sesiones de actividad con ruta GPS, ritmo y HR
 - Webhooks de terceros en el backend (existe `app/api/routes/webhooks/` con `apple.py` y `google.py` como patrón a seguir)
-
----
-
-## ⚠️ Reconciliación con la feature `activities` existente (decisión de Carles)
-
-**Antes de tocar el backend hay que resolver esto.** Ya existe una feature `activities` (modelo `Activity`, router en `/api/mobile/activities`, feature Flutter en `lib/v2/auto/features/activities/`) para **logging manual** de actividades. La sesión GPS + wearable es un concepto solapado pero distinto: tiene ruta, tracking en vivo, métricas de wearable y origen externo.
-
-**El prefijo `/api/mobile/activities/` ya está ocupado** y el nombre `Activity` ya está tomado. Hay dos caminos:
-
-### Opción A — Extender el modelo `Activity` existente
-
-La sesión GPS es una `Activity` enriquecida: se añaden columnas opcionales al modelo y router actuales.
-
-```python
-# Columnas añadidas a Activity (todas nullable, no rompen el logging manual)
-started_at      = Column(TIMESTAMP(timezone=True), nullable=True)
-ended_at        = Column(TIMESTAMP(timezone=True), nullable=True)
-source          = Column(String(50), nullable=True)   # "manual"|"gps_app"|"strava"|"garmin"|"polar"
-external_id     = Column(String(200), nullable=True)
-avg_speed_mps   = Column(Float, nullable=True)
-max_speed_mps   = Column(Float, nullable=True)
-avg_heart_rate  = Column(Integer, nullable=True)
-max_heart_rate  = Column(Integer, nullable=True)
-route_points    = Column(JSONB, nullable=True)
-```
-
-| Pros | Contras |
-|------|---------|
-| Sin duplicación de modelo ni de feature Flutter | Mezcla logging manual y tracking GPS en una tabla; campos `nullable` que solo aplican a unos registros |
-| Reutiliza el router, repo y servicio de `activities` | El servicio de actividades crece y mezcla responsabilidades |
-| Una sola lista de "actividades" en la app (manual + GPS + wearable juntas) | `distance_km` (existente) vs `distance_meters` (nuevo): hay que unificar unidad |
-
-### Opción B — Modelo nuevo `WorkoutSession` con prefijo propio
-
-Modelo y feature separados. El plan abajo está escrito asumiendo esta opción (renombrando `ActivitySession` → `WorkoutSession` y el prefijo a `/api/mobile/workout-sessions`).
-
-```
-POST   /api/mobile/workout-sessions/
-GET    /api/mobile/workout-sessions/
-GET    /api/mobile/workout-sessions/{id}
-DELETE /api/mobile/workout-sessions/{id}
-```
-
-| Pros | Contras |
-|------|---------|
-| Separación conceptual limpia: logging manual ≠ tracking GPS/wearable | Dos features de "actividad" conviviendo → posible confusión de UX |
-| Servicio/repo enfocados solo en GPS+wearable | Duplicación parcial de CRUD |
-| Ciclo de vida y UI propios (tracking en vivo, ruta, conexiones OAuth) | Hay que decidir si la app muestra ambas listas juntas o separadas |
-
-**Recomendación del plan:** Opción B (separación), porque el logging manual y el tracking GPS+wearable tienen UIs y ciclos de vida muy distintos. **Pero la decisión es de Carles** — controla la arquitectura de la app y la coherencia de UX. El resto del plan usa el nombre `WorkoutSession` / prefijo `/api/mobile/workout-sessions`; si se elige la Opción A, sustituir por `Activity` / `/api/mobile/activities` y convertir los archivos "Create" en "Modify" sobre los existentes.
 
 ---
 
 ## Arquitectura general propuesta
 
-El núcleo compartido es un modelo **`WorkoutSession`** en el backend (nombre provisional — ver "Reconciliación con `activities`") que unifica:
+El núcleo compartido es un modelo **`WorkoutSession`** en el backend que unifica:
 - Sesiones GPS grabadas en la app
 - Actividades importadas de Strava (que a su vez agrega Garmin, Polar, Apple Watch, etc. — ver Subsistema 3)
 
@@ -111,8 +54,7 @@ El trabajo se divide en **4 subsistemas independientes**. Se recomienda implemen
 
 ### Subsistema 0 — Backend: modelo WorkoutSession (prerequisito de todo)
 
-**Estimación:** 2–3 días de backend
-**⚠️ Depende de:** la decisión A/B de la sección "Reconciliación con `activities`". Lo de abajo asume **Opción B** (modelo nuevo). Si se elige A, estos "Create" pasan a ser "Modify" sobre los archivos de `activities`.
+**Estimación:** ~1 día
 
 #### Qué se construye
 
@@ -166,6 +108,13 @@ class WorkoutSession(Base):
     # Metadatos
     title           = Column(String(200), nullable=True)     # Nombre de la actividad (Strava lo tiene)
     notes           = Column(String(1000), nullable=True)
+
+    # Ejecución guiada por plan (Runna-like) — nullable: solo cuando la sesión parte de un plan asignado
+    plan_session_id = Column(Integer, ForeignKey("sessions.id"), nullable=True, index=True)
+    # [{step_index, step_type, target_distance_m, target_duration_s, target_speed_mps,
+    #   actual_distance_m, actual_duration_s, actual_avg_speed_mps, on_target}]
+    step_results    = Column(JSONB, nullable=True)
+
     created_at      = Column(TIMESTAMP(timezone=True), server_default=func.now())
 ```
 
@@ -176,6 +125,7 @@ POST   /api/mobile/workout-sessions/        # Crear sesión (GPS grabado en app)
 GET    /api/mobile/workout-sessions/        # Listar las del usuario (paginado)
 GET    /api/mobile/workout-sessions/{id}    # Detalle de una sesión (incluye route_points)
 DELETE /api/mobile/workout-sessions/{id}    # Borrar (solo el propio usuario)
+PATCH  /api/mobile/workout-sessions/{id}/step-results  # Guardar desglose por paso al terminar
 ```
 
 #### Decisiones de diseño
@@ -199,7 +149,7 @@ def test_delete_session_removes_from_db()
 
 ### Subsistema 1 — Flutter GPS: métricas en tiempo real (sin mapa)
 
-**Estimación:** 4–5 días de Flutter
+**Estimación:** ~2 días
 **Prerequisito:** Subsistema 0
 
 Esto es la versión mínima: grabar la sesión con GPS para calcular distancia, ritmo y velocidad sin mostrar mapa. Es el MVP más rápido de validar con usuarios.
@@ -236,7 +186,7 @@ Capabilities: `Background Modes → Location updates`
 
 #### Archivos Flutter (nuevo feature `lib/v2/features/workout_session/`)
 
-La convención del repo es `lib/v2/features/<nombre>/data|domain|presentation/`. ⚠️ Ojo: ya existe `lib/v2/auto/features/activities/` (logging manual); este feature es distinto. Si se elige la Opción A de reconciliación, integrar aquí en vez de crear feature nuevo.
+La convención del repo es `lib/v2/features/<nombre>/data|domain|presentation/`.
 
 | Archivo | Responsabilidad |
 |---------|----------------|
@@ -303,6 +253,7 @@ class LiveTrackingState with _$LiveTrackingState {
     required Duration elapsed,
     required double distanceMeters,
     required double currentSpeedMps,
+    StepContext? currentStep,  // null si sesión libre sin plan (ver Subsistema 4)
   }) = _Tracking;
   const factory LiveTrackingState.paused({
     required Duration elapsed,
@@ -338,7 +289,7 @@ test('resumeTracking resumes emitting points')
 
 ### Subsistema 2 — Flutter GPS: mapa de ruta
 
-**Estimación:** 5–7 días adicionales sobre Subsistema 1
+**Estimación:** ~2 días adicionales sobre Subsistema 1
 **Prerequisito:** Subsistema 1
 
 Añade visualización de la ruta grabada sobre un mapa (vista en tiempo real durante la sesión + vista en el historial).
@@ -385,7 +336,7 @@ Con 3.600 puntos (60 min a 1/seg), renderizar la polilínea completa en cada fra
 
 ### Subsistema 3 — Integración con Strava (agregador de wearables)
 
-**Estimación:** 6–8 días
+**Estimación:** ~2 días
 **Proceso de aprobación:** Ninguno para desarrollo. Para producción: API Rate Limits, Terms of Service (no revender datos). Sin aprobación especial requerida.
 **Documentación:** [developers.strava.com](https://developers.strava.com)
 
@@ -535,18 +486,190 @@ El flujo OAuth se abre con `url_launcher` (ya en pubspec) o `webview_flutter` (y
 
 ---
 
+### Subsistema 4 — Ejecución guiada por plan (Runna-like)
+
+**Estimación:** ~2 días Flutter + 0.5 día backend
+**Prerequisito:** Subsistemas 0 y 1
+**Objetivo:** Convertir la sesión GPS en la ejecución del plan asignado por el coach. El usuario sabe en qué paso del workout está, cuánto le queda y si va al ritmo objetivo. Al terminar, el sistema compara real vs. planificado paso a paso.
+
+Sin este subsistema, el GPS funciona como Strava (grabación libre). Con él, funciona como Runna (ejecución guiada).
+
+#### Qué añade al backend (extensión de Subsistema 0)
+
+Los campos `plan_session_id` y `step_results` ya están en el modelo `WorkoutSession` (ver arriba). El backend **no ejecuta la lógica de pasos** — eso vive en el cliente. Solo persiste:
+1. El vínculo con el plan (`plan_session_id`)
+2. El desglose de resultados al terminar (`step_results` vía el PATCH endpoint)
+
+Tests adicionales para el backend:
+```python
+def test_create_session_with_plan_session_id_stores_fk()
+def test_patch_step_results_updates_field_correctly()
+def test_patch_step_results_rejects_wrong_user()
+```
+
+#### Entidades Flutter nuevas
+
+```dart
+@freezed
+class WorkoutStep with _$WorkoutStep {
+  const factory WorkoutStep({
+    required int index,
+    required String type,           // "warmup"|"interval"|"recovery"|"cooldown"
+    required StepTarget target,     // distancia O duración (mutuamente excluyentes)
+    double? targetMinSpeedMps,      // límite inferior del ritmo objetivo
+    double? targetMaxSpeedMps,      // límite superior del ritmo objetivo
+  }) = _WorkoutStep;
+}
+
+@freezed
+class StepTarget with _$StepTarget {
+  const factory StepTarget.distance(double meters) = _DistanceTarget;
+  const factory StepTarget.duration(Duration duration) = _DurationTarget;
+}
+
+@freezed
+class StepExecutionResult with _$StepExecutionResult {
+  const factory StepExecutionResult({
+    required int stepIndex,
+    required String stepType,
+    required double actualDistanceM,
+    required Duration actualDuration,
+    required double actualAvgSpeedMps,
+    required bool onTarget,
+  }) = _StepExecutionResult;
+}
+```
+
+#### `StepContext` — contexto del paso en tiempo real
+
+Se usa en `LiveTrackingState.tracking.currentStep` (campo ya añadido en Subsistema 1):
+
+```dart
+@freezed
+class StepContext with _$StepContext {
+  const factory StepContext({
+    required int stepIndex,
+    required int totalSteps,
+    required String stepType,         // "warmup"|"interval"|"recovery"|"cooldown"
+    required double targetSpeedMps,   // punto medio del rango objetivo
+    required double remainingInStep,  // metros (si target.distance) o segundos (si target.duration)
+    required bool targetByDistance,   // true → metros, false → segundos
+    required PaceStatus paceStatus,
+  }) = _StepContext;
+}
+
+enum PaceStatus { onTarget, tooFast, tooSlow }
+```
+
+#### Lógica de avance automático entre pasos
+
+El `GpsTrackingService` acepta una lista opcional de pasos. Si se pasa, activa la lógica de avance; si no, se comporta como sesión libre:
+
+```dart
+// En GpsTrackingService — extensión, no ruptura de la interfaz existente
+Future<void> startTracking({int? planSessionId, List<WorkoutStep>? steps});
+
+// Al recibir cada nuevo punto GPS:
+void _onNewPoint(GpsPoint point) {
+  _accumulate(point);
+
+  if (_steps == null) return; // sesión libre, sin guía de pasos
+
+  final step = _steps![_currentStepIndex];
+  final completed = step.target.when(
+    distance: (m) => _currentStepDistanceM >= m,
+    duration: (d) => _currentStepElapsed >= d,
+  );
+  if (completed) _advanceToNextStep();
+
+  _updatePaceStatus(point.speedMps, step);
+  _emitState(); // LiveTrackingState.tracking con currentStep actualizado
+}
+```
+
+Al avanzar de paso: vibración corta + (si hay audio cues activos) TTS con el nombre del siguiente paso.
+
+#### Flujo completo de la sesión guiada
+
+```
+1. Usuario abre la sesión del día (plan asignado por el coach)
+   → PlannedWorkoutProvider carga los steps desde la sesión del plan
+
+2. Pantalla pre-sesión muestra el resumen del workout:
+   "Warmup 10 min → 5× [400m a 4:30/km + 90s recuperación] → Cooldown 5 min"
+
+3. Usuario pulsa "Iniciar"
+   → GpsTrackingProvider.start(planSessionId: X, steps: [...])
+
+4. Durante la carrera — la UI muestra:
+   ┌─────────────────────────────┐
+   │  Intervalo 2 / 5            │
+   │  200m restantes             │
+   │  4:42 /km  ← objetivo 4:30  │
+   │  ● Demasiado lento          │
+   ├─────────────────────────────┤
+   │  1.8 km  ·  12:34           │
+   └─────────────────────────────┘
+
+5. Al completar un paso: vibración + avance automático al siguiente
+   (sin que el usuario tenga que pulsar nada)
+
+6. Usuario pulsa "Terminar" (o se completa el último paso)
+   → GpsTrackingProvider.stop() recoge List<StepExecutionResult>
+   → POST /api/mobile/workout-sessions/ con plan_session_id
+   → PATCH /api/mobile/workout-sessions/{id}/step-results
+
+7. Pantalla de resumen post-sesión:
+   ┌──────────┬──────────┬──────────┬────────┐
+   │ Paso     │ Objetivo │ Real     │        │
+   ├──────────┼──────────┼──────────┼────────┤
+   │ Warmup   │ 10 min   │ 10:12    │ ✅     │
+   │ Inter. 1 │ 4:30/km  │ 4:28/km  │ ✅     │
+   │ Inter. 2 │ 4:30/km  │ 4:51/km  │ ❌     │
+   │ Recup. 1 │ 90 s     │ 92 s     │ ✅     │
+   │ ...      │ ...      │ ...      │        │
+   └──────────┴──────────┴──────────┴────────┘
+```
+
+#### Archivos Flutter nuevos / modificados
+
+| Archivo | Acción |
+|---------|--------|
+| `domain/entities/workout_step.dart` | Nuevo: `WorkoutStep`, `StepTarget`, `StepExecutionResult` |
+| `domain/entities/step_context.dart` | Nuevo: `StepContext`, `PaceStatus` |
+| `data/services/gps_tracking_service.dart` | Modificar: añadir parámetro `steps?` en `startTracking`, lógica de avance |
+| `presentation/providers/gps_tracking_provider.dart` | Modificar: propagar `StepContext` al emitir `LiveTrackingState.tracking` |
+| `presentation/widgets/step_progress_overlay.dart` | Nuevo: overlay de paso actual (número, metros restantes, pace vs. target) |
+| `presentation/screens/session_summary_screen.dart` | Nuevo: tabla paso a paso (target vs. real) |
+
+#### Tests mínimos
+
+```dart
+test('avanza al siguiente paso cuando se alcanza la distancia objetivo')
+test('avanza al siguiente paso cuando se agota el tiempo objetivo')
+test('paceStatus es tooSlow cuando speed < targetMinSpeedMps')
+test('paceStatus es onTarget cuando speed está dentro del rango')
+test('step_results recoge todos los pasos al terminar')
+test('sesión libre (sin steps) funciona sin StepContext en el estado')
+```
+
+---
+
 ## Resumen de estimaciones
 
 | Subsistema | Qué incluye | Estimación | Dependencias |
 |-----------|-------------|------------|--------------|
-| **0 — Backend WorkoutSession** | Modelo, migraciones, 4 endpoints REST, tests (+decisión A/B `activities`) | **2–3 días** | — |
-| **1 — GPS métricas (sin mapa)** | `geolocator`, permisos, GpsTrackingService, providers, guardar en backend | **4–5 días** | Sub. 0 |
-| **2 — GPS mapa de ruta** | `flutter_map`, RouteMapWidget, overlay métricas, historial con mapa | **+5–7 días** | Sub. 1 |
-| **3 — Strava (agregador)** | OAuth2, webhook, normalización, pantalla conexión | **6–8 días** | Sub. 0 |
+| **0 — Backend WorkoutSession** | Modelo, migraciones, 5 endpoints REST, tests | **~1 día** | — |
+| **1 — GPS métricas (sin mapa)** | `geolocator`, permisos, GpsTrackingService, providers, guardar en backend | **~2 días** | Sub. 0 |
+| **2 — GPS mapa de ruta** | `flutter_map`, RouteMapWidget, overlay métricas, historial con mapa | **~2 días** | Sub. 1 |
+| **3 — Strava (agregador)** | OAuth2, webhook, normalización, pantalla conexión | **~2 días** | Sub. 0 |
+| **4 — Ejecución guiada (Runna-like)** | `WorkoutStep` entities, step tracking en vivo, auto-avance entre pasos, comparativa post-sesión | **~2 días Flutter + 0.5 día backend** | Sub. 0 + 1 |
 
-**GPS completo (Sub 0+1+2):** ~3 semanas
-**Wearables vía Strava (Sub 0+3):** ~1.5–2 semanas, sin bloqueantes externos
-**Todo (GPS + Strava):** ~4–5 semanas
+
+**GPS completo (Sub 0+1+2):** ~5 días
+**Wearables vía Strava (Sub 0+3):** ~3 días, sin bloqueantes externos
+**Todo (GPS + Strava):** ~7 días (~1.5 semanas)
+**Todo con ejecución guiada (Sub 0+1+2+3+4):** ~9–10 días (~2 semanas)
 
 > Garmin/Polar directos quedan fuera de scope V1 (cubiertos por Strava como agregador). Estimación de referencia en [`...-completo.md`](2026-06-30-gps-wearables-plan-tecnico-completo.md): +13–19 días + 2–8 semanas de aprobación Garmin.
 
@@ -581,7 +704,7 @@ Solo números: distancia, ritmo, duración. Sin mapa en ningún momento. La base
 
 | | |
 |---|---|
-| **Estimación** | **8–11 días** (~2 semanas) — los 2–3 días extra sobre la mínima foreground-only son el background nativo |
+| **Estimación** | **~3 días** |
 | **Coste tiles/mes** | **$0** — sin mapa, sin tiles |
 | **Riesgo principal** | Review de Apple por `NSLocationAlways`; testing de batería en dispositivo real |
 
@@ -601,7 +724,7 @@ Añade el mapa al historial: después de terminar la carrera puedes ver tu ruta.
 
 | | |
 |---|---|
-| **Estimación** | **+4–5 días sobre la Mínima → 12–16 días total** (~2.5–3 semanas) |
+| **Estimación** | **~5 días total** — +2 días sobre la Mínima |
 | **Coste tiles/mes** | **Bajo** — mapa solo al revisar; probablemente tier gratis o ~$20–50/mes a 4k users |
 | **Riesgo principal** | Coste de tiles si el volumen crece; elección del proveedor de tiles |
 
@@ -621,7 +744,7 @@ La experiencia tipo Strava: el mapa te sigue en vivo durante la carrera, ves la 
 
 | | |
 |---|---|
-| **Estimación** | **+5–7 días sobre la Intermedia → 17–23 días total** (~3.5–4.5 semanas) |
+| **Estimación** | **~7 días total** — +2 días sobre la Intermedia |
 | **Coste tiles/mes** | **~$50–250/mes** — el mapa en vivo es lo que dispara el consumo de tiles |
 | **Riesgo principal** | Rendimiento del mapa en vivo (decimación de puntos, batería); coste de tiles |
 
@@ -638,7 +761,7 @@ La experiencia tipo Strava: el mapa te sigue en vivo durante la carrera, ves la 
 | Auto-pausa | ❌ | ❌ | ✅ |
 | Compartir | ❌ | ❌ | ✅ |
 | `route_points` guardados | ✅ | ✅ | ✅ |
-| **Estimación** | **8–11 d** | **12–16 d** | **17–23 d** |
+| **Estimación** | **~3 días** | **~5 días** | **~7 días** |
 | **Coste tiles/mes** | $0 | ~tier gratis | ~$50–250 |
 
 **Recomendación:** empezar por la **Mínima** — construye el background bien desde el día 1 (el único componente caro de retrofitear), guarda `route_points` en backend, y difiere el mapa. El salto de Mínima → Intermedia son solo 4–5 días adicionales y cero refactor.
@@ -660,28 +783,30 @@ La experiencia tipo Strava: el mapa te sigue en vivo durante la carrera, ves la 
 ### Decisiones abiertas que hay que tomar antes de implementar
 
 1. **¿Qué casuística GPS para V1?** Recomendada: Mínima 🔴 (background desde día 1, mapa en fase 2).
-2. **¿Extender `activities` o crear `WorkoutSession`? (Opción A vs B)** — decisión de Carles. Bloquea el Subsistema 0.
-3. **¿Dónde vive el feature en la arquitectura de Carles?** Feature `workout_session` en `lib/v2/features/workout_session/`; Carles decide si el tracking se integra en la pantalla de entreno existente o es flujo separado.
+2. **¿Dónde vive el feature en la arquitectura de Carles?** Feature `workout_session` en `lib/v2/features/workout_session/`; Carles decide si el tracking se integra en la pantalla de entreno existente o es flujo separado.
 4. **Proveedor de tiles** (solo relevante si se entra en Casuística 2 o 3): MapTiler, Stadia Maps o Protomaps self-hosted. Decidir antes de implementar el mapa.
 5. **Frecuencia de muestreo GPS:** 1 punto/segundo (estándar) vs. por distancia mínima (~5–10m, mejor batería). Impacta tamaño de `route_points` y duración de batería.
+6. **¿Steps por distancia o por tiempo?** (Solo relevante si se implementa Sub. 4.) Los intervalos pueden medirse en metros (400m) o en duración (90s de recuperación). La entidad `StepTarget` soporta ambos; hay que confirmar cuál es el formato que usa el modelo de plan de El Metodo para los entrenos outdoor.
+7. **¿Audio cues para la guía de pasos?** (Solo Sub. 4.) Al avanzar entre pasos, vibración es suficiente o se añade TTS (`flutter_tts`) con texto tipo "Intervalo completado, empieza la recuperación". TTS añade ~1 día de trabajo y un paquete adicional.
 
 ---
 
 ## Orden de implementación recomendado (asumiendo Casuística 1 Mínima para V1)
 
 ```
-Semana 1:     Subsistema 0 (backend WorkoutSession)
-              + Decisión A/B con Carles
+Día 1:        Subsistema 0 (backend WorkoutSession + decisión A/B con Carles)
 
-Semana 2:     Subsistema 1 (GPS tracking service con background desde el día 1)
+Días 2–3:     Subsistema 1 (GPS tracking service con background desde el día 1)
               → UI mínima: pantalla de carrera con números + historial como lista
 
-Paralelo con semanas 1–2:
+Paralelo con días 1–3:
               Registrar app en Strava Developer Portal
 
-Semana 3:     Subsistema 3 (Strava)
+Días 4–5:     Subsistema 3 (Strava)
+
+Días 5–7:     Subsistema 4 (ejecución guiada por plan — Runna-like)
 
 Fase 2 (cuando el feedback lo confirme):
-              Subsistema 2 (mapa en historial, Casuística 2) — +4–5 días, cero refactor
-              Casuística 3 (mapa en vivo) si se valida la necesidad — +5–7 días adicionales
+              Subsistema 2 (mapa en historial, Casuística 2) — ~2 días, cero refactor
+              Casuística 3 (mapa en vivo) si se valida la necesidad — ~2 días adicionales
 ```
