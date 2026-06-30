@@ -793,20 +793,21 @@ La experiencia tipo Strava: el mapa te sigue en vivo durante la carrera, ves la 
 
 ## Orden de implementación recomendado (asumiendo Casuística 1 Mínima para V1)
 
+> **Nota de capacidad:** Carles trabaja a **media jornada**. Los días de trabajo Flutter se convierten en el doble de días de calendario. El backend no tiene esta restricción.
+
 ```
-Día 1:        Subsistema 0 (backend WorkoutSession + decisión A/B con Carles)
+Semana 1 (días calendario 1–5):
+  Día 1:          Subsistema 0 — backend WorkoutSession (backend, ~1 día trabajo)
+  Días 1–5:       Subsistema 1 — GPS tracking service (Carles, ~2 días trabajo = ~4–5 días calendario)
+                  Paralelo: registrar app en Strava Developer Portal
 
-Días 2–3:     Subsistema 1 (GPS tracking service con background desde el día 1)
-              → UI mínima: pantalla de carrera con números + historial como lista
+Semana 2 (días calendario 6–10):
+  Días 6–9:       Subsistema 3 — Strava (backend ~1 día + Carles pantalla conexión ~1 día trabajo = ~4 días calendario)
+  Días 8–10:      Subsistema 4 — ejecución guiada (Carles, ~2 días trabajo = ~4 días calendario, solapado con final de Sub 3)
 
-Paralelo con días 1–3:
-              Registrar app en Strava Developer Portal
-
-Días 4–5:     Subsistema 3 (Strava)
-
-Días 5–7:     Subsistema 4 (ejecución guiada por plan — Runna-like)
-
-Fase 2 (cuando el feedback lo confirme):
-              Subsistema 2 (mapa en historial, Casuística 2) — ~2 días, cero refactor
-              Casuística 3 (mapa en vivo) si se valida la necesidad — ~2 días adicionales
+Fase 2 — cuando el feedback lo confirme (semana 3–4):
+  Subsistema 2 — mapa en historial (Carles, ~2 días trabajo = ~4 días calendario, cero refactor)
+  Casuística 3 — mapa en vivo si se valida (~2 días trabajo = ~4 días calendario)
 ```
+
+**Tiempo total estimado en calendario:** ~2 semanas para GPS + Strava + ejecución guiada (Casuísticas 1 + Sub 3 + Sub 4).
