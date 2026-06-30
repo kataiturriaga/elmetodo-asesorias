@@ -660,16 +660,14 @@ test('sesión libre (sin steps) funciona sin StepContext en el estado')
 | Subsistema | Qué incluye | Estimación | Dependencias |
 |-----------|-------------|------------|--------------|
 | **0 — Backend WorkoutSession** | Modelo, migraciones, 5 endpoints REST, tests | **~1 día** | — |
-| **1 — GPS métricas (sin mapa)** | `geolocator`, permisos, GpsTrackingService, providers, guardar en backend | **~2 días** | Sub. 0 |
-| **2 — GPS mapa de ruta** | `flutter_map`, RouteMapWidget, overlay métricas, historial con mapa | **~2 días** | Sub. 1 |
-| **3 — Strava (agregador)** | OAuth2, webhook, normalización, pantalla conexión | **~2 días** | Sub. 0 |
-| **4 — Ejecución guiada (Runna-like)** | `WorkoutStep` entities, step tracking en vivo, auto-avance entre pasos, comparativa post-sesión | **~2 días Flutter + 0.5 día backend** | Sub. 0 + 1 |
+| **1 — GPS métricas (sin mapa)** | `geolocator`, permisos, GpsTrackingService, providers, guardar en backend | **~1 semana** | Sub. 0 |
+| **2 — GPS mapa de ruta** | `flutter_map`, RouteMapWidget, overlay métricas, historial con mapa | **~1 semana** | Sub. 1 |
+| **3 — Strava (agregador)** | OAuth2, webhook, normalización, pantalla conexión | **~1 semana** | Sub. 0 |
+| **4 — Ejecución guiada (Runna-like)** | `WorkoutStep` entities, step tracking en vivo, auto-avance entre pasos, comparativa post-sesión | **~1 semana** | Sub. 0 + 1 |
 
-
-**GPS completo (Sub 0+1+2):** ~5 días
-**Wearables vía Strava (Sub 0+3):** ~3 días, sin bloqueantes externos
-**Todo (GPS + Strava):** ~7 días (~1.5 semanas)
-**Todo con ejecución guiada (Sub 0+1+2+3+4):** ~9–10 días (~2 semanas)
+**GPS completo (Sub 0+1+2):** ~2.5 semanas
+**Wearables vía Strava (Sub 0+3):** ~1.5 semanas
+**Todo con ejecución guiada (Sub 0+1+2+3+4):** ~4 semanas
 
 > Garmin/Polar directos quedan fuera de scope V1 (cubiertos por Strava como agregador). Estimación de referencia en [`...-completo.md`](2026-06-30-gps-wearables-plan-tecnico-completo.md): +13–19 días + 2–8 semanas de aprobación Garmin.
 
@@ -793,21 +791,19 @@ La experiencia tipo Strava: el mapa te sigue en vivo durante la carrera, ves la 
 
 ## Orden de implementación recomendado (asumiendo Casuística 1 Mínima para V1)
 
-> **Nota de capacidad:** Carles trabaja a **media jornada**. Los días de trabajo Flutter se convierten en el doble de días de calendario. El backend no tiene esta restricción.
-
 ```
-Semana 1 (días calendario 1–5):
-  Día 1:          Subsistema 0 — backend WorkoutSession (backend, ~1 día trabajo)
-  Días 1–5:       Subsistema 1 — GPS tracking service (Carles, ~2 días trabajo = ~4–5 días calendario)
-                  Paralelo: registrar app en Strava Developer Portal
+Semana 1:
+  Día 1:        Subsistema 0 — backend WorkoutSession
+  Días 1–5:     Subsistema 1 — GPS tracking service
+                Paralelo: registrar app en Strava Developer Portal
 
-Semana 2 (días calendario 6–10):
-  Días 6–9:       Subsistema 3 — Strava (backend ~1 día + Carles pantalla conexión ~1 día trabajo = ~4 días calendario)
-  Días 8–10:      Subsistema 4 — ejecución guiada (Carles, ~2 días trabajo = ~4 días calendario, solapado con final de Sub 3)
+Semana 2:
+  Días 6–9:     Subsistema 3 — Strava
+  Días 8–10:    Subsistema 4 — ejecución guiada (solapado con final de Sub 3)
 
 Fase 2 — cuando el feedback lo confirme (semana 3–4):
-  Subsistema 2 — mapa en historial (Carles, ~2 días trabajo = ~4 días calendario, cero refactor)
-  Casuística 3 — mapa en vivo si se valida (~2 días trabajo = ~4 días calendario)
+  Subsistema 2 — mapa en historial (~1 semana, cero refactor)
+  Casuística 3 — mapa en vivo si se valida (~1 semana adicional)
 ```
 
-**Tiempo total estimado en calendario:** ~2 semanas para GPS + Strava + ejecución guiada (Casuísticas 1 + Sub 3 + Sub 4).
+**Tiempo total:** ~2 semanas para GPS + Strava + ejecución guiada.
